@@ -40,6 +40,7 @@
         }
         if (socket.readyState == WebSocket.OPEN) {
             socket.send(message);
+            alert("JSON was sent");
         } else {
             alert("The socket is not open.");
         }
