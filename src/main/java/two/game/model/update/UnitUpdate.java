@@ -5,12 +5,12 @@ import java.util.List;
 public class UnitUpdate {
     private Long unitId;
     private Double moveDirection;
-    private List<MissleLaunch> launches;
+    private List<MissileLaunch> launches;
 
     public UnitUpdate() {
     }
 
-    public UnitUpdate(Long unitId, Double moveDirection, List<MissleLaunch> launches) {
+    public UnitUpdate(Long unitId, Double moveDirection, List<MissileLaunch> launches) {
 
         this.unitId = unitId;
         this.moveDirection = moveDirection;
@@ -34,11 +34,11 @@ public class UnitUpdate {
         this.moveDirection = moveDirection;
     }
 
-    public List<MissleLaunch> getLaunches() {
+    public List<MissileLaunch> getLaunches() {
         return launches;
     }
 
-    public void setLaunches(List<MissleLaunch> launches) {
+    public void setLaunches(List<MissileLaunch> launches) {
         this.launches = launches;
     }
 

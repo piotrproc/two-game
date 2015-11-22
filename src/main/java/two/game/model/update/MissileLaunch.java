@@ -1,26 +1,26 @@
 package two.game.model.update;
 
-public class MissleLaunch {
-    private Double targetsAir;
+public class MissileLaunch {
+    private Boolean targetsAir;
     private Double targetX;
     private Double targetY;
 
-    public MissleLaunch() {
+    public MissileLaunch() {
     }
 
-    public MissleLaunch(Double targetsAir, Double targetX, Double targetY) {
+    public MissileLaunch(Boolean targetsAir, Double targetX, Double targetY) {
 
         this.targetsAir = targetsAir;
         this.targetX = targetX;
         this.targetY = targetY;
     }
 
-    public Double getTargetsAir() {
+    public Boolean getTargetsAir() {
 
         return targetsAir;
     }
 
-    public void setTargetsAir(Double targetsAir) {
+    public void setTargetsAir(Boolean targetsAir) {
         this.targetsAir = targetsAir;
     }
 
@@ -42,6 +42,6 @@ public class MissleLaunch {
 
     @Override
     public String toString() {
-        return String.format("MissleLaunch{targetsAir=%s, targetX=%s, targetY=%s}", targetsAir, targetX, targetY);
+        return String.format("MissileLaunch{targetsAir=%s, targetX=%s, targetY=%s}", targetsAir, targetX, targetY);
     }
 }

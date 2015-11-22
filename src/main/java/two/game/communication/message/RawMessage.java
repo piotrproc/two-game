@@ -1,6 +1,11 @@
 package two.game.communication.message;
 
+import com.google.gson.JsonObject;
+
 public class RawMessage {
+    private MessageType type;
+    private JsonObject actualMessage;
+
     public MessageType getType() {
         return type;
     }
@@ -9,16 +14,13 @@ public class RawMessage {
         this.type = type;
     }
 
-    public String getActualMessage() {
+    public JsonObject getActualMessage() {
         return actualMessage;
     }
 
-    public void setActualMessage(String actualMessage) {
+    public void setActualMessage(JsonObject actualMessage) {
         this.actualMessage = actualMessage;
     }
-
-    private MessageType type;
-    private String actualMessage;
 
     @Override
     public String toString() {
