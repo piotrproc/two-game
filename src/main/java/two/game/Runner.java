@@ -4,6 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import two.game.communication.WebSocketServer;
+import two.game.logic.GameEventConsumer;
 import two.game.logic.TestConsumer;
 
 public class Runner {
@@ -12,13 +13,15 @@ public class Runner {
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
 
-        logger.debug("starting websocket server");
+        logger.debug("starting webSocket server");
         vertx.deployVerticle(new WebSocketServer());
 
         logger.debug("starting test consumers");
         vertx.deployVerticle(new TestConsumer());
         vertx.deployVerticle(new TestConsumer());
         vertx.deployVerticle(new TestConsumer());
+
+        vertx.deployVerticle(new GameEventConsumer());
 
         logger.debug("all vertices started");
     }
