@@ -14,8 +14,11 @@
 
 <script type="text/javascript">
 
+    var mapSize = 3200;
+    var viewSize = mapSize / 10;
+
     var fieldSize = 32;
-    var viewSize = fieldSize * 10;
+    var mapSizeInFieldSize = mapSize / fieldSize;
     var shift = -viewSize / 2;
     var shiftInFieldSize = shift / fieldSize;
 
@@ -29,37 +32,38 @@
         game.load.image('map', 'map/my_map.png', null, Phaser.Tilemap.TILED_JSON);
 
         unitNames.forEach(function (unitName) {
-            game.load.image(unitName, 'map/units/' + unitName + '.png', null, Phaser.Tilemap.TILED_JSON);
             var unitNameA = unitName + '_1';
             var unitNameB = unitName + '_2';
+            var unitNameC = unitName + '_3';
             game.load.image(unitNameA, 'map/units/' + unitNameA + '.png', null, Phaser.Tilemap.TILED_JSON);
             game.load.image(unitNameB, 'map/units/' + unitNameB + '.png', null, Phaser.Tilemap.TILED_JSON);
+            game.load.image(unitNameC, 'map/units/' + unitNameC + '.png', null, Phaser.Tilemap.TILED_JSON);
         });
 
     }
 
-    function ArmyElement(team, x, y, type) {
-        this.team = team;
+    function ArmyElement(x, y, name) {
         this.x = x * fieldSize;
         this.y = y * fieldSize;
-        this.type = type;
+        this.name = name;
     }
+
+    var armySprites = [];
+    var initialArmy = [
+        new ArmyElement(0, 0, 'soldier_1'),
+        new ArmyElement(0, 1, 'cannon_1'),
+        new ArmyElement(1, 0, 'airforce_1'),
+        new ArmyElement(1, 1, 'tank_1'),
+        new ArmyElement(2, 2, 'tank_2')
+    ];
 
     function Move(moveFrom, moveTo) {
         this.moveFrom = moveFrom;
         this.moveTo = moveTo;
     }
 
-    var armySprites = [];
-    var initialArmy = [
-        new ArmyElement(1, 0, 0, 'soldier'),
-        new ArmyElement(1, 0, 1, 'cannon'),
-        new ArmyElement(1, 1, 0, 'airforce'),
-        new ArmyElement(1, 1, 1, 'tank')
-    ];
-
-
     var movingSprite = null;
+    var movingSpriteInfo = null;
 
     function getUnitSprite(x, y) {
         var foundUnit = null;
@@ -82,7 +86,7 @@
         game.add.sprite(0, 0, 'map'); //  A simple background for our game
 
         initialArmy.forEach(function (unit) {
-            var unitImage = game.add.sprite(unit.x, unit.y, unit.type);
+            var unitImage = game.add.sprite(unit.x, unit.y, unit.name);
             armySprites.push(unitImage);
         });
 
@@ -101,23 +105,32 @@
 
                 var pointedSprite = getUnitSprite(fieldX, fieldY);
 
-                if(pointedSprite){
+                if (pointedSprite) {
 
-                    if(movingSprite){
+                    if (movingSprite) {
                         //here should be attack, if we meet enemy
-                        movingSprite.anchor.setTo(0,0);
+                        movingSprite.anchor.setTo(0, 0);
                         movingSprite = null;
-                    }else{
+
+                    } else {
                         movingSprite = pointedSprite;
-                        movingSprite.anchor.setTo(-0.1,0);
+                        movingSpriteInfo = new ArmyElement(fieldX, fieldY, movingSprite.name);
+                        movingSprite.anchor.setTo(-0.1, 0);
+
                     }
 
-                }else{
+                } else {
 
-                    if(movingSprite){
+                    if (movingSprite && fieldX >= 0 && fieldX < mapSizeInFieldSize && fieldY >= 0 && fieldY < mapSizeInFieldSize) {
+
+                        var move = new Move(movingSpriteInfo,
+                                new ArmyElement(fieldX, fieldY, movingSprite.name));
+
+                        //ajaxSendIntendedMoveToServer(move);
+
                         movingSprite.x = fieldX * fieldSize;
                         movingSprite.y = fieldY * fieldSize;
-                        movingSprite.anchor.setTo(0,0);
+                        movingSprite.anchor.setTo(0, 0);
                         movingSprite = null;
                     }
 
@@ -130,7 +143,44 @@
         }
     }
 
+    function ajaxSendIntendedMoveToServer(data) {
+        $.ajax({
+            dataType: "json",
+            url: "/move/",
+            timeout: 2000,
+            data: data,
+            success: function (data) {
 
+//            if (data.creature != null) {
+//                in_combat = data.creature;
+//            }
+
+            },
+            error: errorInAjaxResponse
+        });
+    }
+
+    function errorInAjaxResponse(jqXHR, exception) {
+
+        if (jqXHR.status === 0) {
+            alert('Stracono połączenie z internetem');
+        } else if (jqXHR.status == 404) {
+            alert('Requested page not found. [404]');
+        } else if (jqXHR.status == 500) {
+            alert('Internal Server Error [500].');
+        } else if (exception === 'parsererror') {
+            alert('Requested JSON parse failed.');
+        } else if (exception === 'timeout') {
+            alert('Time out error.');
+        } else if (exception === 'abort') {
+            alert('Ajax request aborted.');
+        } else {
+            alert('Uncaught Error.\n' + jqXHR.responseText);
+        }
+
+        waitingForCommandExecution = false;
+
+    }
 </script>
 
 </body>
