@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Simple game</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
     <style type="text/css">
@@ -14,51 +14,87 @@
 
 <script type="text/javascript">
 
-    var game = new Phaser.Game(320, 320, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    var oneFieldSize = 32;
+    var viewSize = oneFieldSize * 10;
+    var shift = -viewSize / 2;
+    var shiftInFieldSize = shift / oneFieldSize;
+
+    var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, '', {
+        preload: preload, create: create, update: update
+    });
 
     var unitNames = ['airforce', 'cannon', 'tank', 'soldier'];
 
     function preload() {
         game.load.image('map', 'map/my_map.png', null, Phaser.Tilemap.TILED_JSON);
 
-        unitNames.forEach(function(unitName) {
-            game.load.image(unitName, 'map/units/'+unitName+'.png', null, Phaser.Tilemap.TILED_JSON);
+        unitNames.forEach(function (unitName) {
+            game.load.image(unitName, 'map/units/' + unitName + '.png', null, Phaser.Tilemap.TILED_JSON);
             var unitNameA = unitName + '_1';
             var unitNameB = unitName + '_2';
-            game.load.image(unitNameA, 'map/units/'+unitNameA+'.png', null, Phaser.Tilemap.TILED_JSON);
-            game.load.image(unitNameB, 'map/units/'+unitNameB+'.png', null, Phaser.Tilemap.TILED_JSON);
+            game.load.image(unitNameA, 'map/units/' + unitNameA + '.png', null, Phaser.Tilemap.TILED_JSON);
+            game.load.image(unitNameB, 'map/units/' + unitNameB + '.png', null, Phaser.Tilemap.TILED_JSON);
         });
 
     }
 
-    var player;
-    var platforms;
-    var cursors;
+    function ArmyElement(team, x, y, type) {
+        this.team = team;
+        this.x = x * oneFieldSize;
+        this.y = y * oneFieldSize;
+        this.type = type;
+    }
 
-    var stars;
-    var score = 0;
-    var scoreText;
+    function Move(moveFrom, moveTo) {
+        this.moveFrom = moveFrom;
+        this.moveTo = moveTo;
+    }
+
+    var army;
+    var armyImage = [];
+
+    army = [
+        new ArmyElement(1, 0, 0, 'soldier'),
+        new ArmyElement(1, 0, 1, 'cannon'),
+        new ArmyElement(1, 1, 0, 'airforce'),
+        new ArmyElement(1, 1, 1, 'tank')
+    ];
+
 
     function create() {
+
+        game.world.setBounds(shift, shift, shift + viewSize, shift + viewSize);
 
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        //  A simple background for our game
-        game.add.sprite(0, 0, 'map');
-        game.add.sprite(0, 0, 'soldier');
-        game.add.sprite(0, 32, 'airforce');
-        game.add.sprite(32, 0, 'tank');
-        game.add.sprite(32, 32, 'cannon');
+        game.add.sprite(0, 0, 'map'); //  A simple background for our game
 
-        //  The platforms group contains the ground and the 2 ledges we can jump on
-        platforms = game.add.group();
-
+        army.forEach(function (unit) {
+            var unitImage = game.add.sprite(unit.x, unit.y, unit.type);
+            armyImage.push(unitImage);
+        });
 
     }
 
     function update() {
 
+        // You can poll mouse status
+        if (game.input.mousePointer.isDown) {
+
+            // In the case of a mouse, you can check mouse button status
+            if (game.input.mousePointer.button == Phaser.Mouse.LEFT_BUTTON) {
+
+                var fieldX = Math.floor(game.input.mousePointer.x / oneFieldSize) + shiftInFieldSize;
+                var fieldY = Math.floor(game.input.mousePointer.y / oneFieldSize) + shiftInFieldSize;
+
+                alert(fieldX + " " + fieldY);
+
+                // We just want to clear it, so this doesn't fire over and over, don't do this in production
+                game.input.activePointer.reset();
+            }
+
+        }
     }
 
 
