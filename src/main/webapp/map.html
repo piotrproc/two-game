@@ -14,10 +14,10 @@
 
 <script type="text/javascript">
 
-    var oneFieldSize = 32;
-    var viewSize = oneFieldSize * 10;
+    var fieldSize = 32;
+    var viewSize = fieldSize * 10;
     var shift = -viewSize / 2;
-    var shiftInFieldSize = shift / oneFieldSize;
+    var shiftInFieldSize = shift / fieldSize;
 
     var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, '', {
         preload: preload, create: create, update: update
@@ -40,8 +40,8 @@
 
     function ArmyElement(team, x, y, type) {
         this.team = team;
-        this.x = x * oneFieldSize;
-        this.y = y * oneFieldSize;
+        this.x = x * fieldSize;
+        this.y = y * fieldSize;
         this.type = type;
     }
 
@@ -50,10 +50,8 @@
         this.moveTo = moveTo;
     }
 
-    var army;
-    var armyImage = [];
-
-    army = [
+    var armySprites = [];
+    var initialArmy = [
         new ArmyElement(1, 0, 0, 'soldier'),
         new ArmyElement(1, 0, 1, 'cannon'),
         new ArmyElement(1, 1, 0, 'airforce'),
@@ -61,18 +59,31 @@
     ];
 
 
+    var movingSprite = null;
+
+    function getUnitSprite(x, y) {
+        var foundUnit = null;
+
+        armySprites.forEach(function (unit) {
+            if (unit.x == x * fieldSize && unit.y == y * fieldSize) {
+                foundUnit = unit;
+            }
+        });
+
+        return foundUnit;
+    }
+
     function create() {
 
         game.world.setBounds(shift, shift, shift + viewSize, shift + viewSize);
-
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         game.add.sprite(0, 0, 'map'); //  A simple background for our game
 
-        army.forEach(function (unit) {
+        initialArmy.forEach(function (unit) {
             var unitImage = game.add.sprite(unit.x, unit.y, unit.type);
-            armyImage.push(unitImage);
+            armySprites.push(unitImage);
         });
 
     }
@@ -85,10 +96,32 @@
             // In the case of a mouse, you can check mouse button status
             if (game.input.mousePointer.button == Phaser.Mouse.LEFT_BUTTON) {
 
-                var fieldX = Math.floor(game.input.mousePointer.x / oneFieldSize) + shiftInFieldSize;
-                var fieldY = Math.floor(game.input.mousePointer.y / oneFieldSize) + shiftInFieldSize;
+                var fieldX = Math.floor(game.input.mousePointer.x / fieldSize) + shiftInFieldSize;
+                var fieldY = Math.floor(game.input.mousePointer.y / fieldSize) + shiftInFieldSize;
 
-                alert(fieldX + " " + fieldY);
+                var pointedSprite = getUnitSprite(fieldX, fieldY);
+
+                if(pointedSprite){
+
+                    if(movingSprite){
+                        //here should be attack, if we meet enemy
+                        movingSprite.anchor.setTo(0,0);
+                        movingSprite = null;
+                    }else{
+                        movingSprite = pointedSprite;
+                        movingSprite.anchor.setTo(-0.1,0);
+                    }
+
+                }else{
+
+                    if(movingSprite){
+                        movingSprite.x = fieldX * fieldSize;
+                        movingSprite.y = fieldY * fieldSize;
+                        movingSprite.anchor.setTo(0,0);
+                        movingSprite = null;
+                    }
+
+                }
 
                 // We just want to clear it, so this doesn't fire over and over, don't do this in production
                 game.input.activePointer.reset();
