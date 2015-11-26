@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Simple game</title>
+    <title>Our game</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
     <style type="text/css">
         body {
@@ -14,13 +14,15 @@
 
 <script type="text/javascript">
 
+    var fieldSize = 32;
     var mapSize = 3200;
     var viewSize = mapSize / 10;
-
-    var fieldSize = 32;
-    var mapSizeInFieldSize = mapSize / fieldSize;
     var shift = -viewSize / 2;
-    var shiftInFieldSize = shift / fieldSize;
+
+    var camX1 = shift;
+    var camY1 = shift;
+    var camX2 = shift + viewSize;
+    var camY2 = shift + viewSize;
 
     var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, '', {
         preload: preload, create: create, update: update
@@ -48,13 +50,15 @@
         this.name = name;
     }
 
+    var resource = 10000;
+    var resourceText;
+    var teamNumber = 1;
+    var armyTypeIndex = 3;
+    var armyType = unitNames[armyTypeIndex];
+
     var armySprites = [];
     var initialArmy = [
-        new ArmyElement(0, 0, 'soldier_1'),
-        new ArmyElement(0, 1, 'cannon_1'),
-        new ArmyElement(1, 0, 'airforce_1'),
-        new ArmyElement(1, 1, 'tank_1'),
-        new ArmyElement(2, 2, 'tank_2')
+        new ArmyElement(Math.floor(armyTypeIndex/2), armyTypeIndex%2, armyType + '_' + teamNumber),
     ];
 
     function Move(moveFrom, moveTo) {
@@ -79,11 +83,15 @@
 
     function create() {
 
-        game.world.setBounds(shift, shift, shift + viewSize, shift + viewSize);
+        game.world.setBounds(camX1, camY1, camX2, camY2);
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        game.add.sprite(0, 0, 'map'); //  A simple background for our game
+        var map = game.add.sprite(0, 0, 'map'); //  A simple background for our game
+
+        resourceText = game.add.text(0, 0, 'Zasoby: ' + resource, { font: '32 px Arial', fill: '#ff0044' });
+        resourceText.fixedToCamera = true;
+        resourceText.cameraOffset.setTo(viewSize - 2.5 * fieldSize, 0.25 * fieldSize);
 
         initialArmy.forEach(function (unit) {
             var unitImage = game.add.sprite(unit.x, unit.y, unit.name);
@@ -100,8 +108,8 @@
             // In the case of a mouse, you can check mouse button status
             if (game.input.mousePointer.button == Phaser.Mouse.LEFT_BUTTON) {
 
-                var fieldX = Math.floor(game.input.mousePointer.x / fieldSize) + shiftInFieldSize;
-                var fieldY = Math.floor(game.input.mousePointer.y / fieldSize) + shiftInFieldSize;
+                var fieldX = Math.floor((game.input.mousePointer.x + shift) / fieldSize);
+                var fieldY = Math.floor((game.input.mousePointer.y + shift) / fieldSize);
 
                 var pointedSprite = getUnitSprite(fieldX, fieldY);
 
@@ -121,12 +129,12 @@
 
                 } else {
 
-                    if (movingSprite && fieldX >= 0 && fieldX < mapSizeInFieldSize && fieldY >= 0 && fieldY < mapSizeInFieldSize) {
+                    if (movingSprite
+                            && fieldX >= 0 && fieldX * fieldSize < mapSize
+                            && fieldY >= 0 && fieldY * fieldSize < mapSize) {
 
                         var move = new Move(movingSpriteInfo,
                                 new ArmyElement(fieldX, fieldY, movingSprite.name));
-
-                        //ajaxSendIntendedMoveToServer(move);
 
                         movingSprite.x = fieldX * fieldSize;
                         movingSprite.y = fieldY * fieldSize;
@@ -143,44 +151,6 @@
         }
     }
 
-    function ajaxSendIntendedMoveToServer(data) {
-        $.ajax({
-            dataType: "json",
-            url: "/move/",
-            timeout: 2000,
-            data: data,
-            success: function (data) {
-
-//            if (data.creature != null) {
-//                in_combat = data.creature;
-//            }
-
-            },
-            error: errorInAjaxResponse
-        });
-    }
-
-    function errorInAjaxResponse(jqXHR, exception) {
-
-        if (jqXHR.status === 0) {
-            alert('Stracono połączenie z internetem');
-        } else if (jqXHR.status == 404) {
-            alert('Requested page not found. [404]');
-        } else if (jqXHR.status == 500) {
-            alert('Internal Server Error [500].');
-        } else if (exception === 'parsererror') {
-            alert('Requested JSON parse failed.');
-        } else if (exception === 'timeout') {
-            alert('Time out error.');
-        } else if (exception === 'abort') {
-            alert('Ajax request aborted.');
-        } else {
-            alert('Uncaught Error.\n' + jqXHR.responseText);
-        }
-
-        waitingForCommandExecution = false;
-
-    }
 </script>
 
 </body>
