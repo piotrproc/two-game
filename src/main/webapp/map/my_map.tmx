@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="8" height="8" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="setOfFields" tilewidth="32" tileheight="32" tilecount="3">
+  <image source="setOfFields.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="4" name="setOfUnits" tilewidth="32" tileheight="32" tilecount="12">
+  <image source="setOfUnits.png" width="128" height="96"/>
+ </tileset>
+ <layer name="Warstwa Kafelków 1" width="8" height="8">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>
