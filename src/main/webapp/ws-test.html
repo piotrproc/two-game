@@ -47,8 +47,31 @@
     }
 </script>
 <form onsubmit="return false;">
-    <input type="text" name="message" value='{"text":"Hello, World!"}'/>
+    <input style="width: 800px" type="text" name="message"
+           value='{"type":"JOIN_REQUEST", "actualMessage": {"matchId": 99, "userId":"Boleq"}}'/>
     <input type="button" value="Send Web Socket Data" onclick="send(this.form.message.value)"/>
+    <br>
+    <textarea style="width: 800px; height: 400px" name="message2">{
+  "type": "USER_UPDATE",
+  "actualMessage": {
+    "matchId": 88,
+    "userSequenceId": 1,
+    "moves": [
+      {
+        "unitId": 77,
+        "moveDirection": 0.12,
+        "launches": [
+          {
+            "targetsAir": false,
+            "targetX": 219.2,
+            "targetY": 491.66
+          }
+        ]
+      }
+    ]
+  }
+}</textarea>
+    <input type="button" value="Send Web Socket Data" onclick="send(this.form.message2.value)"/>
 </form>
 </body>
 </html>
