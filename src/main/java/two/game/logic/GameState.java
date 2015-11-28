@@ -1,33 +1,30 @@
-package two.game.model.status;
+package two.game.logic;
 
-import two.game.model.Event;
+import two.game.model.constant.GameMap;
+import two.game.model.status.AttackEvent;
+import two.game.model.status.MissleStatus;
+import two.game.model.status.TeamStatus;
+import two.game.model.status.UnitStatus;
 
 import java.util.List;
 
-public class MatchStatus implements Event {
-    private Long sequenceId;
+public class GameState {
+    private final GameMap map;
     private List<MissleStatus> missileStatuses;
     private List<AttackEvent> attackEvents;
     private List<TeamStatus> teamStatuses;
     private List<UnitStatus> unitStatuses;
 
-    public MatchStatus(Long sequenceId, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents, List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses) {
-        this.sequenceId = sequenceId;
+    public GameState(GameMap map, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents, List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses) {
+        this.map = map;
         this.missileStatuses = missileStatuses;
         this.attackEvents = attackEvents;
         this.teamStatuses = teamStatuses;
         this.unitStatuses = unitStatuses;
     }
 
-    public MatchStatus() {
-    }
-
-    public Long getSequenceId() {
-        return sequenceId;
-    }
-
-    public void setSequenceId(Long sequenceId) {
-        this.sequenceId = sequenceId;
+    public GameMap getMap() {
+        return map;
     }
 
     public List<MissleStatus> getMissileStatuses() {
@@ -60,16 +57,5 @@ public class MatchStatus implements Event {
 
     public void setUnitStatuses(List<UnitStatus> unitStatuses) {
         this.unitStatuses = unitStatuses;
-    }
-
-    @Override
-    public String toString() {
-        return "MatchStatus{" +
-                "sequenceId=" + sequenceId +
-                ", missileStatuses=" + missileStatuses +
-                ", attackEvents=" + attackEvents +
-                ", teamStatuses=" + teamStatuses +
-                ", unitStatuses=" + unitStatuses +
-                '}';
     }
 }
