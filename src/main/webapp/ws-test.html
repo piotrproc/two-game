@@ -48,7 +48,7 @@
 </script>
 <form onsubmit="return false;">
     <input style="width: 800px" type="text" name="message"
-           value='{"type":"JoinMatchRequest", "actualMessage": {"matchId": 99, "userId":"Boleq"}}'/>
+           value='{"type":"JoinMatchRequest", "actualMessage": {"selectedTeamId": "Team A", "userId":"Boleq"}}'/>
     <input type="button" value="Send Web Socket Data" onclick="send(this.form.message.value)"/>
     <br>
     <textarea style="width: 800px; height: 400px" name="message2">

@@ -8,7 +8,7 @@ public class UserUpdateConsumer implements EventConsumer<UserUpdate> {
     private static final Logger logger = LoggerFactory.getLogger(UserUpdateConsumer.class);
 
     @Override
-    public void process(UserUpdate event) {
+    public void process(UserUpdate event, GameState state) {
         logger.debug("got {}", event);
     }
 }

@@ -6,6 +6,7 @@ import io.vertx.core.AbstractVerticle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import two.game.logic.EventConsumer;
+import two.game.logic.GameState;
 import two.game.model.Event;
 
 import java.util.Map;
@@ -13,10 +14,12 @@ import java.util.Map;
 public class EventDispatcher extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(EventDispatcher.class);
     private final Map<Class, EventConsumer> consumers;
+    private final GameState gameState; // todo: (if multiple games are allowed) setup service supplying adequate state for given matchId
 
     @Inject
     public EventDispatcher(Map<Class, EventConsumer> consumers) {
         this.consumers = consumers;
+        gameState = new GameState();
     }
 
     @Override
@@ -30,7 +33,7 @@ public class EventDispatcher extends AbstractVerticle {
             logger.debug("got {}", message.body());
             T object = gson.fromJson(message.body().toString(), type);
             logger.debug("parsed {}", object);
-            consumer.process(object);
+            consumer.process(object, gameState);
         });
     }
 }

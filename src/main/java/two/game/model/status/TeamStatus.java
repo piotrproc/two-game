@@ -1,17 +1,17 @@
 package two.game.model.status;
 
-import java.util.List;
+import java.util.Set;
 
 public class TeamStatus {
     private String teamId;
     private Double resourcesAmount;
-    private List<String> userIds;
+    private Set<String> userIds;
 
     public TeamStatus() {
 
     }
 
-    public TeamStatus(String teamId, Double resourcesAmount, List<String> userIds) {
+    public TeamStatus(String teamId, Double resourcesAmount, Set<String> userIds) {
 
         this.teamId = teamId;
         this.resourcesAmount = resourcesAmount;
@@ -34,11 +34,11 @@ public class TeamStatus {
         this.resourcesAmount = resourcesAmount;
     }
 
-    public List<String> getUserIds() {
+    public Set<String> getUserIds() {
         return userIds;
     }
 
-    public void setUserIds(List<String> userIds) {
+    public void setUserIds(Set<String> userIds) {
         this.userIds = userIds;
     }
 
