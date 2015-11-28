@@ -11,6 +11,8 @@
 
     <logger name="two.game" level="debug"/>
 
+    <logger name="io.netty.handler.codec.http.websocketx" level="error"/>
+
     <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
