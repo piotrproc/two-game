@@ -1,8 +1,10 @@
 package two.game.model.update;
 
+import two.game.model.Event;
+
 import java.util.List;
 
-public class UserUpdate {
+public class UserUpdate implements Event {
     private String userId;
     private Long userSequenceId;
     private List<UnitUpdate> unitUpdates;

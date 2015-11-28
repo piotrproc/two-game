@@ -1,8 +1,10 @@
 package two.game.model.status;
 
+import two.game.model.Event;
+
 import java.util.List;
 
-public class MatchStatus {
+public class MatchStatus implements Event {
     private Long sequenceId;
     private List<MissleStatus> missleStatuses;
     private List<AttackEvent> attackEvents;

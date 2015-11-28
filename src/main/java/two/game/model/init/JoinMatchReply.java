@@ -1,6 +1,8 @@
 package two.game.model.init;
 
-public class JoinMatchReply {
+import two.game.model.Event;
+
+public class JoinMatchReply implements Event {
     private Boolean accepted;
     private String refuseReason;
     private MatchInfo info;

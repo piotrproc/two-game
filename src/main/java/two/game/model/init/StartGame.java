@@ -1,6 +1,8 @@
 package two.game.model.init;
 
-public class StartGame {
+import two.game.model.Event;
+
+public class StartGame implements Event {
     @Override
     public String toString() {
         return "StartGame{}";

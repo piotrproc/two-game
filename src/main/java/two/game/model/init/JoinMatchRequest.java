@@ -1,6 +1,8 @@
 package two.game.model.init;
 
-public class JoinMatchRequest {
+import two.game.model.Event;
+
+public class JoinMatchRequest implements Event {
     private String userId;
     private String selectedTeamId;
 

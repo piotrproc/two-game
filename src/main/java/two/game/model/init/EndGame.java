@@ -1,6 +1,8 @@
 package two.game.model.init;
 
-public class EndGame {
+import two.game.model.Event;
+
+public class EndGame implements Event {
     private String winnerTeamId;
 
     public EndGame(String winnerTeamId) {
