@@ -42,6 +42,10 @@ public class JoinMatchReply {
 
     @Override
     public String toString() {
-        return String.format("JoinMatchReply{accepted=%s, refuseReason='%s', info=%s}", accepted, refuseReason, info);
+        return "JoinMatchReply{" +
+                "accepted=" + accepted +
+                ", refuseReason='" + refuseReason + '\'' +
+                ", info=" + info +
+                '}';
     }
 }
