@@ -5,8 +5,8 @@ import com.google.inject.Inject;
 import io.vertx.core.AbstractVerticle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import two.game.logic.EventConsumer;
 import two.game.logic.GameState;
+import two.game.logic.consumers.EventConsumer;
 import two.game.model.Event;
 
 import java.util.Map;

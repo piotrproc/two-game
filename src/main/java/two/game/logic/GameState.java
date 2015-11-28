@@ -7,18 +7,16 @@ import two.game.model.status.MissleStatus;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class GameState {
     private final GameMap map;
+    private final Map<String, Long> userIdToSequenceId;
     private Boolean gameStarted;
     private List<MissleStatus> missileStatuses;
     private List<AttackEvent> attackEvents;
     private List<TeamStatus> teamStatuses;
     private List<UnitStatus> unitStatuses;
-
     public GameState() {
         this((x, y) -> MapElement.GROUND, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
         this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>()));
@@ -32,6 +30,11 @@ public class GameState {
         this.teamStatuses = teamStatuses;
         this.unitStatuses = unitStatuses;
         this.gameStarted = false;
+        this.userIdToSequenceId = new HashMap<>();
+    }
+
+    public Map<String, Long> getUserIdToSequenceId() {
+        return userIdToSequenceId;
     }
 
     public GameMap getMap() {

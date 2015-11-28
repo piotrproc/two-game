@@ -1,11 +1,13 @@
-package two.game.logic;
+package two.game.logic.consumers;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import two.game.logic.GameState;
 import two.game.logic.predicates.ChangePredicate;
 import two.game.model.init.JoinMatchRequest;
 
+import javax.inject.Named;
 import java.util.Set;
 
 public class JoinConsumer implements EventConsumer<JoinMatchRequest> {
@@ -14,7 +16,7 @@ public class JoinConsumer implements EventConsumer<JoinMatchRequest> {
     private final Set<ChangePredicate> predicates;
 
     @Inject
-    public JoinConsumer(Set<ChangePredicate> predicates) {
+    public JoinConsumer(@Named("JoinMatchRequest") Set<ChangePredicate> predicates) {
         this.predicates = predicates;
     }
 
