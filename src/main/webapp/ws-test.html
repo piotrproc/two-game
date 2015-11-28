@@ -48,29 +48,43 @@
 </script>
 <form onsubmit="return false;">
     <input style="width: 800px" type="text" name="message"
-           value='{"type":"JOIN_REQUEST", "actualMessage": {"matchId": 99, "userId":"Boleq"}}'/>
+           value='{"type":"JoinMatchRequest", "actualMessage": {"matchId": 99, "userId":"Boleq"}}'/>
     <input type="button" value="Send Web Socket Data" onclick="send(this.form.message.value)"/>
     <br>
-    <textarea style="width: 800px; height: 400px" name="message2">{
-  "type": "USER_UPDATE",
+    <textarea style="width: 800px; height: 400px" name="message2">
+{
+  "type": "UserUpdate",
   "actualMessage": {
-    "matchId": 88,
-    "userSequenceId": 1,
-    "moves": [
+    "userId": "kolo34",
+    "userSequenceId": 345,
+    "unitUpdates": [
       {
-        "unitId": 77,
-        "moveDirection": 0.12,
-        "launches": [
+        "unitId": 65,
+        "moveTarget": {
+          "x": 345.6,
+          "y": 145.6
+        },
+        "missileLaunches": [
           {
-            "targetsAir": false,
-            "targetX": 219.2,
-            "targetY": 491.66
+            "target": {
+              "x": 45.6,
+              "y": 185.6
+            }
+          }
+        ],
+        "attacks": [
+          {
+            "targetUnitId": 64
           }
         ]
       }
-    ]
+    ],
+    "request": {
+      "amount": 0
+    }
   }
-}</textarea>
+}
+    </textarea>
     <input type="button" value="Send Web Socket Data" onclick="send(this.form.message2.value)"/>
 </form>
 </body>

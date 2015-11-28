@@ -1,16 +1,16 @@
-package two.game.communication.message;
+package two.game.communication;
 
 import com.google.gson.JsonObject;
 
 public class RawMessage {
-    private MessageType type;
+    private String type;
     private JsonObject actualMessage;
 
-    public MessageType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(MessageType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
