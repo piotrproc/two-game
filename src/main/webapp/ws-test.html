@@ -12,8 +12,8 @@
     eventBus.onopen = function () {
 
         // set a handler to receive a message
-        eventBus.registerHandler('MatchStatus', function (message) {
-            console.log('received a message: ' + JSON.stringify(message));
+        eventBus.registerHandler('MatchStatus', function (i, message) {
+            console.log('received a message: ', message);
         });
     };
 

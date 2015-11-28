@@ -5,15 +5,23 @@ import two.game.model.Point;
 public class MissleStatus {
     private Long missleId;
     private Point currentPosition;
+    private Point targetPosition;
 
     public MissleStatus() {
-
     }
 
-    public MissleStatus(Long missleId, Point currentPosition) {
-
+    public MissleStatus(Long missleId, Point currentPosition, Point targetPosition) {
         this.missleId = missleId;
         this.currentPosition = currentPosition;
+        this.targetPosition = targetPosition;
+    }
+
+    public Point getTargetPosition() {
+        return targetPosition;
+    }
+
+    public void setTargetPosition(Point targetPosition) {
+        this.targetPosition = targetPosition;
     }
 
     public Long getMissleId() {
@@ -35,8 +43,9 @@ public class MissleStatus {
     @Override
     public String toString() {
         return "MissleStatus{" +
-                "missleId=" + missleId +
+                "targetPosition=" + targetPosition +
                 ", currentPosition=" + currentPosition +
+                ", missleId=" + missleId +
                 '}';
     }
 }

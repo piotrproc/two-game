@@ -6,14 +6,24 @@ public class UnitStatus {
     private Long unitId;
     private Double health;
     private Point position;
+    private Point targetPosition;
 
     public UnitStatus() {
     }
 
-    public UnitStatus(Long unitId, Double health, Point position) {
+    public UnitStatus(Long unitId, Double health, Point position, Point targetPosition) {
         this.unitId = unitId;
         this.health = health;
         this.position = position;
+        this.targetPosition = targetPosition;
+    }
+
+    public Point getTargetPosition() {
+        return targetPosition;
+    }
+
+    public void setTargetPosition(Point targetPosition) {
+        this.targetPosition = targetPosition;
     }
 
     public Long getUnitId() {
@@ -46,6 +56,7 @@ public class UnitStatus {
                 "unitId=" + unitId +
                 ", health=" + health +
                 ", position=" + position +
+                ", targetPosition=" + targetPosition +
                 '}';
     }
 }

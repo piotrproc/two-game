@@ -10,6 +10,7 @@ import two.game.Server;
 import two.game.communication.CommunicationServer;
 import two.game.communication.EventDispatcher;
 import two.game.communication.ResourcesServer;
+import two.game.logic.GameState;
 import two.game.logic.consumers.*;
 import two.game.logic.predicates.ChangePredicate;
 import two.game.logic.predicates.join.TeamAvailable;
@@ -17,6 +18,7 @@ import two.game.logic.predicates.join.UserIdAvailable;
 import two.game.logic.predicates.state.NotAllowedIfStarted;
 import two.game.logic.predicates.userupdate.UserPresent;
 import two.game.logic.predicates.userupdate.UserSequenceIdNewer;
+import two.game.logic.scheduled.ScheduledTasksRunner;
 import two.game.model.init.JoinMatchRequest;
 import two.game.model.update.SupportRequest;
 import two.game.model.update.UnitUpdate;
@@ -28,10 +30,13 @@ public class MainModule extends AbstractModule {
     protected void configure() {
         bind(Server.class);
 
+        bind(GameState.class).asEagerSingleton(); // todo: (if multiple games are allowed) setup service supplying adequate state for given matchId
+
         Multibinder<Verticle> vertices = Multibinder.newSetBinder(binder(), Verticle.class);
         vertices.addBinding().to(CommunicationServer.class);
         vertices.addBinding().to(ResourcesServer.class);
         vertices.addBinding().to(EventDispatcher.class);
+        vertices.addBinding().to(ScheduledTasksRunner.class);
 
         Multibinder<ChangePredicate> join = Multibinder.newSetBinder(binder(), ChangePredicate.class, Names.named("JoinMatchRequest"));
         join.addBinding().to(NotAllowedIfStarted.class);

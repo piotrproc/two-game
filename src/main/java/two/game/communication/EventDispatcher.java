@@ -14,12 +14,12 @@ import java.util.Map;
 public class EventDispatcher extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(EventDispatcher.class);
     private final Map<Class, EventConsumer> consumers;
-    private final GameState gameState; // todo: (if multiple games are allowed) setup service supplying adequate state for given matchId
-
+    private final GameState gameState;
+    
     @Inject
-    public EventDispatcher(Map<Class, EventConsumer> consumers) {
+    public EventDispatcher(Map<Class, EventConsumer> consumers, GameState gameState) {
         this.consumers = consumers;
-        gameState = new GameState();
+        this.gameState = gameState;
     }
 
     @Override

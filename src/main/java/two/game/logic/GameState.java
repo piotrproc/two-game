@@ -17,6 +17,8 @@ public class GameState {
     private List<AttackEvent> attackEvents;
     private List<TeamStatus> teamStatuses;
     private List<UnitStatus> unitStatuses;
+    private Long updateSequenceId;
+
     public GameState() {
         this((x, y) -> MapElement.GROUND, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
         this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>()));
@@ -31,6 +33,7 @@ public class GameState {
         this.unitStatuses = unitStatuses;
         this.gameStarted = false;
         this.userIdToSequenceId = new HashMap<>();
+        this.updateSequenceId = 0l;
     }
 
     public Map<String, Long> getUserIdToSequenceId() {
@@ -79,5 +82,13 @@ public class GameState {
 
     public void setStarted(Boolean gameStarted) {
         this.gameStarted = gameStarted;
+    }
+
+    public Long getUpdateSequenceId() {
+        return updateSequenceId;
+    }
+
+    public void bumpUpdateSequenceId() {
+        this.updateSequenceId += 1;
     }
 }
