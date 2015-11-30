@@ -9,28 +9,30 @@ function update() {
 
         // In the case of a mouse, you can check mouse button status
         if (game.input.mousePointer.button == Phaser.Mouse.LEFT_BUTTON) {
-
-            var pointedField = calculatePointedField();
-            var pointedSprite = getUnitSprite(pointedField);
-
-            if (pointedSprite) {
-
-                if (movingSprite) {
-                    attack(pointedSprite);
-                } else {
-                    chooseUnit(pointedSprite);
-                }
-
-            } else {
-
-                if (movingSprite && fieldIsOnTheMap(pointedField)) {
-                    move(pointedField);
-                }
-
-            }
-
+            handleClick();
             // We just want to clear it, so this doesn't fire over and over, don't do this in production
             game.input.activePointer.reset();
+        }
+
+    }
+}
+
+function handleClick(){
+    var pointedField = calculatePointedField();
+    var pointedSprite = getUnitSprite(pointedField);
+
+    if (pointedSprite) {
+
+        if (movingSprite) {
+            attack(pointedSprite);
+        } else {
+            chooseUnit(pointedSprite);
+        }
+
+    } else {
+
+        if (movingSprite && fieldIsOnTheMap(pointedField)) {
+            move(pointedField);
         }
 
     }

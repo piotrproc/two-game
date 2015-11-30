@@ -7,6 +7,7 @@ eventBus.onopen = function () {
 
     eventBus.registerHandler('MatchStatus', function (i, message) {
         console.log('received a message: ', message);
+        handleTeamStatus(message);
         handleMapUpdate(message);
     });
 
@@ -27,6 +28,9 @@ var armyType = unitNames[armyTypeIndex];
 
 var movingSprite = null;
 var movingSpriteInfo = null;
+
+var teamA = [];
+var teamB = [];
 
 // game modifiers are split into three files
 var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, '', {
@@ -81,7 +85,7 @@ function getUnitSpriteWithId(field, id) {
     return null;
 }
 
-function checkIfSuchUnitAlreadyExists(armyElement){
+function checkIfSuchUnitAlreadyExists(newUnit){
     var isFound = false;
 
     armySprites.forEach(function (unit) {

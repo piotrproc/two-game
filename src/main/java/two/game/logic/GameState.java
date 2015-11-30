@@ -24,8 +24,8 @@ public class GameState {
         this((x, y) -> MapElement.GROUND, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
         this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1"))));
         this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2"))));
-        this.getUnitStatuses().add(new UnitStatus(1L, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(128.0, 96.0)));
-        this.getUnitStatuses().add(new UnitStatus(2L, "user2", 10, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
+        this.getUnitStatuses().add(new UnitStatus(1L, 1, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(128.0, 96.0)));
+        this.getUnitStatuses().add(new UnitStatus(2L, 2, "user2", 10, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
 
     }
 

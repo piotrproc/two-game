@@ -4,6 +4,7 @@ import two.game.model.Point;
 
 public class UnitStatus {
     private Long unitId;
+    private Integer unitType;
     private String user;
     private Integer health;
     private Integer dps;
@@ -18,9 +19,10 @@ public class UnitStatus {
     public UnitStatus() {
     }
 
-    public UnitStatus(Long unitId, String user, Integer health, Integer dps, Integer speed, Integer sightRange, Integer attackRange,
+    public UnitStatus(Long unitId, Integer unitType, String user, Integer health, Integer dps, Integer speed, Integer sightRange, Integer attackRange,
                       Point position, Point targetPosition) {
         this.unitId = unitId;
+        this.unitType = unitType;
         this.user = user;
 
         this.health = health;
@@ -46,6 +48,14 @@ public class UnitStatus {
 
     public void setUnitId(Long unitId) {
         this.unitId = unitId;
+    }
+
+    public Integer getUnitType() {
+        return unitType;
+    }
+
+    public void setUnitType(Integer unitType) {
+        this.unitType = unitType;
     }
 
     public Integer getHealth() {
