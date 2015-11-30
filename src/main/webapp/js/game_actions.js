@@ -1,6 +1,7 @@
 $("#show_game").click(function(){
     $("#cover").fadeOut(500, function() {
-        $("#main-container").load("unit_selection.html");
+    //    $("#main-container").load("unit_selection.html");
+        $.getScript("map.js");
     });
 });
 
@@ -25,6 +26,6 @@ function showHighscores(gameResult) {
 
 function unitSelected(unitType) {
     $("#unit-selection").fadeOut(500, function(){
-        $.getScript("js/simple_game.js");
+  //      $.getScript("js/map.js");
     });
 }
