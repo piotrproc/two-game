@@ -16,6 +16,7 @@ import two.game.logic.predicates.ChangePredicate;
 import two.game.logic.predicates.join.TeamAvailable;
 import two.game.logic.predicates.join.UserIdAvailable;
 import two.game.logic.predicates.state.NotAllowedIfStarted;
+import two.game.logic.predicates.unitupdate.UnitUpdatePredicate;
 import two.game.logic.predicates.userupdate.UserPresent;
 import two.game.logic.predicates.userupdate.UserSequenceIdNewer;
 import two.game.logic.scheduled.ScheduledTasksRunner;
@@ -47,9 +48,13 @@ public class MainModule extends AbstractModule {
         update.addBinding().to(UserPresent.class);
         update.addBinding().to(UserSequenceIdNewer.class);
 
+        Multibinder<ChangePredicate> unitUpdate = Multibinder.newSetBinder(binder(), ChangePredicate.class, Names.named("UnitUpdate"));
+        unitUpdate.addBinding().to(UnitUpdatePredicate.class);
+
         MapBinder<Class, EventConsumer> consumers = MapBinder.newMapBinder(binder(), Class.class, EventConsumer.class);
         consumers.addBinding(JoinMatchRequest.class).to(JoinConsumer.class);
         consumers.addBinding(UserUpdate.class).to(UserUpdateConsumer.class);
+        consumers.addBinding(UnitUpdate.class).to(UnitUpdateConsumer.class);
 
         bind(new TypeLiteral<EventConsumer<SupportRequest>>() {
         }).to(SupportRequestConsumer.class);
