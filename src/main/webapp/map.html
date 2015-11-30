@@ -4,6 +4,8 @@
     <meta charset="UTF-8"/>
     <title>Our game</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
+    <script src="http://cdn.sockjs.org/sockjs-0.3.4.min.js"></script>
+    <script src='vertx-web-3.1.0-client.js'></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -13,6 +15,22 @@
 <body>
 
 <script type="text/javascript">
+
+    var eventBus = new EventBus('http://localhost:8077/eventbus');
+
+    eventBus.onopen = function () {
+
+        // set a handler to receive a message
+        eventBus.registerHandler('MatchStatus', function (i, message) {
+            console.log('received a message: ', message);
+
+            handleMapUpdate(message);
+        });
+
+
+    };
+
+
 
     var fieldSize = 32;
     var mapSize = 3200;
@@ -152,6 +170,8 @@
                         movingSprite.y = fieldY * fieldSize;
                         movingSprite.anchor.setTo(0, 0);
 
+                        //send('UserUpdate', sendToServer(movingSprite));
+
                         movingSprite = null;
                     }
 
@@ -163,6 +183,74 @@
 
         }
     }
+
+    function send(channel, rawMessage) {
+        eventBus.send(channel, JSON.parse(rawMessage));
+    }
+
+    function sendToServer(movingSprite){
+        userUpdate = {
+            "userId": "kolo34",
+            "userSequenceId": 345,
+            "unitUpdates": [
+                {
+                    "unitId": 65,
+                    "moveTarget": {
+                        "x": movingSprite.x,
+                        "y": movingSprite.y
+                    },
+                    "missileLaunches": [
+                        {
+                            "target": {
+                                "x": 45.6,
+                                "y": 185.6
+                            }
+                        }
+                    ],
+                    "attacks": [
+                        {
+                            "targetUnitId": 64
+                        }
+                    ]
+                }
+            ],
+            "request": {
+                "amount": 0
+            }
+        }
+
+        return userUpdate;
+    }
+
+    function handleMapUpdate(message){
+        var unitStatuses = message.body.unitStatuses;
+
+        unitStatuses.forEach(function (unit) {
+
+            sprite = getUnitSprite(unit.position.x / fieldSize, unit.position.y / fieldSize);
+
+            console.log(unit.position.x);
+            if(sprite){
+                sprite.x = unit.targetPosition.x;
+                sprite.y = unit.targetPosition.y;
+                sprite.anchor.setTo(0, 0);
+            }
+            else{
+                armyElement = new ArmyElement(
+                        unit.position.x / fieldSize,
+                        unit.position.y / fieldSize,
+                        armyType + '_' + teamNumber
+                );
+
+                var unitImage = game.add.sprite(armyElement.x, armyElement.y, armyElement.name);
+                armySprites.push(unitImage);
+
+            }
+
+        });
+    }
+
+
 
 </script>
 

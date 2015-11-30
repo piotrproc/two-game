@@ -15,6 +15,6 @@ public class UpdateStateTask implements Runnable {
     @Override
     public void run() {
         //todo: implement
-        logger.debug("updated state to {}", gameState);
+        //logger.debug("updated state to {}", gameState);
     }
 }
