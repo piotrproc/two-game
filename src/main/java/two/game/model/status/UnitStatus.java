@@ -2,18 +2,29 @@ package two.game.model.status;
 
 import two.game.model.Point;
 
-public class UnitStatus {
+public abstract class UnitStatus {
     private Long unitId;
-    private Double health;
+    private Integer health;
+    private Integer dps;
+    private Integer speed;
+    private Integer sightRange;
+    private Integer attackRange;
     private Point position;
+
+
     private Point targetPosition;
 
     public UnitStatus() {
     }
 
-    public UnitStatus(Long unitId, Double health, Point position, Point targetPosition) {
+    public UnitStatus(Long unitId, Integer health, Integer dps, Integer speed, Integer sightRange, Integer attackRange,
+                      Point position, Point targetPosition) {
         this.unitId = unitId;
         this.health = health;
+        this.dps = dps;
+        this.speed = speed;
+        this.sightRange = sightRange;
+        this.attackRange = attackRange;
         this.position = position;
         this.targetPosition = targetPosition;
     }
@@ -34,11 +45,11 @@ public class UnitStatus {
         this.unitId = unitId;
     }
 
-    public Double getHealth() {
+    public Integer getHealth() {
         return health;
     }
 
-    public void setHealth(Double health) {
+    public void setHealth(Integer health) {
         this.health = health;
     }
 
@@ -50,12 +61,48 @@ public class UnitStatus {
         this.position = position;
     }
 
+
+    public void setDps(Integer dps) {
+        this.dps = dps;
+    }
+
+    public Integer getDps() {
+        return dps;
+    }
+
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
+    }
+
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public void setSightRange(Integer sightRange) {
+        this.sightRange = sightRange;
+    }
+
+    public Integer getSightRange() {
+        return sightRange;
+    }
+
+    public void setAttackRange(Integer attackRange) {
+        this.attackRange = attackRange;
+    }
+
+    public Integer getAttackRange() {
+        return attackRange;
+    }
+
     @Override
     public String toString() {
         return "UnitStatus{" +
                 "unitId=" + unitId +
                 ", health=" + health +
-                ", position=" + position +
+                ", dps=" + dps +
+                ", speed=" + speed +
+                ", sightRange=" + sightRange +
+                ", attackRange=" + attackRange +
                 ", targetPosition=" + targetPosition +
                 '}';
     }
