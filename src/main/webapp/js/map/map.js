@@ -25,6 +25,9 @@ var teamNumber = 1;
 var armyTypeIndex = 3;
 var armyType = unitNames[armyTypeIndex];
 
+var movingSprite = null;
+var movingSpriteInfo = null;
+
 // game modifiers are split into three files
 var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, '', {
     preload: preload,
@@ -32,7 +35,10 @@ var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, '', {
     update: update
 });
 
-
+function Field(x, y){
+    this.x = x;
+    this.y = y;
+}
 
 function ArmyElement(x, y, name, id) {
     this.x = x * fieldSize;
@@ -41,19 +47,17 @@ function ArmyElement(x, y, name, id) {
     this.id = id;           //unique id
 }
 
+function Move(moveFrom, moveTo) {
+    this.moveFrom = moveFrom;
+    this.moveTo = moveTo;
+}
+
 var armySprites = [];
 var initialArmy = [
     new ArmyElement(Math.floor(armyTypeIndex / 2), armyTypeIndex % 2, armyType + '_' + teamNumber, 111),
     new ArmyElement(0, 0, armyType + '_' + teamNumber, 222)
 ];
 
-function Move(moveFrom, moveTo) {
-    this.moveFrom = moveFrom;
-    this.moveTo = moveTo;
-}
-
-var movingSprite = null;
-var movingSpriteInfo = null;
 
 function getUnitSprite(field) {
     var foundUnit = null;
@@ -77,11 +81,11 @@ function getUnitSpriteWithId(field, id) {
     return null;
 }
 
-function checkIfUnitExist(armyElement){
+function checkIfSuchUnitAlreadyExists(armyElement){
     var isFound = false;
 
     armySprites.forEach(function (unit) {
-        if (unit.id == armyElement.id) {
+        if (unit.id == newUnit.id) {
             isFound = true;
         }
     });

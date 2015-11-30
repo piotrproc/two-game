@@ -23,9 +23,9 @@ function create() {
     button.fixedToCamera = true;
 
     initialArmy.forEach(function (unit) {
-        var unitImage = game.add.sprite(unit.x, unit.y, unit.name);
-        unitImage.id = unit.id;
-        armySprites.push(unitImage);
+        var armySprite = game.add.sprite(unit.x, unit.y, unit.name);
+        armySprite.id = unit.id;
+        armySprites.push(armySprite);
     });
 
     game.camera.follow(armySprites[followedUnitID]);

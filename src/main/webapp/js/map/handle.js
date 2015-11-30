@@ -2,39 +2,51 @@
  * Created by Piotr Proc on 30.11.15.
  */
 
-function handleMapUpdate(message){
+function handleMapUpdate(message) {
     var unitStatuses = message.body.unitStatuses;
 
     unitStatuses.forEach(function (unit) {
 
-        var sprite = getUnitSpriteWithId(unit.position.x / fieldSize, unit.position.y / fieldSize, unit.unitId);
+        var position = new Field(
+            unit.position.x / fieldSize,
+            unit.position.y / fieldSize
+        );
+        var sprite = getUnitSpriteWithId(position, unit.unitId);
 
-        if(sprite){
+        if (sprite) {
+            var targetPosition = new Field(
+                unit.targetPosition.x / fieldSize,
+                unit.targetPosition.y / fieldSize
+            );
 
-            destinationSprite = getUnitSprite(unit.targetPosition.x / fieldSize, unit.targetPosition.y / fieldSize);
+            var destinationSprite = getUnitSprite(targetPosition);
 
-            if(destinationSprite == null){
-                sprite.x = unit.targetPosition.x;
-                sprite.y = unit.targetPosition.y;
-                sprite.anchor.setTo(0, 0);
+            if (destinationSprite == null) {
+                moveUnitOnServerOrder(sprite, targetPosition);
             }
 
-        }else{
+        } else {
 
-            armyElement = new ArmyElement(
-                unit.position.x / fieldSize,
-                unit.position.y / fieldSize,
+            newUnit = new ArmyElement(
+                position.x,
+                position.y,
                 armyType + '_' + teamNumber,
                 unit.unitId
             );
 
-            if(checkIfUnitExist(armyElement) == false){
-                var unitImage = game.add.sprite(armyElement.x, armyElement.y, armyElement.name);
-                unitImage.id = armyElement.id;
-                armySprites.push(unitImage);
+            if (checkIfSuchUnitAlreadyExists(newUnit) == false) {
+                var armySprite = game.add.sprite(newUnit.x, newUnit.y, newUnit.name);
+                armySprite.id = newUnit.id;
+                armySprites.push(armySprite);
             }
 
         }
 
     });
+}
+
+function moveUnitOnServerOrder(sprite, targetPosition) {
+    sprite.x = targetPosition.x * fieldSize;
+    sprite.y = targetPosition.y * fieldSize;
+    sprite.anchor.setTo(0, 0);
 }

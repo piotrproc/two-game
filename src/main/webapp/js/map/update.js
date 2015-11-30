@@ -36,11 +36,6 @@ function update() {
     }
 }
 
-function Field(x, y){
-    this.x = x;
-    this.y = y;
-}
-
 function calculatePointedField(){
     var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize);
     var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize);
