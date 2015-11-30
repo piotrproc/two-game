@@ -58,10 +58,11 @@
 
     }
 
-    function ArmyElement(x, y, name) {
+    function ArmyElement(x, y, name, id) {
         this.x = x * fieldSize;
         this.y = y * fieldSize;
         this.name = name;
+        this.id = id;
     }
 
     var resource = 10000;
@@ -73,8 +74,8 @@
 
     var armySprites = [];
     var initialArmy = [
-        new ArmyElement(Math.floor(armyTypeIndex / 2), armyTypeIndex % 2, armyType + '_' + teamNumber),
-        new ArmyElement(0, 0, armyType + '_' + teamNumber)
+        new ArmyElement(Math.floor(armyTypeIndex / 2), armyTypeIndex % 2, armyType + '_' + teamNumber, 111),
+        new ArmyElement(0, 0, armyType + '_' + teamNumber, 222)
     ];
 
     function Move(moveFrom, moveTo) {
@@ -87,6 +88,7 @@
 
     function getUnitSprite(x, y) {
         var foundUnit = null;
+
 
         armySprites.forEach(function (unit) {
             if (unit.x == x * fieldSize && unit.y == y * fieldSize) {
@@ -112,8 +114,11 @@
         button = game.add.button(viewSize - 0.75 * fieldSize, 0.25 * fieldSize, 'button', changeCameraToOtherPlayer, this, 2, 1, 0);
         button.fixedToCamera = true;
 
+
+
         initialArmy.forEach(function (unit) {
             var unitImage = game.add.sprite(unit.x, unit.y, unit.name);
+            unitImage.id = unit.id;
             armySprites.push(unitImage);
         });
 
@@ -153,7 +158,7 @@
 
                     } else {
                         movingSprite = pointedSprite;
-                        movingSpriteInfo = new ArmyElement(fieldX, fieldY, movingSprite.name);
+                        movingSpriteInfo = new ArmyElement(fieldX, fieldY, movingSprite.name, pointedSprite.id);
                         movingSprite.anchor.setTo(-0.1, 0);
                     }
 
@@ -163,8 +168,8 @@
                             && fieldX >= 0 && fieldX * fieldSize < mapSize
                             && fieldY >= 0 && fieldY * fieldSize < mapSize) {
 
-                        var move = new Move(movingSpriteInfo,
-                                new ArmyElement(fieldX, fieldY, movingSprite.name));
+//                        var move = new Move(movingSpriteInfo,
+//                                new ArmyElement(fieldX, fieldY, movingSprite.name));
 
                         movingSprite.x = fieldX * fieldSize;
                         movingSprite.y = fieldY * fieldSize;
@@ -229,28 +234,50 @@
 
             sprite = getUnitSprite(unit.position.x / fieldSize, unit.position.y / fieldSize);
 
-            console.log(unit.position.x);
             if(sprite){
-                sprite.x = unit.targetPosition.x;
-                sprite.y = unit.targetPosition.y;
-                sprite.anchor.setTo(0, 0);
+
+                destinationSprite = getUnitSprite(unit.targetPosition.x / fieldSize, unit.targetPosition.y / fieldSize);
+
+                if(destinationSprite == null){
+                    sprite.x = unit.targetPosition.x;
+                    sprite.y = unit.targetPosition.y;
+                    sprite.anchor.setTo(0, 0);
+                }
+
             }
             else{
+
+                //console.log(unit);
+
                 armyElement = new ArmyElement(
                         unit.position.x / fieldSize,
                         unit.position.y / fieldSize,
-                        armyType + '_' + teamNumber
+                        armyType + '_' + teamNumber,
+                        unit.unitId
                 );
 
-                var unitImage = game.add.sprite(armyElement.x, armyElement.y, armyElement.name);
-                armySprites.push(unitImage);
+                if(checkIfUnitExist(armyElement) == false){
+                    //console.log(armyElement);
+                    var unitImage = game.add.sprite(armyElement.x, armyElement.y, armyElement.name);
+                    unitImage.id = armyElement.id;
+                    armySprites.push(unitImage);
+                }
 
             }
 
         });
     }
 
+    function checkIfUnitExist(armyElement){
+        var isFound = false;
 
+        armySprites.forEach(function (unit) {
+            if (unit.id == armyElement.id) {
+                isFound = true;
+            }
+        });
+        return isFound;
+    }
 
 </script>
 
