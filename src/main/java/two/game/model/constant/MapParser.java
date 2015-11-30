@@ -1,5 +1,8 @@
 package two.game.model.constant;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,9 +10,13 @@ import java.io.IOException;
 
 public class MapParser {
 
+    private static final Logger logger = LoggerFactory.getLogger(MapParser.class);
+
     public static GameMap parse() {
 
-        String csvFile = "D:/Dropbox/Studia/Semestr IX/Technologie Wytwarzania Oprogramowania/two-game/src/main/webapp/map/my_map.csv";
+        String csvFile = "src/main/webapp/map/my_map.csv";
+
+
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -20,13 +27,13 @@ public class MapParser {
 
             br = new BufferedReader(new FileReader(csvFile));
             while ((line = br.readLine()) != null) {
-
                 String[] row = line.split(cvsSplitBy);
-                for(int i=0;i<row.length;i++)
-                {
+
+                for (int i = 0; i < row.length; i++) {
+                    MapElement mapElement = parseMapElement(row[i]);
                     gameMap.updateMap(new MapStructure(rowCounter, i), parseMapElement(row[i]));
                 }
-                rowCounter++;
+                rowCounter++; 
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -44,15 +51,15 @@ public class MapParser {
         return gameMap;
     }
 
-    private static MapElement parseMapElement(String element)
-    {
-        if(element == "8") {
+    private static MapElement parseMapElement(String element) {
+
+        if (element.equals("8")) {
             return MapElement.TREE;
         }
-        if(element == "4") {
+        if (element.equals("4")) {
             return MapElement.WATER;
         }
-        if(element == "0") {
+        if (element.equals("0")) {
             return MapElement.GROUND;
         }
         return null;
