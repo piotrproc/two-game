@@ -17,15 +17,17 @@
     <!-- Custom styles for this template -->
     <link href="css/cover.css" rel="stylesheet">
 
+    <link href="css/wargame.css" rel="stylesheet">
+
 </head>
 
 <body>
 
 <div class="site-wrapper">
 
-    <div class="site-wrapper-inner">
+    <div class="site-wrapper-inner" id="main-container">
 
-        <div class="cover-container">
+        <div id="cover" class="cover-container">
 
             <div class="masthead clearfix">
                 <div class="inner">
@@ -56,6 +58,20 @@
 
         </div>
 
+        <div id="game-container" class="center"></div>
+
+        <div id="highscores" class="invis scores">
+            <table id="hs-table" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Team name</th>
+                    <th>Score</th>
+                </tr>
+                </thead>
+                </table>
+        </div>
+
     </div>
 
 </div>
@@ -66,5 +82,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/game_actions.js"></script>
+<script src="js/phaser.min.js"></script>
 </body>
 </html>
