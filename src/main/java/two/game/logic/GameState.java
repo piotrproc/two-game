@@ -1,8 +1,9 @@
 package two.game.logic;
 
 import two.game.model.Point;
-import two.game.model.constant.GameMap;
+import two.game.model.constant.IGameMap;
 import two.game.model.constant.MapElement;
+import two.game.model.constant.MapParser;
 import two.game.model.status.AttackEvent;
 import two.game.model.status.MissleStatus;
 import two.game.model.status.TeamStatus;
@@ -11,7 +12,7 @@ import two.game.model.status.UnitStatus;
 import java.util.*;
 
 public class GameState {
-    private final GameMap map;
+    private final IGameMap map;
     private final Map<String, Long> userIdToSequenceId;
     private Boolean gameStarted;
     private List<MissleStatus> missileStatuses;
@@ -21,7 +22,7 @@ public class GameState {
     private Long updateSequenceId;
 
     public GameState() {
-        this((x, y) -> MapElement.GROUND, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
+        this(MapParser.parse(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
         this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1"))));
         this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2"))));
         this.getUnitStatuses().add(new UnitStatus(1L, "user1", 10, 2, 2, 4, 2, new Point(50.0, 50.0), new Point(50.0, 50.0)));
@@ -29,7 +30,7 @@ public class GameState {
 
     }
 
-    public GameState(GameMap map, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents, List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses) {
+    public GameState(IGameMap map, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents, List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses) {
         this.map = map;
         this.missileStatuses = missileStatuses;
         this.attackEvents = attackEvents;
@@ -44,7 +45,7 @@ public class GameState {
         return userIdToSequenceId;
     }
 
-    public GameMap getMap() {
+    public IGameMap getMap() {
         return map;
     }
 
