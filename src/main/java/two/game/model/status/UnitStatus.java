@@ -2,8 +2,9 @@ package two.game.model.status;
 
 import two.game.model.Point;
 
-public abstract class UnitStatus {
+public class UnitStatus {
     private Long unitId;
+    private String user;
     private Integer health;
     private Integer dps;
     private Integer speed;
@@ -17,9 +18,11 @@ public abstract class UnitStatus {
     public UnitStatus() {
     }
 
-    public UnitStatus(Long unitId, Integer health, Integer dps, Integer speed, Integer sightRange, Integer attackRange,
+    public UnitStatus(Long unitId, String user, Integer health, Integer dps, Integer speed, Integer sightRange, Integer attackRange,
                       Point position, Point targetPosition) {
         this.unitId = unitId;
+        this.user = user;
+
         this.health = health;
         this.dps = dps;
         this.speed = speed;
@@ -61,7 +64,6 @@ public abstract class UnitStatus {
         this.position = position;
     }
 
-
     public void setDps(Integer dps) {
         this.dps = dps;
     }
@@ -92,6 +94,14 @@ public abstract class UnitStatus {
 
     public Integer getAttackRange() {
         return attackRange;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getUser() {
+        return user;
     }
 
     @Override

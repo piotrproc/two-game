@@ -1,5 +1,6 @@
 package two.game.logic;
 
+import two.game.model.Point;
 import two.game.model.constant.GameMap;
 import two.game.model.constant.MapElement;
 import two.game.model.status.AttackEvent;
@@ -21,8 +22,11 @@ public class GameState {
 
     public GameState() {
         this((x, y) -> MapElement.GROUND, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
-        this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>()));
-        this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>()));
+        this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1"))));
+        this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2"))));
+        this.getUnitStatuses().add(new UnitStatus(1L, "user1", 10, 2, 2, 4, 2, new Point(50.0, 50.0), new Point(50.0, 50.0)));
+        this.getUnitStatuses().add(new UnitStatus(2L, "user2", 10, 2, 2, 4, 2, new Point(55.0, 55.0), new Point(55.0, 55.0)));
+
     }
 
     public GameState(GameMap map, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents, List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses) {
