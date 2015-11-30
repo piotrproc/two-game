@@ -38,27 +38,13 @@ function handleClick(){
     }
 }
 
-function calculatePointedField(){
-    var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize);
-    var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize);
-
-    return new Field(fieldX, fieldY);
-}
-
-function fieldIsOnTheMap(field) {
-    return field.x >= 0 && field.x * fieldSize < mapSize
-        && field.y >= 0 && field.y * fieldSize < mapSize;
-}
-
-function move(field) {
-//    var move = new Move(movingSpriteInfo,
-//    new ArmyElement(fieldX, fieldY, movingSprite.name));
-
-    movingSprite.x = field.x * fieldSize;
-    movingSprite.y = field.y * fieldSize;
+function move(targetPosition) {
+    var message = messageForServer(movingSprite, targetPosition);
+    eventBus.send("UserUpdate", message);
+//    movingSprite.x = targetPosition.x * fieldSize;
+//    movingSprite.y = targetPosition.y * fieldSize;
+    
     movingSprite.anchor.setTo(0, 0);
-
-//    send('UserUpdate', messageForServer(movingSprite));
 
     movingSprite = null;
 }
@@ -79,4 +65,16 @@ function attack(pointedSprite){
     //so we just leave unit alone
     movingSprite.anchor.setTo(0, 0);
     movingSprite = null;
+}
+
+function calculatePointedField(){
+    var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize);
+    var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize);
+
+    return new Field(fieldX, fieldY);
+}
+
+function fieldIsOnTheMap(field) {
+    return field.x >= 0 && field.x * fieldSize < mapSize
+        && field.y >= 0 && field.y * fieldSize < mapSize;
 }

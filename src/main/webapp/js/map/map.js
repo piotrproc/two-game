@@ -1,5 +1,4 @@
 
-
 // set a handler to receive a message
 var eventBus = new EventBus('http://localhost:8077/eventbus');
 
@@ -49,11 +48,6 @@ function ArmyElement(x, y, name, id) {
     this.y = y * fieldSize;
     this.name = name;       //name specifies PNG for unit
     this.id = id;           //unique id
-}
-
-function Move(moveFrom, moveTo) {
-    this.moveFrom = moveFrom;
-    this.moveTo = moveTo;
 }
 
 var armySprites = [];

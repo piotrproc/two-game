@@ -3,41 +3,19 @@
  */
 
 
-
-function send(channel, movingSprite) {
-    eventBus.send(channel, JSON.parse(messageForServer(movingSprite)));
-}
-
-function messageForServer(movingSprite){
+function messageForServer(movingSprite, targetPosition){
     userUpdate = {
-        "userId": "kolo34",
-        "userSequenceId": 345,
+        "userId": "user1",
         "unitUpdates": [
             {
-                "unitId": 65,
+                "unitId": movingSprite.id,
                 "moveTarget": {
-                    "x": movingSprite.x,
-                    "y": movingSprite.y
-                },
-                "missileLaunches": [
-                    {
-                        "target": {
-                            "x": 45.6,
-                            "y": 185.6
-                        }
-                    }
-                ],
-                "attacks": [
-                    {
-                        "targetUnitId": 64
-                    }
-                ]
+                    "x": targetPosition.x * fieldSize,
+                    "y": targetPosition.y * fieldSize
+                }
             }
-        ],
-        "request": {
-            "amount": 0
-        }
-    }
+        ]
+    };
 
     return userUpdate;
 }
