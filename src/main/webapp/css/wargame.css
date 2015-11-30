@@ -1,0 +1,15 @@
+.center {
+    margin: auto;
+    width: 800px;
+    padding: 10px;
+}
+
+.invis {
+    visibility: hidden;
+}
+
+.scores {
+    margin: auto;
+    width: 500px;
+}
+
