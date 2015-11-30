@@ -6,6 +6,7 @@
 function messageForServer(movingSprite, targetPosition){
     userUpdate = {
         "userId": "user1",
+        "userSequenceId": 345,
         "unitUpdates": [
             {
                 "unitId": movingSprite.id,
@@ -14,7 +15,23 @@ function messageForServer(movingSprite, targetPosition){
                     "y": targetPosition.y * fieldSize
                 }
             }
-        ]
+        ],
+        "missileLaunches": [
+            {
+                "target": {
+                    "x": 45.6,
+                    "y": 185.6
+                }
+            }
+        ],
+        "attacks": [
+            {
+                "targetUnitId": 64
+            }
+        ],
+        "request": {
+            "amount": 0
+        }
     };
 
     return userUpdate;
