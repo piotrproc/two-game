@@ -32,6 +32,6 @@ function create() {
 }
 
 function changeCameraToOtherPlayer() {
-    followedUnitID = (followedUnitID + 1) % armySprites.length;
-    game.camera.follow(armySprites[followedUnitID]);
+    followedUnitID = (followedUnitID + 1) % myTeamList.length;
+    game.camera.follow(myTeamList[followedUnitID]);
 }

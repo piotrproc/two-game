@@ -2,6 +2,11 @@
  * Created by Piotr Proc on 30.11.15.
  */
 
+function sendMoveMessage(targetPosition) {
+    var message = messageForServer(movingSprite, targetPosition);
+    eventBus.send("UserUpdate", message);
+    movingSprite = null;
+}
 
 function messageForServer(movingSprite, targetPosition){
     userUpdate = {

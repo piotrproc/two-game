@@ -28,7 +28,6 @@ var resourceText;
 var followedUnitID = 0; // unit that camera is currently following
 
 var movingSprite = null;
-var movingSpriteInfo = null;
 
 var teamA = [];
 var teamB = [];

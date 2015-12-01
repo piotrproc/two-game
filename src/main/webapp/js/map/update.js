@@ -44,12 +44,6 @@ function handleClick(){
     }
 }
 
-function sendMoveMessage(targetPosition) {
-    var message = messageForServer(movingSprite, targetPosition);
-    eventBus.send("UserUpdate", message);
-    movingSprite = null;
-}
-
 function chooseUnit(pointedSprite) {
     movingSprite = pointedSprite;
     movingSprite.anchor.setTo(-0.1, 0);
