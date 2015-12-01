@@ -7,6 +7,8 @@ function handleTeamStatus(message){
 
     teamA = (teamStatuses[0]).userIds;
     teamB = (teamStatuses[1]).userIds;
+
+    userSequence = message.body.sequenceId;
 }
 
 function handleMapUpdate(message) {

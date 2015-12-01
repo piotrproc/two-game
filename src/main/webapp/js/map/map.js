@@ -12,7 +12,7 @@ eventBus.onopen = function () {
 
 };
 
-var userSequence = 1;
+var userSequence;
 
 // map configuration
 var fieldSize = 32;
