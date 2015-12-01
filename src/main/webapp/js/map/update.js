@@ -4,13 +4,10 @@
 
 function update() {
 
-    // You can poll mouse status
     if (game.input.mousePointer.isDown) {
 
-        // In the case of a mouse, you can check mouse button status
         if (game.input.mousePointer.button == Phaser.Mouse.LEFT_BUTTON) {
             handleClick();
-            // We just want to clear it, so this doesn't fire over and over, don't do this in production
             game.input.activePointer.reset();
         }
 
@@ -21,18 +18,27 @@ function handleClick(){
     var pointedField = calculatePointedField();
     var pointedSprite = getUnitSprite(pointedField);
 
+    //if we click on sprite
     if (pointedSprite) {
 
-        if (movingSprite) {
-            attack(pointedSprite);
-        } else {
-            chooseUnit(pointedSprite);
+        if(spriteIsInMyTeam(pointedSprite)){
+
+            //if we had one sprite marked before
+            if (movingSprite) {
+                attack(pointedSprite);
+            } else {
+                chooseUnit(pointedSprite);
+            }
         }
 
     } else {
 
-        if (movingSprite && fieldIsOnTheMap(pointedField)) {
-            sendMoveMessage(pointedField);
+        //if we had one sprite marked before
+        if (movingSprite){
+            //we move if
+            if( spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
+                sendMoveMessage(pointedField);
+            }
         }
 
     }
@@ -46,16 +52,11 @@ function sendMoveMessage(targetPosition) {
 
 function chooseUnit(pointedSprite) {
     movingSprite = pointedSprite;
-    movingSpriteInfo = new ArmyElement(
-        movingSprite.x * fieldSize,
-        movingSprite.y * fieldSize,
-        movingSprite.name,
-        movingSprite.id
-    );
     movingSprite.anchor.setTo(-0.1, 0);
 }
 
 function attack(pointedSprite){
+    //todo
     //currently it is not implemented
     //so we just leave unit alone
     movingSprite.anchor.setTo(0, 0);

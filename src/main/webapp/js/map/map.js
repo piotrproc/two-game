@@ -12,6 +12,9 @@ eventBus.onopen = function () {
 
 };
 
+var user = "user1";
+var myTeam;
+var myTeamList = [];
 var userSequence;
 
 // map configuration
@@ -42,49 +45,7 @@ function Field(x, y){
     this.y = y;
 }
 
-function ArmyElement(x, y, name, id) {
-    this.x = x * fieldSize;
-    this.y = y * fieldSize;
-    this.name = name;       //name specifies PNG for unit
-    this.id = id;           //unique id
-}
-
 var armySprites = [];
-var initialArmy = [];
 
-function getUnitSprite(field) {
-    var foundUnit = null;
-
-    armySprites.forEach(function (unit) {
-        if (unit.x == field.x * fieldSize && unit.y == field.y * fieldSize) {
-            foundUnit = unit;
-        }
-    });
-
-    return foundUnit;
-}
-
-function getUnitSpriteWithId(id) {
-    var foundUnit = null;
-
-    armySprites.forEach(function (unit) {
-        if (unit.id == id) {
-            foundUnit = unit;
-        }
-    });
-
-    return foundUnit;
-}
-
-function checkIfSuchUnitAlreadyExists(newUnit){
-    var isFound = false;
-
-    armySprites.forEach(function (unit) {
-        if (unit.id == newUnit.id) {
-            isFound = true;
-        }
-    });
-    return isFound;
-}
 
 

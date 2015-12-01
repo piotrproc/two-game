@@ -8,12 +8,17 @@ function handleTeamStatus(message){
     teamA = (teamStatuses[0]).userIds;
     teamB = (teamStatuses[1]).userIds;
 
+    if(teamA.indexOf(user) >= 0){
+        myTeam = 1;
+    }else{
+        myTeam = 2;
+    }
+
     userSequence = message.body.sequenceId;
 }
 
 function handleMapUpdate(message) {
     var unitStatuses = message.body.unitStatuses;
-
 
     unitStatuses.forEach(function (unit) {
 
@@ -44,24 +49,27 @@ function handleMapUpdate(message) {
             }
 
         } else {
+            var placeIsEmpty = (getUnitSprite(position) == null);
 
-            var newUnit = new ArmyElement(position.x, position.y, unitName, unit.unitId);
-
-            if (checkIfSuchUnitAlreadyExists(newUnit) == false) {
-                createNewSprite(newUnit);
+            if (placeIsEmpty) {
+                createNewSprite(position, unitName, unit.unitId, team);
             }
-
-
 
         }
 
     });
 }
 
-function createNewSprite(newUnit){
-    var armySprite = game.add.sprite(newUnit.x, newUnit.y, newUnit.name);
-    armySprite.id = newUnit.id;
+function createNewSprite(position, unitName, id, team){
+    var armySprite = game.add.sprite(position.x*fieldSize, position.y*fieldSize, unitName);
+    armySprite.id = id;
     armySprites.push(armySprite);
+
+    if(myTeam == team){
+        game.camera.follow(armySprite);
+        myTeamList.push(armySprite);
+    }
+
 }
 
 function moveUnitOnServerOrder(sprite, targetPosition) {

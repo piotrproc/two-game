@@ -22,8 +22,8 @@ public class ScheduledTasksRunner extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        scheduler.scheduleWithFixedDelay(new SendStatusTask(gameState, vertx), 0, 3000, TimeUnit.MILLISECONDS);
-        scheduler.scheduleWithFixedDelay(new UpdateStateTask(gameState), 0, 3000, TimeUnit.MILLISECONDS);
+        scheduler.scheduleWithFixedDelay(new SendStatusTask(gameState, vertx), 0, 100, TimeUnit.MILLISECONDS);
+        scheduler.scheduleWithFixedDelay(new UpdateStateTask(gameState), 0, 100, TimeUnit.MILLISECONDS);
 //        logger.debug("started all scheduled tasks");
     }
 }
