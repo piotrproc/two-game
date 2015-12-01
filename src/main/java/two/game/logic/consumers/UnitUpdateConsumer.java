@@ -34,13 +34,13 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
             gameState.getUnitStatuses().stream().filter(u -> u.getUnitId().equals(event.getUnitId()))
                     .forEach(u -> u.setPosition(event.getMoveTarget()));
 
-            for (UnitAttack attack : event.getAttacks()) {
-                UnitStatus attackingUnit = unitStatuses.stream().filter(unit -> unit.getUnitId().equals(event.getUnitId())).findFirst().get();
-                UnitStatus attackedUnit = unitStatuses.stream().filter(unit -> unit.getUnitId().equals(attack.getTargetUnitId())).findFirst().get();
-                //todo
-                //unit has no type so there is no way to determine damage (set temporary to 10)
-                attackedUnit.setHealth(attackedUnit.getHealth() - 10);
-            }
+//            for (UnitAttack attack : event.getAttacks()) {
+//                UnitStatus attackingUnit = unitStatuses.stream().filter(unit -> unit.getUnitId().equals(event.getUnitId())).findFirst().get();
+//                UnitStatus attackedUnit = unitStatuses.stream().filter(unit -> unit.getUnitId().equals(attack.getTargetUnitId())).findFirst().get();
+//                //todo
+//                //unit has no type so there is no way to determine damage (set temporary to 10)
+//                attackedUnit.setHealth(attackedUnit.getHealth() - 10);
+//            }
 
             logger.debug("updated game state (unitUpadate)");
         }

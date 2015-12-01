@@ -12,6 +12,8 @@ eventBus.onopen = function () {
 
 };
 
+var userSequence = 1;
+
 // map configuration
 var fieldSize = 32;
 var mapSize = 3200;
@@ -21,9 +23,6 @@ var unitNames = ['airforce', 'cannon', 'tank', 'soldier'];
 var resource = 10000;
 var resourceText;
 var followedUnitID = 0; // unit that camera is currently following
-var teamNumber = 1;
-var armyTypeIndex = 3;
-var armyType = unitNames[armyTypeIndex];
 
 var movingSprite = null;
 var movingSpriteInfo = null;
@@ -51,11 +50,7 @@ function ArmyElement(x, y, name, id) {
 }
 
 var armySprites = [];
-var initialArmy = [
-    new ArmyElement(Math.floor(armyTypeIndex / 2), armyTypeIndex % 2, armyType + '_' + teamNumber, 111),
-    new ArmyElement(0, 0, armyType + '_' + teamNumber, 222)
-];
-
+var initialArmy = [];
 
 function getUnitSprite(field) {
     var foundUnit = null;
@@ -69,14 +64,16 @@ function getUnitSprite(field) {
     return foundUnit;
 }
 
-function getUnitSpriteWithId(field, id) {
-    var foundUnit = getUnitSprite(field);
+function getUnitSpriteWithId(id) {
+    var foundUnit = null;
 
-    if(foundUnit){
-        if(foundUnit.id == id)
-            return foundUnit
-    }
-    return null;
+    armySprites.forEach(function (unit) {
+        if (unit.id == id) {
+            foundUnit = unit;
+        }
+    });
+
+    return foundUnit;
 }
 
 function checkIfSuchUnitAlreadyExists(newUnit){

@@ -6,7 +6,7 @@
 function messageForServer(movingSprite, targetPosition){
     userUpdate = {
         "userId": "user1",
-        "userSequenceId": 345,
+        "userSequenceId": userSequence,
         "unitUpdates": [
             {
                 "unitId": movingSprite.id,
@@ -33,6 +33,8 @@ function messageForServer(movingSprite, targetPosition){
             "amount": 0
         }
     };
+
+    userSequence += 1;
 
     return userUpdate;
 }

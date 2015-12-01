@@ -24,24 +24,18 @@ function handleMapUpdate(message) {
             team = 2;
 
         var unitName = unitType + "_" + team;
+        var sprite = getUnitSpriteWithId(unit.unitId);
 
         var position = new Field(
             unit.position.x / fieldSize,
             unit.position.y / fieldSize
         );
 
-        var sprite = getUnitSpriteWithId(position, unit.unitId);
-
         if (sprite) {
-            var targetPosition = new Field(
-                unit.targetPosition.x / fieldSize,
-                unit.targetPosition.y / fieldSize
-            );
-
-            var destinationSprite = getUnitSprite(targetPosition);
+            var destinationSprite = getUnitSprite(position);
 
             if (destinationSprite == null) {
-                moveUnitOnServerOrder(sprite, targetPosition);
+                moveUnitOnServerOrder(sprite, position);
             }
 
         } else {
