@@ -32,20 +32,15 @@ function handleClick(){
     } else {
 
         if (movingSprite && fieldIsOnTheMap(pointedField)) {
-            move(pointedField);
+            sendMoveMessage(pointedField);
         }
 
     }
 }
 
-function move(targetPosition) {
+function sendMoveMessage(targetPosition) {
     var message = messageForServer(movingSprite, targetPosition);
     eventBus.send("UserUpdate", message);
-//    movingSprite.x = targetPosition.x * fieldSize;
-//    movingSprite.y = targetPosition.y * fieldSize;
-    
-    movingSprite.anchor.setTo(0, 0);
-
     movingSprite = null;
 }
 

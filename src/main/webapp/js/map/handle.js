@@ -25,6 +25,9 @@ function handleMapUpdate(message) {
         else
             team = 2;
 
+        resource = (message.body.teamStatuses[team-1]).resourcesAmount;
+        resourceText.text = 'Zasoby: ' + resource;
+
         var unitName = unitType + "_" + team;
         var sprite = getUnitSpriteWithId(unit.unitId);
 
@@ -47,6 +50,8 @@ function handleMapUpdate(message) {
             if (checkIfSuchUnitAlreadyExists(newUnit) == false) {
                 createNewSprite(newUnit);
             }
+
+
 
         }
 
