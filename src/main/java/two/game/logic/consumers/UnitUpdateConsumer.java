@@ -30,9 +30,12 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
 
         logger.debug("change is applicable: {}", applicable);
         if (applicable) {
-            List<UnitStatus> unitStatuses = gameState.getUnitStatuses();
-            gameState.getUnitStatuses().stream().filter(u -> u.getUnitId().equals(event.getUnitId()))
-                    .forEach(u -> u.setPosition(event.getMoveTarget()));
+
+            synchronized (gameState){
+                gameState.getUnitStatuses().stream()
+                        .filter(u -> u.getUnitId().equals(event.getUnitId()))
+                        .forEach(u -> u.setTargetPosition(event.getMoveTarget()));
+            }
 
 //            for (UnitAttack attack : event.getAttacks()) {
 //                UnitStatus attackingUnit = unitStatuses.stream().filter(unit -> unit.getUnitId().equals(event.getUnitId())).findFirst().get();
