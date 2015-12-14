@@ -96,4 +96,11 @@ public class GameState {
     public void bumpUpdateSequenceId() {
         this.updateSequenceId += 1;
     }
+
+    private long i = 3L;
+
+    public void addUnit(){
+        i = i + 1;
+        this.getUnitStatuses().add(new UnitStatus(i, 2, "user1", 10, 2, 2, 4, 2, new Point(32.0, 32.0), new Point()));
+    }
 }

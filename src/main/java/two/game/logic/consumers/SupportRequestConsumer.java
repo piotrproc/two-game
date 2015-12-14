@@ -22,7 +22,13 @@ public class SupportRequestConsumer implements EventConsumer<SupportRequest> {
 
     @Override
     public void process(SupportRequest event, GameState gameState) {
-        logger.debug("got {}", event);
+        logger.debug("@@@got {}", event);
+
+        if(event.getAmount()!=0){
+            gameState.addUnit();
+
+        }
+
 //        boolean applicable = predicates.stream().allMatch(predicate -> predicate.applicable(event, gameState));
 //
 //        logger.debug("change is applicable: {}", applicable);
