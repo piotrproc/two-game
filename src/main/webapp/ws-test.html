@@ -23,13 +23,13 @@
 </script>
 <form onsubmit="return false;">
     <input style="width: 800px" type="text" name="JoinMatchRequest"
-           value='{"selectedTeamId": "Team A", "userId":"kolo34"}'/>
+           value='{"selectedTeamId": "Team A", "user":"kolo34"}'/>
     <input type="button" value="Send Web Socket Data"
            onclick="send('JoinMatchRequest', this.form.JoinMatchRequest.value)"/>
     <br>
     <textarea style="width: 800px; height: 400px" name="UserUpdate">
 {
-    "userId": "kolo34",
+    "user": "kolo34",
     "userSequenceId": 345,
     "unitUpdates": [
       {

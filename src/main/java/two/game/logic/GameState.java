@@ -99,8 +99,8 @@ public class GameState {
 
     private long i = 3L;
 
-    public void addUnit(){
+    public void addUnit(Integer unitType, String user){
         i = i + 1;
-        this.getUnitStatuses().add(new UnitStatus(i, 1, "user1", 10, 2, 2, 4, 2, new Point(32.0, 32.0), new Point(32.0, 32.0)));
+        this.getUnitStatuses().add(new UnitStatus(i, unitType, user, 10, 2, 2, 4, 2, new Point(32.0, 32.0), new Point(32.0, 32.0)));
     }
 }

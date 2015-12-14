@@ -2,34 +2,32 @@ package two.game.logic.consumers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import two.game.config.UnitConfig;
 import two.game.logic.GameState;
+import two.game.model.status.TeamStatus;
+import two.game.model.status.UnitStatus;
 import two.game.model.update.SupportRequest;
 
 public class SupportRequestConsumer implements EventConsumer<SupportRequest> {
     private static final Logger logger = LoggerFactory.getLogger(JoinConsumer.class);
 
-//    private final Set<ChangePredicate> predicates;
-//
-//    @Inject
-//    public SupportRequestConsumer(@Named("SupportRequest") Set<ChangePredicate> predicates) {
-//        this.predicates = predicates;
-//    }
-
     @Override
     public void process(SupportRequest event, GameState gameState) {
         logger.debug("@@@got {}", event);
 
-        //if(event.getAmount()!=0){
-            gameState.addUnit();
+        TeamStatus teamStatus =
+                gameState.getTeamStatuses().stream().filter(s -> s.getUserIds().contains(event.getUser())).findAny().get();
+        Double resourceAmount = teamStatus.getResourcesAmount();
 
-        //}
+        UnitStatus unitStatus = gameState.getUnitStatuses().stream()
+                .filter(u -> u.getUser().equals(event.getUser())).findAny().get();
+        Integer unitType = unitStatus.getUnitType();
+        Double unitCost = UnitConfig.getUnitPrice(unitType);
 
-//        boolean applicable = predicates.stream().allMatch(predicate -> predicate.applicable(event, gameState));
-//
-//        logger.debug("change is applicable: {}", applicable);
-//        if (applicable) {
-            // todo
-            // some notification to the user (with event.getAmount())
-//        }
+        if (resourceAmount > unitCost) {
+            gameState.addUnit(unitType, event.getUser());
+            teamStatus.setResourcesAmount(resourceAmount - unitCost);
+        }
+
     }
 }

@@ -10,7 +10,7 @@ function sendMoveMessage(targetPosition) {
 
 function sendSupportRequest() {
     var message = {
-        "amount": 30
+        "user": "user1"
     };
     eventBus.send("SupportRequest", message);
 }

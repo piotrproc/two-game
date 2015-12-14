@@ -3,27 +3,28 @@ package two.game.model.update;
 import two.game.model.Event;
 
 public class SupportRequest implements Event {
-    private Long amount;
+    private String user;
 
-    public SupportRequest(Long amount) {
-        this.amount = amount;
+
+    public SupportRequest(String user) {
+        this.user = user;
     }
 
     public SupportRequest() {
     }
 
-    public Long getAmount() {
-        return amount;
+    public String getUser() {
+        return user;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "SupportRequest{" +
-                "amount=" + amount +
-                '}';
+                "user=" + user +
+                "}";
     }
 }
