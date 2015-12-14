@@ -8,6 +8,15 @@ function sendMoveMessage(targetPosition) {
     movingSprite = null;
 }
 
+function sendSupportRequest() {
+    var message = {
+        "amount": 30
+    };
+    //eventBus.send("SupportRequest", message);
+}
+
+
+
 function messageForServer(movingSprite, targetPosition){
     userUpdate = {
         "userId": "user1",

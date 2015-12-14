@@ -4,7 +4,10 @@
 
 function preload() {
     game.load.image('map', 'map/my_map.png', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('button', 'img/refresh.png', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('change_player_button', 'img/change_player.png', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('reinforcement_button', 'img/reinforcement_button.png', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('control_point', 'map/units/control_point.png', null, Phaser.Tilemap.TILED_JSON);
+
 
     unitNames.forEach(function (unitName) {
         var unitNameA = unitName + '_1';

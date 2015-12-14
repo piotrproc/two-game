@@ -17,10 +17,14 @@ function create() {
 
     resourceText = game.add.text(0, 0, 'Zasoby: ' + resource, textFont);
     resourceText.fixedToCamera = true;
-    resourceText.cameraOffset.setTo(viewSize - 3.25 * fieldSize, 0.25 * fieldSize);
+    resourceText.cameraOffset.setTo(viewSize - 3.75 * fieldSize, 0.25 * fieldSize);
 
-    var button = game.add.button(viewSize - 0.75 * fieldSize, 0.25 * fieldSize, 'button', changeCameraToOtherPlayer, this, 2, 1, 0);
+    var button = game.add.button(viewSize - 1.45 * fieldSize, 0.25 * fieldSize,
+        'change_player_button', changeCameraToOtherPlayer, this, 2, 1, 0);
+    var button2 = game.add.button(viewSize - 0.75 * fieldSize, 0.25 * fieldSize,
+        'reinforcement_button', sendSupportRequest, this, 2, 1, 0);
     button.fixedToCamera = true;
+    button2.fixedToCamera = true;
 
     game.camera.follow(armySprites[followedUnitID]);
 
