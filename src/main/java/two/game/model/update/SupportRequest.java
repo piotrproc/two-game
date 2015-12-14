@@ -1,6 +1,8 @@
 package two.game.model.update;
 
-public class SupportRequest {
+import two.game.model.Event;
+
+public class SupportRequest implements Event {
     private Long amount;
 
     public SupportRequest(Long amount) {

@@ -12,7 +12,7 @@ function sendSupportRequest() {
     var message = {
         "amount": 30
     };
-    //eventBus.send("SupportRequest", message);
+    eventBus.send("SupportRequest", message);
 }
 
 
@@ -42,10 +42,7 @@ function messageForServer(movingSprite, targetPosition){
             {
                 "targetUnitId": 64
             }
-        ],
-        "request": {
-            "amount": 0
-        }
+        ]
     };
 
     userSequence += 1;

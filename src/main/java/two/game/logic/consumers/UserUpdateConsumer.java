@@ -17,13 +17,11 @@ public class UserUpdateConsumer implements EventConsumer<UserUpdate> {
 
     private final Set<ChangePredicate> predicates;
     private final EventConsumer<UnitUpdate> unitUpdateConsumer;
-    private final EventConsumer<SupportRequest> supportRequestConsumer;
 
     @Inject
-    public UserUpdateConsumer(@Named("UserUpdate") Set<ChangePredicate> predicates, EventConsumer<UnitUpdate> unitUpdateConsumer, EventConsumer<SupportRequest> supportRequestConsumer) {
+    public UserUpdateConsumer(@Named("UserUpdate") Set<ChangePredicate> predicates, EventConsumer<UnitUpdate> unitUpdateConsumer) {
         this.predicates = predicates;
         this.unitUpdateConsumer = unitUpdateConsumer;
-        this.supportRequestConsumer = supportRequestConsumer;
     }
 
     @Override
@@ -39,9 +37,6 @@ public class UserUpdateConsumer implements EventConsumer<UserUpdate> {
 
             event.getUnitUpdates().forEach(unitUpdate -> unitUpdateConsumer.process(unitUpdate, state));
             logger.debug("finished updating units");
-
-            supportRequestConsumer.process(event.getRequest(), state);
-            logger.debug("finished updating support");
         }
     }
 }

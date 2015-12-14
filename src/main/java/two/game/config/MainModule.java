@@ -55,9 +55,8 @@ public class MainModule extends AbstractModule {
         consumers.addBinding(JoinMatchRequest.class).to(JoinConsumer.class);
         consumers.addBinding(UserUpdate.class).to(UserUpdateConsumer.class);
         consumers.addBinding(UnitUpdate.class).to(UnitUpdateConsumer.class);
+        consumers.addBinding(SupportRequest.class).to(SupportRequestConsumer.class);
 
-        bind(new TypeLiteral<EventConsumer<SupportRequest>>() {
-        }).to(SupportRequestConsumer.class);
         bind(new TypeLiteral<EventConsumer<UnitUpdate>>() {
         }).to(UnitUpdateConsumer.class);
     }
