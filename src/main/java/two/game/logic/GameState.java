@@ -1,5 +1,6 @@
 package two.game.logic;
 
+import two.game.config.GameConfig;
 import two.game.model.Point;
 import two.game.model.constant.IGameMap;
 import two.game.model.constant.MapElement;
@@ -99,8 +100,9 @@ public class GameState {
 
     private long i = 3L;
 
-    public void addUnit(Integer unitType, String user){
+    public void addUnit(Integer unitType, String user, Integer teamNumber){
         i = i + 1;
-        this.getUnitStatuses().add(new UnitStatus(i, unitType, user, 10, 2, 2, 4, 2, new Point(32.0, 32.0), new Point(32.0, 32.0)));
+        Point startPoint = GameConfig.getStartPoint(teamNumber);
+        this.getUnitStatuses().add(new UnitStatus(i, unitType, user, 10, 2, 2, 4, 2, startPoint, startPoint));
     }
 }

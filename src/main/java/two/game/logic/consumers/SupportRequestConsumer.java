@@ -13,10 +13,11 @@ public class SupportRequestConsumer implements EventConsumer<SupportRequest> {
 
     @Override
     public void process(SupportRequest event, GameState gameState) {
-        logger.debug("@@@got {}", event);
+        logger.debug("got {}", event);
 
         TeamStatus teamStatus =
                 gameState.getTeamStatuses().stream().filter(s -> s.getUserIds().contains(event.getUser())).findAny().get();
+        Integer teamNumber = gameState.getTeamStatuses().indexOf(teamStatus);
         Double resourceAmount = teamStatus.getResourcesAmount();
 
         UnitStatus unitStatus = gameState.getUnitStatuses().stream()
@@ -24,9 +25,11 @@ public class SupportRequestConsumer implements EventConsumer<SupportRequest> {
         Integer unitType = unitStatus.getUnitType();
         Double unitCost = UnitConfig.getUnitPrice(unitType);
 
-        if (resourceAmount > unitCost) {
-            gameState.addUnit(unitType, event.getUser());
-            teamStatus.setResourcesAmount(resourceAmount - unitCost);
+        synchronized (gameState){
+            if (resourceAmount > unitCost) {
+                gameState.addUnit(unitType, event.getUser(), teamNumber);
+                teamStatus.setResourcesAmount(resourceAmount - unitCost);
+            }
         }
 
     }
