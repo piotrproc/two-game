@@ -30,3 +30,15 @@ function getUnitSpriteWithId(id) {
 
     return foundUnit;
 }
+
+function getControlPoint(field){
+    var foundControlPoint = null;
+
+    controlPoints.forEach(function (controlPoint) {
+        if (controlPoint.x == field.x && controlPoint.y == field.y) {
+            foundControlPoint = controlPoint;
+        }
+    });
+
+    return foundControlPoint;
+}

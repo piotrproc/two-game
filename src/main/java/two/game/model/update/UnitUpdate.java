@@ -10,6 +10,7 @@ public class UnitUpdate {
     private List<MissileLaunch> missileLaunches;
     private List<UnitAttack> attacks;
 
+
     public UnitUpdate() {
 
     }

@@ -15,6 +15,7 @@ function handleTeamStatus(message){
     }
 
     userSequence = message.body.sequenceId;
+    handleControlPoints(message);
 }
 
 function handleMapUpdate(message) {
@@ -57,6 +58,29 @@ function handleMapUpdate(message) {
 
         }
 
+    });
+}
+
+function handleControlPoints(message){
+    var teamStatuses = message.body.teamStatuses;
+    var colors = [
+        "0x3D3D3B", //dark grey
+        "0xA61C2E"  //dark red
+    ];
+    var index = 0;
+
+    teamStatuses.forEach(function (teamStatus) {
+        console.log(teamStatus);
+         var controlPoints = teamStatus.controlPoints;
+
+        controlPoints.forEach(function(controlPoint){
+            var controlPointSprite = getControlPoint(controlPoint.location);
+            var spriteOnTheField = getUnitSprite(new Field(controlPoint.location.x/fieldSize, controlPoint.location.y/fieldSize));
+            if(controlPointSprite && spriteOnTheField){
+                controlPointSprite.tint = colors[index];
+            }
+        });
+        index = index + 1;
     });
 }
 
