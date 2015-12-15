@@ -30,14 +30,3 @@ function getUnitSpriteWithId(id) {
 
     return foundUnit;
 }
-
-function checkIfSuchUnitAlreadyExists(newUnit){
-    var isFound = false;
-
-    armySprites.forEach(function (unit) {
-        if (unit.id == newUnit.id) {
-            isFound = true;
-        }
-    });
-    return isFound;
-}

@@ -2,6 +2,10 @@ package two.game.config;
 
 import two.game.model.Point;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Piotr Proc on 14.12.15.
  */
@@ -24,5 +28,12 @@ public class GameConfig {
                     gameSize - startPointYShift * fieldSize);
     }
 
+    private static Set<Point> controlPointLocations = new HashSet<>(Arrays.asList(
+            new Point(7 * fieldSize, 7 * fieldSize),
+            new Point(9 * fieldSize, 9 * fieldSize)));
 
+    public static boolean controlPointIsOnTheField(Point point){
+        return controlPointLocations.stream()
+                .anyMatch(p -> p.getX().equals(point.getX()) && p.getY().equals(point.getY()));
+    }
 }

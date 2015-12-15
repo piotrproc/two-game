@@ -32,7 +32,27 @@ function create() {
         if(e.keyCode == 32){ //code for space key
             changeCameraToOtherPlayer();
         }
-    }
+    };
+
+    game.input.keyboard.onDownCallback = function(e) {
+        if(e.keyCode == 13){ //code for enter key
+            alert(user);
+            if(user){
+                if(user == "user1")
+                    user = "user2";
+                else
+                    user = "user1";
+            }
+        }
+    };
+
+    var controlPoint = game.add.sprite(7*fieldSize, 7*fieldSize, "control_point");
+    controlPoint.tint = 0xff0000;
+
+    var controlPoint2 = game.add.sprite(9*fieldSize, 9*fieldSize, "control_point");
+    controlPoint2.tint = 0x00ff00;
+    //#3D3D3B - dark grey
+    //#A61C2E - dark red
 }
 
 function changeCameraToOtherPlayer() {

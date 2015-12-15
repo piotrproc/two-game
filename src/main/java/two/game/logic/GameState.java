@@ -1,6 +1,7 @@
 package two.game.logic;
 
 import two.game.config.GameConfig;
+import two.game.model.ControlPoint;
 import two.game.model.Point;
 import two.game.model.constant.IGameMap;
 import two.game.model.constant.MapElement;
@@ -10,6 +11,7 @@ import two.game.model.status.MissleStatus;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class GameState {
@@ -24,8 +26,9 @@ public class GameState {
 
     public GameState() {
         this(MapParser.parse(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
-        this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1"))));
-        this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2"))));
+        ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
+        this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
+        this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
         this.getUnitStatuses().add(new UnitStatus(1L, 1, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(128.0, 96.0)));
         this.getUnitStatuses().add(new UnitStatus(2L, 2, "user2", 10, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
 

@@ -21,22 +21,20 @@ function handleClick(){
     //if we click on sprite
     if (pointedSprite) {
 
-        if(spriteIsInMyTeam(pointedSprite)){
-
             //if we had one sprite marked before
-            if (movingSprite) {
+            if (movingSprite && !spriteIsInMyTeam(pointedSprite)) {
                 attack(pointedSprite);
             } else {
-                chooseUnit(pointedSprite);
+                if(spriteIsInMyTeam(pointedSprite))
+                    chooseUnit(pointedSprite);
             }
-        }
 
     } else {
 
         //if we had one sprite marked before
         if (movingSprite){
             //we move if
-            if( spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
+            if(spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
                 sendMoveMessage(pointedField);
             }
         }
