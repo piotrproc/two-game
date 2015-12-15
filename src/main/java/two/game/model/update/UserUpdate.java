@@ -8,13 +8,11 @@ public class UserUpdate implements Event {
     private String userId;
     private Long userSequenceId;
     private List<UnitUpdate> unitUpdates;
-    private SupportRequest request;
 
-    public UserUpdate(String userId, Long userSequenceId, List<UnitUpdate> unitUpdates, SupportRequest request) {
+    public UserUpdate(String userId, Long userSequenceId, List<UnitUpdate> unitUpdates) {
         this.userId = userId;
         this.userSequenceId = userSequenceId;
         this.unitUpdates = unitUpdates;
-        this.request = request;
     }
 
     public UserUpdate() {
@@ -45,21 +43,12 @@ public class UserUpdate implements Event {
         this.unitUpdates = unitUpdates;
     }
 
-    public SupportRequest getRequest() {
-        return request;
-    }
-
-    public void setRequest(SupportRequest request) {
-        this.request = request;
-    }
-
     @Override
     public String toString() {
         return "UserUpdate{" +
                 "userId='" + userId + '\'' +
                 ", userSequenceId=" + userSequenceId +
                 ", unitUpdates=" + unitUpdates +
-                ", request=" + request +
                 '}';
     }
 }
