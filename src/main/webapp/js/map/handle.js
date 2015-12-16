@@ -31,8 +31,10 @@ function handleMapUpdate(message) {
         else
             team = 2;
 
-        resource = (message.body.teamStatuses[team-1]).resourcesAmount;
-        resourceText.text = 'Zasoby: ' + resource;
+        if(team == myTeam){
+            resource = (message.body.teamStatuses[team-1]).resourcesAmount;
+            resourceText.text = 'Zasoby: ' + resource;
+        }
 
         var unitName = unitType + "_" + team;
         var sprite = getUnitSpriteWithId(unit.unitId);
@@ -70,7 +72,7 @@ function handleControlPoints(message){
     var index = 0;
 
     teamStatuses.forEach(function (teamStatus) {
-        console.log(teamStatus);
+        //console.log(teamStatus);
          var controlPoints = teamStatus.controlPoints;
 
         controlPoints.forEach(function(controlPoint){

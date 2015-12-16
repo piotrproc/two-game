@@ -15,19 +15,20 @@ public class SupportRequestConsumer implements EventConsumer<SupportRequest> {
     public void process(SupportRequest event, GameState gameState) {
         logger.debug("got {}", event);
 
-        TeamStatus teamStatus =
-                gameState.getTeamStatuses().stream().filter(s -> s.getUserIds().contains(event.getUser())).findAny().get();
+        String user = event.getUser();
+        TeamStatus teamStatus = gameState.getTeamStatuses().stream()
+                .filter(s -> s.getUserIds().contains(user)).findAny().get();
         Integer teamNumber = gameState.getTeamStatuses().indexOf(teamStatus);
         Double resourceAmount = teamStatus.getResourcesAmount();
 
         UnitStatus unitStatus = gameState.getUnitStatuses().stream()
-                .filter(u -> u.getUser().equals(event.getUser())).findAny().get();
+                .filter(u -> u.getUser().equals(user)).findAny().get();
         Integer unitType = unitStatus.getUnitType();
         Double unitCost = UnitConfig.getUnitPrice(unitType);
 
         synchronized (gameState){
             if (resourceAmount > unitCost) {
-                gameState.addUnit(unitType, event.getUser(), teamNumber);
+                gameState.addUnit(unitType, user, teamNumber);
                 teamStatus.setResourcesAmount(resourceAmount - unitCost);
             }
         }

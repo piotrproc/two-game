@@ -1,5 +1,6 @@
 package two.game.model.status;
 
+import two.game.config.ControlPointConfig;
 import two.game.model.ControlPoint;
 
 import java.util.Set;
@@ -51,6 +52,15 @@ public class TeamStatus {
 
     public void setControlPoints(Set<ControlPoint> controlPoints) {
         this.controlPoints = controlPoints;
+    }
+
+    public void addResourcesByControlPoints(){
+        int noOfControlPoints = controlPoints.size();
+        resourcesAmount += noOfControlPoints * ControlPointConfig.resourcesPerInterval;
+    }
+
+    public void increaseResources(){
+        resourcesAmount += 20;
     }
 
     @Override

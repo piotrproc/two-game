@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import io.vertx.core.AbstractVerticle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import two.game.config.ControlPointConfig;
 import two.game.logic.GameState;
 
 import java.util.concurrent.Executors;

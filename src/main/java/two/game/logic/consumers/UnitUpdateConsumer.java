@@ -3,6 +3,7 @@ package two.game.logic.consumers;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import two.game.config.ControlPointConfig;
 import two.game.config.GameConfig;
 import two.game.logic.GameState;
 import two.game.logic.predicates.ChangePredicate;
@@ -57,30 +58,28 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
         Point targetPosition = event.getMoveTarget();
         Long unitId = event.getUnitId();
 
-        logger.debug("####" + targetPosition.getX() + " " + targetPosition.getY());
-        logger.debug("@@@@@" + GameConfig.controlPointIsOnTheField(targetPosition));
-        if (GameConfig.controlPointIsOnTheField(targetPosition)) {
+        logger.debug("control point is on the field: " + ControlPointConfig.controlPointIsOnTheField(targetPosition));
+        if (ControlPointConfig.controlPointIsOnTheField(targetPosition)) {
             UnitStatus unitStatus = gameState.getUnitStatuses().stream()
                     .filter(u -> u.getUnitId().equals(unitId)).findAny().get();
             TeamStatus teamStatus = gameState.getTeamStatuses().stream()
                     .filter(s -> s.getUserIds().contains(unitStatus.getUser())).findAny().get();
 
-            boolean pointIsTakenByOurTeam = teamStatus.getControlPoints().stream().anyMatch(
-                    cp -> cp.isLocated(targetPosition));
+            boolean pointIsTakenByOurTeam = teamStatus.getControlPoints().stream()
+                    .anyMatch(cp -> cp.isLocated(targetPosition));
 
-            logger.debug("@@@@@" + pointIsTakenByOurTeam);
+            logger.debug("control point was taken by our team: " + pointIsTakenByOurTeam);
 
-            if(!pointIsTakenByOurTeam){
+            if (!pointIsTakenByOurTeam) {
                 TeamStatus oppositeTeamStatus = gameState.getTeamStatuses().stream()
                         .filter(s -> !s.getUserIds().contains(unitStatus.getUser())).findAny().get();
 
                 boolean pointIsTakenByOppositeTeam = oppositeTeamStatus.getControlPoints().stream()
                         .anyMatch(cp -> cp.isLocated(targetPosition));
 
-                logger.debug("^^^^^ "+pointIsTakenByOppositeTeam);
+                logger.debug("control point was taken by opposite team: " + pointIsTakenByOppositeTeam);
 
-                oppositeTeamStatus.getControlPoints()
-                        .removeIf(cp -> cp.isLocated(targetPosition));
+                oppositeTeamStatus.getControlPoints().removeIf(cp -> cp.isLocated(targetPosition));
                 teamStatus.getControlPoints().add(new ControlPoint(targetPosition));
             }
 

@@ -13,8 +13,8 @@ public class GameConfig {
 
     private static int startPointXShift = 1;
     private static int startPointYShift = 1;
-    private static double fieldSize = 32;
-    private static double gameSize = 3200;
+    public static double fieldSize = 32;
+    public static double gameSize = 3200;
 
     public static Point getStartPoint(Integer team) {
 
@@ -28,11 +28,4 @@ public class GameConfig {
                     gameSize - startPointYShift * fieldSize);
     }
 
-    private static Set<Point> controlPointLocations = new HashSet<>(Arrays.asList(
-            new Point(7 * fieldSize, 7 * fieldSize),
-            new Point(9 * fieldSize, 9 * fieldSize)));
-
-    public static boolean controlPointIsOnTheField(Point point){
-        return controlPointLocations.stream().anyMatch(p -> p.isEqual(point));
-    }
 }

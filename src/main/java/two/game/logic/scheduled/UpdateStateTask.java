@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import two.game.config.ControlPointConfig;
 import two.game.logic.GameState;
 import two.game.model.Point;
 
@@ -11,6 +12,7 @@ public class UpdateStateTask implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(UpdateStateTask.class);
     private final GameState gameState;
     private DateTime lastUpdate;
+    private long sumOfMillisElapsed = 0;
 
     private static final double MOVE_DELTA_PER_MS = 0.1;
 
@@ -27,7 +29,13 @@ public class UpdateStateTask implements Runnable {
         synchronized (gameState) {
             updateUnitPositions(millisElapsed);
             lastUpdate = now;
+            sumOfMillisElapsed = sumOfMillisElapsed + (-millisElapsed); //millisElapsed is negative
             gameState.bumpUpdateSequenceId();
+
+            if(sumOfMillisElapsed > ControlPointConfig.resourcesIntervalInMillis){
+                sumOfMillisElapsed = sumOfMillisElapsed - ControlPointConfig.resourcesIntervalInMillis;
+                gameState.getTeamStatuses().forEach(team -> team.addResourcesByControlPoints());
+            }
         }
     }
 
