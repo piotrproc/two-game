@@ -29,13 +29,17 @@ public class UpdateStateTask implements Runnable {
         synchronized (gameState) {
             updateUnitPositions(millisElapsed);
             lastUpdate = now;
-            sumOfMillisElapsed = sumOfMillisElapsed + (-millisElapsed); //millisElapsed is negative
             gameState.bumpUpdateSequenceId();
+            updateResources(millisElapsed);
+        }
+    }
 
-            if(sumOfMillisElapsed > ControlPointConfig.resourcesIntervalInMillis){
-                sumOfMillisElapsed = sumOfMillisElapsed - ControlPointConfig.resourcesIntervalInMillis;
-                gameState.getTeamStatuses().forEach(team -> team.addResourcesByControlPoints());
-            }
+    private void updateResources(long millisElapsed){
+        sumOfMillisElapsed = sumOfMillisElapsed + (-millisElapsed); //millisElapsed is negative
+
+        if(sumOfMillisElapsed > ControlPointConfig.resourcesIntervalInMillis){
+            sumOfMillisElapsed = sumOfMillisElapsed - ControlPointConfig.resourcesIntervalInMillis;
+            gameState.getTeamStatuses().forEach(team -> team.addResourcesByControlPoints());
         }
     }
 
