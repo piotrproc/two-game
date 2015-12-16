@@ -15,7 +15,8 @@ function handleTeamStatus(message){
     }
 
     userSequence = message.body.sequenceId;
-    handleControlPoints(message);
+    handleTakingControlPoints(message);
+    handleCreatingControlPoints(message);
 }
 
 function handleMapUpdate(message) {
@@ -63,7 +64,18 @@ function handleMapUpdate(message) {
     });
 }
 
-function handleControlPoints(message){
+function handleCreatingControlPoints(message){
+    var controlPoints = message.body.controlPoints;
+
+    controlPoints.forEach(function(controlPoint){
+        if(getControlPoint(controlPoint.location) == null){
+            var controlPointSprite = game.add.sprite(controlPoint.location.x, controlPoint.location.y, "control_point");
+            controlPointSprites.push(controlPointSprite);
+        }
+    });
+}
+
+function handleTakingControlPoints(message){
     var teamStatuses = message.body.teamStatuses;
     var colors = [
         "0x3D3D3B", //dark grey

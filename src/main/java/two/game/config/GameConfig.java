@@ -11,10 +11,10 @@ import java.util.Set;
  */
 public class GameConfig {
 
-    private static int startPointXShift = 1;
-    private static int startPointYShift = 1;
-    public static double fieldSize = 32;
-    public static double gameSize = 3200;
+    private static final int startPointXShift = 1;
+    private static final int startPointYShift = 1;
+    public static final double fieldSize = 32;
+    public static final double gameSize = 3200;
 
     public static Point getStartPoint(Integer team) {
 

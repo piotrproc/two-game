@@ -26,6 +26,7 @@ public class SendStatusTask implements Runnable {
         status.setTeamStatuses(gameState.getTeamStatuses());
         status.setMissileStatuses(gameState.getMissileStatuses());
         status.setUnitStatuses(gameState.getUnitStatuses());
+        status.setControlPoints(gameState.getControlPoints());
         gameState.bumpUpdateSequenceId();
         status.setSequenceId(gameState.getUpdateSequenceId());
         vertx.eventBus().publish("MatchStatus", new JsonObject(gson.toJson(status)));

@@ -45,7 +45,7 @@ function Field(x, y){
 }
 
 var armySprites = [];
-var controlPoints = [];
+var controlPointSprites = [];
 
 
 

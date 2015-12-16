@@ -1,5 +1,6 @@
 package two.game.model.status;
 
+import two.game.model.ControlPoint;
 import two.game.model.Event;
 
 import java.util.List;
@@ -10,13 +11,16 @@ public class MatchStatus implements Event {
     private List<AttackEvent> attackEvents;
     private List<TeamStatus> teamStatuses;
     private List<UnitStatus> unitStatuses;
+    private List<ControlPoint> controlPoints;
 
-    public MatchStatus(Long sequenceId, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents, List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses) {
+    public MatchStatus(Long sequenceId, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents,
+                       List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses, List<ControlPoint> controlPoints) {
         this.sequenceId = sequenceId;
         this.missileStatuses = missileStatuses;
         this.attackEvents = attackEvents;
         this.teamStatuses = teamStatuses;
         this.unitStatuses = unitStatuses;
+        this.controlPoints = controlPoints;
     }
 
     public MatchStatus() {
@@ -60,6 +64,14 @@ public class MatchStatus implements Event {
 
     public void setUnitStatuses(List<UnitStatus> unitStatuses) {
         this.unitStatuses = unitStatuses;
+    }
+
+    public List<ControlPoint> getControlPoints() {
+        return controlPoints;
+    }
+
+    public void setControlPoints(List<ControlPoint> controlPoints) {
+        this.controlPoints = controlPoints;
     }
 
     @Override

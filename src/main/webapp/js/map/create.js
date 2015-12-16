@@ -46,11 +46,6 @@ function create() {
 //        }
 //    };
 
-    var controlPoint = game.add.sprite(7*fieldSize, 7*fieldSize, "control_point");
-    var controlPoint2 = game.add.sprite(9*fieldSize, 9*fieldSize, "control_point");
-
-    controlPoints.push(controlPoint);
-    controlPoints.push(controlPoint2);
 }
 
 function changeCameraToOtherPlayer() {

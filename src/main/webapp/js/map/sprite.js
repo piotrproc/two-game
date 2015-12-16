@@ -34,7 +34,7 @@ function getUnitSpriteWithId(id) {
 function getControlPoint(field){
     var foundControlPoint = null;
 
-    controlPoints.forEach(function (controlPoint) {
+    controlPointSprites.forEach(function (controlPoint) {
         if (controlPoint.x == field.x && controlPoint.y == field.y) {
             foundControlPoint = controlPoint;
         }
