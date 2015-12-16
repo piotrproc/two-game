@@ -66,8 +66,7 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
                     .filter(s -> s.getUserIds().contains(unitStatus.getUser())).findAny().get();
 
             boolean pointIsTakenByOurTeam = teamStatus.getControlPoints().stream().anyMatch(
-                    cp -> cp.getLocation().getX().equals(targetPosition.getX()) &&
-                            cp.getLocation().getY().equals(targetPosition.getY()));
+                    cp -> cp.isLocated(targetPosition));
 
             logger.debug("@@@@@" + pointIsTakenByOurTeam);
 
@@ -76,14 +75,12 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
                         .filter(s -> !s.getUserIds().contains(unitStatus.getUser())).findAny().get();
 
                 boolean pointIsTakenByOppositeTeam = oppositeTeamStatus.getControlPoints().stream()
-                        .anyMatch(cp -> cp.getLocation().getX().equals(targetPosition.getX()) &&
-                                cp.getLocation().getY().equals(targetPosition.getY()));
+                        .anyMatch(cp -> cp.isLocated(targetPosition));
 
                 logger.debug("^^^^^ "+pointIsTakenByOppositeTeam);
 
                 oppositeTeamStatus.getControlPoints()
-                        .removeIf(cp -> cp.getLocation().getX().equals(targetPosition.getX()) &&
-                                cp.getLocation().getY().equals(targetPosition.getY()));
+                        .removeIf(cp -> cp.isLocated(targetPosition));
                 teamStatus.getControlPoints().add(new ControlPoint(targetPosition));
             }
 

@@ -19,4 +19,12 @@ public class ControlPoint {
         this.location = location;
     }
 
+    public boolean isEqual(ControlPoint cp){
+        return this.location.isEqual(cp.location);
+    }
+
+    public boolean isLocated(Point point){
+        return this.location.isEqual(point);
+    }
+
 }

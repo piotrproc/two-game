@@ -33,7 +33,6 @@ public class GameConfig {
             new Point(9 * fieldSize, 9 * fieldSize)));
 
     public static boolean controlPointIsOnTheField(Point point){
-        return controlPointLocations.stream()
-                .anyMatch(p -> p.getX().equals(point.getX()) && p.getY().equals(point.getY()));
+        return controlPointLocations.stream().anyMatch(p -> p.isEqual(point));
     }
 }
