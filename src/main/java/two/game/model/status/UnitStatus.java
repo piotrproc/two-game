@@ -1,6 +1,7 @@
 package two.game.model.status;
 
 import two.game.model.Point;
+import two.game.model.constant.UnitType;
 
 public class UnitStatus {
     private Long unitId;
@@ -34,6 +35,11 @@ public class UnitStatus {
         this.targetPosition = targetPosition;
     }
 
+    public UnitType getType(){
+    	return UnitType.fromIntegerType(unitType);
+    }
+    
+    
     public Point getTargetPosition() {
         return targetPosition;
     }
