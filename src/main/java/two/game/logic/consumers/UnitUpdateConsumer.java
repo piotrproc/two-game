@@ -4,11 +4,12 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import two.game.config.ControlPointConfig;
-import two.game.config.GameConfig;
 import two.game.logic.GameState;
 import two.game.logic.predicates.ChangePredicate;
 import two.game.model.ControlPoint;
 import two.game.model.Point;
+import two.game.model.status.AttackEvent;
+import two.game.model.status.MissileStatus;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 import two.game.model.update.UnitUpdate;
@@ -35,23 +36,33 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
         if (applicable) {
 
             synchronized (gameState) {
-                gameState.getUnitStatuses().stream()
-                        .filter(u -> u.getUnitId().equals(event.getUnitId()))
-                        .forEach(u -> u.setTargetPosition(event.getMoveTarget()));
-
+                updateMoveTargets(event, gameState);
+                addAttacks(event, gameState);
+                addMissiles(event, gameState);
                 markControlPoints(event, gameState);
             }
 
-//            for (UnitAttack attack : event.getAttacks()) {
-//                UnitStatus attackingUnit = unitStatuses.stream().filter(unit -> unit.getUnitId().equals(event.getUnitId())).findFirst().get();
-//                UnitStatus attackedUnit = unitStatuses.stream().filter(unit -> unit.getUnitId().equals(attack.getTargetUnitId())).findFirst().get();
-//                //todo
-//                //unit has no type so there is no way to determine damage (set temporary to 10)
-//                attackedUnit.setHealth(attackedUnit.getHealth() - 10);
-//            }
-
             logger.debug("updated game state (unitUpadate)");
         }
+    }
+
+    private void addMissiles(UnitUpdate event, GameState gameState) {
+        UnitStatus unit = gameState.getUnitStatuses().stream()
+                .filter(status -> status.getUnitId().equals(event.getUnitId()))
+                .findAny().get();
+        event.getMissileLaunches().stream()
+                .map(missileLaunch -> new MissileStatus(0L, unit.getPosition(), missileLaunch.getTarget()))
+                .forEach(gameState::addMissile);
+    }
+
+    private void addAttacks(UnitUpdate event, GameState gameState) {
+        event.getAttacks().forEach(unitAttack -> gameState.addAttack(new AttackEvent(event.getUnitId(), unitAttack.getTargetUnitId())));
+    }
+
+    private void updateMoveTargets(UnitUpdate event, GameState gameState) {
+        gameState.getUnitStatuses().stream()
+                .filter(u -> u.getUnitId().equals(event.getUnitId()))
+                .forEach(u -> u.setTargetPosition(event.getMoveTarget()));
     }
 
     public void markControlPoints(UnitUpdate event, GameState gameState) {

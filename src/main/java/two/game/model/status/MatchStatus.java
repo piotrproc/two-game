@@ -7,13 +7,13 @@ import java.util.List;
 
 public class MatchStatus implements Event {
     private Long sequenceId;
-    private List<MissleStatus> missileStatuses;
+    private List<MissileStatus> missileStatuses;
     private List<AttackEvent> attackEvents;
     private List<TeamStatus> teamStatuses;
     private List<UnitStatus> unitStatuses;
     private List<ControlPoint> controlPoints;
 
-    public MatchStatus(Long sequenceId, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents,
+    public MatchStatus(Long sequenceId, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
                        List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses, List<ControlPoint> controlPoints) {
         this.sequenceId = sequenceId;
         this.missileStatuses = missileStatuses;
@@ -34,11 +34,11 @@ public class MatchStatus implements Event {
         this.sequenceId = sequenceId;
     }
 
-    public List<MissleStatus> getMissileStatuses() {
+    public List<MissileStatus> getMissileStatuses() {
         return missileStatuses;
     }
 
-    public void setMissileStatuses(List<MissleStatus> missileStatuses) {
+    public void setMissileStatuses(List<MissileStatus> missileStatuses) {
         this.missileStatuses = missileStatuses;
     }
 

@@ -20,6 +20,8 @@ public class UnitStatus {
     public UnitStatus() {
     }
 
+    //todo: who made unit type both id and enum? enum is not used...
+    //todo: why dps, health etc. are int? even speed...
     public UnitStatus(Long unitId, Integer unitType, String user, Integer health, Integer dps, Integer speed, Integer sightRange, Integer attackRange,
                       Point position, Point targetPosition) {
         this.unitId = unitId;

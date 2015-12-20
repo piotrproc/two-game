@@ -28,8 +28,9 @@ public class Point {
         this.y = y;
     }
 
-    public boolean isEqual(Point point){
-        return x.equals(point.x)&& y.equals(point.y);
+    //todo: who and why...
+    public boolean isEqual(Point point) {
+        return x.equals(point.x) && y.equals(point.y);
     }
 
     @Override
@@ -40,34 +41,26 @@ public class Point {
                 '}';
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((x == null) ? 0 : x.hashCode());
-		result = prime * result + ((y == null) ? 0 : y.hashCode());
-		return result;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Point other = (Point) obj;
-		if (x == null) {
-			if (other.x != null)
-				return false;
-		} else if (!x.equals(other.x))
-			return false;
-		if (y == null) {
-			if (other.y != null)
-				return false;
-		} else if (!y.equals(other.y))
-			return false;
-		return true;
-	}
+        Point point = (Point) o;
+
+        if (x != null ? !x.equals(point.x) : point.x != null) return false;
+        return !(y != null ? !y.equals(point.y) : point.y != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x != null ? x.hashCode() : 0;
+        result = 31 * result + (y != null ? y.hashCode() : 0);
+        return result;
+    }
+
+    public static Point of(double x, double y) {
+        return new Point(x, y);
+    }
 }

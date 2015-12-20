@@ -2,16 +2,16 @@ package two.game.model.status;
 
 import two.game.model.Point;
 
-public class MissleStatus {
-    private Long missleId;
+public class MissileStatus {
+    private Long missileId;
     private Point currentPosition;
     private Point targetPosition;
 
-    public MissleStatus() {
+    public MissileStatus() {
     }
 
-    public MissleStatus(Long missleId, Point currentPosition, Point targetPosition) {
-        this.missleId = missleId;
+    public MissileStatus(Long missileId, Point currentPosition, Point targetPosition) {
+        this.missileId = missileId;
         this.currentPosition = currentPosition;
         this.targetPosition = targetPosition;
     }
@@ -24,12 +24,12 @@ public class MissleStatus {
         this.targetPosition = targetPosition;
     }
 
-    public Long getMissleId() {
-        return missleId;
+    public Long getMissileId() {
+        return missileId;
     }
 
-    public void setMissleId(Long missleId) {
-        this.missleId = missleId;
+    public void setMissileId(Long missileId) {
+        this.missileId = missileId;
     }
 
     public Point getCurrentPosition() {
@@ -42,10 +42,10 @@ public class MissleStatus {
 
     @Override
     public String toString() {
-        return "MissleStatus{" +
+        return "MissileStatus{" +
                 "targetPosition=" + targetPosition +
                 ", currentPosition=" + currentPosition +
-                ", missleId=" + missleId +
+                ", missileId=" + missileId +
                 '}';
     }
 }
