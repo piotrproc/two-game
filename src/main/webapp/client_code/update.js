@@ -21,13 +21,13 @@ function handleClick(){
     //if we click on sprite
     if (pointedSprite) {
 
-            //if we had one sprite marked before
-            if (movingSprite && !spriteIsInMyTeam(pointedSprite)) {
-                attack(pointedSprite);
-            } else {
-                if(spriteIsInMyTeam(pointedSprite))
-                    chooseUnit(pointedSprite);
-            }
+        //if we had one sprite marked before
+        if (movingSprite && !spriteIsInMyTeam(pointedSprite)) {
+            sendMoveMessage(null, pointedSprite);
+        } else {
+            if(spriteIsInMyTeam(pointedSprite))
+                chooseUnit(pointedSprite);
+        }
 
     } else {
 
@@ -35,7 +35,7 @@ function handleClick(){
         if (movingSprite){
             //we move if
             if(spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
-                sendMoveMessage(pointedField);
+                sendMoveMessage(pointedField, null);
             }
         }
 
@@ -45,14 +45,6 @@ function handleClick(){
 function chooseUnit(pointedSprite) {
     movingSprite = pointedSprite;
     movingSprite.anchor.setTo(-0.1, 0);
-}
-
-function attack(pointedSprite){
-    //todo
-    //currently it is not implemented
-    //so we just leave unit alone
-    movingSprite.anchor.setTo(0, 0);
-    movingSprite = null;
 }
 
 function calculatePointedField(){

@@ -5,6 +5,7 @@ import org.junit.Test;
 import two.game.logic.GameState;
 import two.game.model.Point;
 import two.game.model.constant.MapElement;
+import two.game.model.constant.UnitType;
 import two.game.model.status.AttackEvent;
 import two.game.model.status.MissileStatus;
 import two.game.model.status.UnitStatus;
@@ -111,7 +112,7 @@ public class UnitUpdateConsumerTest {
     }
 
     private UnitStatus getUnitStatus() {
-        return new UnitStatus(0L, 0, "test_user", 0, 0, 0, 0, 0, Point.of(0, 0), Point.of(0, 0));
+        return new UnitStatus(0L, UnitType.TANK, "test_user", 0, 0, 0, 0, 0, Point.of(0, 0), Point.of(0, 0));
     }
 
     private GameState getGameState() {
