@@ -16,7 +16,6 @@ public class UnitUpdate {
     }
 
     public UnitUpdate(Long unitId, Point moveTarget, List<MissileLaunch> missileLaunches, List<UnitAttack> attacks) {
-
         this.unitId = unitId;
         this.moveTarget = moveTarget;
         this.missileLaunches = missileLaunches;

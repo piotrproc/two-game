@@ -5,6 +5,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.MapBinder;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
+
 import io.vertx.core.Verticle;
 import two.game.Server;
 import two.game.communication.CommunicationServer;
@@ -16,6 +17,8 @@ import two.game.logic.predicates.ChangePredicate;
 import two.game.logic.predicates.join.TeamAvailable;
 import two.game.logic.predicates.join.UserIdAvailable;
 import two.game.logic.predicates.state.NotAllowedIfStarted;
+import two.game.logic.predicates.unitupdate.AttackPredicate;
+import two.game.logic.predicates.unitupdate.MovePredicate;
 import two.game.logic.predicates.unitupdate.UnitUpdatePredicate;
 import two.game.logic.predicates.userupdate.UserPresent;
 import two.game.logic.predicates.userupdate.UserSequenceIdNewer;
@@ -50,6 +53,8 @@ public class MainModule extends AbstractModule {
 
         Multibinder<ChangePredicate> unitUpdate = Multibinder.newSetBinder(binder(), ChangePredicate.class, Names.named("UnitUpdate"));
         unitUpdate.addBinding().to(UnitUpdatePredicate.class);
+        unitUpdate.addBinding().to(MovePredicate.class);
+        unitUpdate.addBinding().to(AttackPredicate.class);
 
         MapBinder<Class, EventConsumer> consumers = MapBinder.newMapBinder(binder(), Class.class, EventConsumer.class);
         consumers.addBinding(JoinMatchRequest.class).to(JoinConsumer.class);

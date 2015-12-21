@@ -12,4 +12,9 @@ public class MapStructure {
         this.x = x;
         this.y = y;
     }
+
+	@Override
+	public String toString() {
+		return "MapStructure [x=" + x + ", y=" + y + "]";
+	}
 }

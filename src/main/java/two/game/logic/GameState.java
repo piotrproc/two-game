@@ -5,21 +5,22 @@ import two.game.config.GameConfig;
 import two.game.model.ControlPoint;
 import two.game.model.Point;
 import two.game.model.constant.IGameMap;
-import two.game.model.constant.MapElement;
 import two.game.model.constant.MapParser;
 import two.game.model.status.AttackEvent;
-import two.game.model.status.MissleStatus;
+import two.game.model.status.MissileStatus;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * remember that object is shared and all actions should
+ */
 public class GameState {
     private final IGameMap map;
     private final Map<String, Long> userIdToSequenceId;
     private Boolean gameStarted;
-    private List<MissleStatus> missileStatuses;
+    private List<MissileStatus> missileStatuses;
     private List<AttackEvent> attackEvents;
     private List<TeamStatus> teamStatuses;
     private List<UnitStatus> unitStatuses;
@@ -32,12 +33,12 @@ public class GameState {
         ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
         this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
         this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
-        this.getUnitStatuses().add(new UnitStatus(1L, 1, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(128.0, 96.0)));
+        this.getUnitStatuses().add(new UnitStatus(1L, 1, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(224.0, 64.0)));
         this.getUnitStatuses().add(new UnitStatus(2L, 2, "user2", 10, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
 
     }
 
-    public GameState(IGameMap map, List<MissleStatus> missileStatuses, List<AttackEvent> attackEvents,
+    public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
                      List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses, List<ControlPoint> controlPoints) {
         this.map = map;
         this.missileStatuses = missileStatuses;
@@ -58,11 +59,11 @@ public class GameState {
         return map;
     }
 
-    public List<MissleStatus> getMissileStatuses() {
+    public List<MissileStatus> getMissileStatuses() {
         return missileStatuses;
     }
 
-    public void setMissileStatuses(List<MissleStatus> missileStatuses) {
+    public void setMissileStatuses(List<MissileStatus> missileStatuses) {
         this.missileStatuses = missileStatuses;
     }
 
@@ -114,11 +115,25 @@ public class GameState {
         this.updateSequenceId += 1;
     }
 
+    // todo: why this way?
     private long i = 3L;
 
-    public void addUnit(Integer unitType, String user, Integer teamNumber){
+    public void addUnit(Integer unitType, String user, Integer teamNumber) {
         i = i + 1;
         Point startPoint = GameConfig.getStartPoint(teamNumber);
+        // todo: so many magic constants...
         this.getUnitStatuses().add(new UnitStatus(i, unitType, user, 10, 2, 2, 4, 2, startPoint, startPoint));
+    }
+
+    public void addUnit(UnitStatus status) {
+        this.unitStatuses.add(status);
+    }
+
+    public void addAttack(AttackEvent attackEvent) {
+        this.attackEvents.add(attackEvent);
+    }
+
+    public void addMissile(MissileStatus missileStatus) {
+        this.missileStatuses.add(missileStatus);
     }
 }
