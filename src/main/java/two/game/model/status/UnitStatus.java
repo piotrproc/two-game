@@ -5,7 +5,7 @@ import two.game.model.constant.UnitType;
 
 public class UnitStatus {
     private Long unitId;
-    private Integer unitType;
+    private UnitType type;
     private String user;
     private Integer health;
     private Integer dps;
@@ -22,10 +22,10 @@ public class UnitStatus {
 
     //todo: who made unit type both id and enum? enum is not used...
     //todo: why dps, health etc. are int? even speed...
-    public UnitStatus(Long unitId, Integer unitType, String user, Integer health, Integer dps, Integer speed, Integer sightRange, Integer attackRange,
+    public UnitStatus(Long unitId, UnitType type, String user, Integer health, Integer dps, Integer speed, Integer sightRange, Integer attackRange,
                       Point position, Point targetPosition) {
         this.unitId = unitId;
-        this.unitType = unitType;
+        this.type = type;
         this.user = user;
 
         this.health = health;
@@ -37,11 +37,6 @@ public class UnitStatus {
         this.targetPosition = targetPosition;
     }
 
-    public UnitType getType(){
-    	return UnitType.fromIntegerType(unitType);
-    }
-    
-    
     public Point getTargetPosition() {
         return targetPosition;
     }
@@ -58,12 +53,12 @@ public class UnitStatus {
         this.unitId = unitId;
     }
 
-    public Integer getUnitType() {
-        return unitType;
+    public UnitType getType(){
+        return type;
     }
 
-    public void setUnitType(Integer unitType) {
-        this.unitType = unitType;
+    public void setType(UnitType type) {
+        this.type = type;
     }
 
     public Integer getHealth() {

@@ -24,7 +24,7 @@ function handleMapUpdate(message) {
 
     unitStatuses.forEach(function (unit) {
 
-        var unitType = unitNames[unit.unitType];
+        var unitType = unit.type.toLowerCase();
         var team;
 
         if(teamA.indexOf(unit.user) >= 0)

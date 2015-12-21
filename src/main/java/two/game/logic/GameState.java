@@ -6,6 +6,7 @@ import two.game.model.ControlPoint;
 import two.game.model.Point;
 import two.game.model.constant.IGameMap;
 import two.game.model.constant.MapParser;
+import two.game.model.constant.UnitType;
 import two.game.model.status.AttackEvent;
 import two.game.model.status.MissileStatus;
 import two.game.model.status.TeamStatus;
@@ -33,8 +34,8 @@ public class GameState {
         ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
         this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
         this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
-        this.getUnitStatuses().add(new UnitStatus(1L, 1, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(224.0, 64.0)));
-        this.getUnitStatuses().add(new UnitStatus(2L, 2, "user2", 10, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
+        this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(224.0, 64.0)));
+        this.getUnitStatuses().add(new UnitStatus(2L, UnitType.TANK, "user2", 10, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
 
     }
 
@@ -118,7 +119,7 @@ public class GameState {
     // todo: why this way?
     private long i = 3L;
 
-    public void addUnit(Integer unitType, String user, Integer teamNumber) {
+    public void addUnit(UnitType unitType, String user, Integer teamNumber) {
         i = i + 1;
         Point startPoint = GameConfig.getStartPoint(teamNumber);
         // todo: so many magic constants...

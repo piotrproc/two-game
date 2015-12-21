@@ -23,8 +23,8 @@ public class SupportRequestConsumer implements EventConsumer<SupportRequest> {
 
         UnitStatus unitStatus = gameState.getUnitStatuses().stream()
                 .filter(u -> u.getUser().equals(user)).findAny().get();
-        Integer unitType = unitStatus.getUnitType();
-        Double unitCost = UnitType.fromIntegerType(unitType).getPrices();
+        UnitType unitType = unitStatus.getType();
+        Double unitCost = unitType.getPrices();
 
         synchronized (gameState){
             if (resourceAmount > unitCost) {
