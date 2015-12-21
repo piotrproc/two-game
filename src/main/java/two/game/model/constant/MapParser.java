@@ -31,7 +31,7 @@ public class MapParser {
 
                 for (int i = 0; i < row.length; i++) {
                     MapElement mapElement = parseMapElement(row[i]);
-                    gameMap.updateMap(new MapStructure(rowCounter, i), parseMapElement(row[i]));
+                    gameMap.updateMap(new MapStructure(i, rowCounter), parseMapElement(row[i]));
                 }
                 rowCounter++; 
             }
