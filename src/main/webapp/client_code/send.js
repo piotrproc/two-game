@@ -42,6 +42,7 @@ function messageForServer(movingSprite, targetPosition, unitAttack) {
             }
         ];
     }
+    
 
     if (true == false) {
         unitUpdate["missileLaunches"] = [
