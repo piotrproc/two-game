@@ -116,14 +116,12 @@ public class GameState {
         this.updateSequenceId += 1;
     }
 
-    // todo: why this way?
-    private long i = 3L;
 
     public void addUnit(UnitType unitType, String user, Integer teamNumber) {
-        i = i + 1;
+        Random random = new Random();
         Point startPoint = GameConfig.getStartPoint(teamNumber);
         // todo: so many magic constants...
-        this.getUnitStatuses().add(new UnitStatus(i, unitType, user, 10, 2, 2, 4, 2, startPoint, startPoint));
+        this.getUnitStatuses().add(new UnitStatus(random.nextLong(), unitType, user, 10, 2, 2, 4, 2, startPoint, startPoint));
     }
 
     public void addUnit(UnitStatus status) {
