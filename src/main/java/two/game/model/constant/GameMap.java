@@ -1,5 +1,7 @@
 package two.game.model.constant;
 
+import two.game.model.Point;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,20 +10,20 @@ import java.util.Map;
  */
 public class GameMap implements IGameMap {
 
-    private Map<MapStructure, MapElement> gameMap;
+    private Map<Point, MapElement> gameMap;
 
     public GameMap() {
         gameMap = new HashMap<>();
     }
 
-    public void updateMap(MapStructure mapStructure, MapElement mapElement) {
+    public void updateMap(Point mapStructure, MapElement mapElement) {
         gameMap.put(mapStructure,mapElement);
     }
 
     @Override
     public MapElement get(int x, int y) {
-        for(MapStructure mapStructure : gameMap.keySet()) {
-            if(mapStructure.x == x && mapStructure.y == y) {
+        for(Point mapStructure : gameMap.keySet()) {
+            if(mapStructure.getX() == x && mapStructure.getY() == y) {
                 return gameMap.get(mapStructure);
             }
         }

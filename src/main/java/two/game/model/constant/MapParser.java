@@ -2,6 +2,7 @@ package two.game.model.constant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import two.game.model.Point;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -31,12 +32,11 @@ public class MapParser {
 
                 for (int i = 0; i < row.length; i++) {
                     MapElement mapElement = parseMapElement(row[i]);
-                    gameMap.updateMap(new MapStructure(i, rowCounter), parseMapElement(row[i]));
+                    Point point = new Point((double)i, (double)rowCounter);
+                    gameMap.updateMap(point, mapElement);
                 }
                 rowCounter++; 
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
