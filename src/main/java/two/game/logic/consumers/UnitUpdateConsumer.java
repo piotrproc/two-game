@@ -37,9 +37,9 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
 
             synchronized (gameState) {
                 updateMoveTargets(event, gameState);
+                markControlPoints(event, gameState);
                 addAttacks(event, gameState);
                 addMissiles(event, gameState);
-                markControlPoints(event, gameState);
             }
 
             logger.debug("updated game state (unitUpadate)");
