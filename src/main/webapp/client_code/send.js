@@ -12,7 +12,7 @@ function sendSupportRequest() {
 }
 
 function sendMoveMessage(targetPosition, unitAttack) {
-    var message = messageForServer(movingSprite, targetPosition);
+    var message = messageForServer(movingSprite, targetPosition, unitAttack);
     eventBus.send("UserUpdate", message);
     movingSprite.anchor.setTo(0, 0);
     movingSprite = null;
@@ -26,9 +26,9 @@ function messageForServer(movingSprite, targetPosition, unitAttack) {
     };
 
     var unitUpdate = {};
+    unitUpdate["unitId"] = movingSprite.id;
 
     if (targetPosition != null) {
-        unitUpdate["unitId"] = movingSprite.id;
         unitUpdate["moveTarget"] = {
             "x": targetPosition.x * fieldSize,
             "y": targetPosition.y * fieldSize
@@ -42,7 +42,7 @@ function messageForServer(movingSprite, targetPosition, unitAttack) {
             }
         ];
     }
-    
+
 
     if (true == false) {
         unitUpdate["missileLaunches"] = [
