@@ -4,18 +4,21 @@
 
 function preload() {
     game.load.image('map', 'map/my_map.png', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('change_player_button', 'img/icons/change_player.png', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('reinforcement_button', 'img/icons/reinforcement_button.png', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('control_point', 'img/icons/control_point.png', null, Phaser.Tilemap.TILED_JSON);
 
+    var icons = [
+        'change_player_button',
+        'reinforcement_button',
+        'control_point',
+        'bullet'
+    ];
 
-    unitNames.forEach(function (unitName) {
-        var unitNameA = unitName + '_1';
-        var unitNameB = unitName + '_2';
-        var unitNameC = unitName + '_3';
-        game.load.image(unitNameA, 'img/units/' + unitNameA + '.png', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image(unitNameB, 'img/units/' + unitNameB + '.png', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image(unitNameC, 'img/units/' + unitNameC + '.png', null, Phaser.Tilemap.TILED_JSON);
+    icons.forEach(function (icon){
+        game.load.image(icon, 'img/icons/'+icon+'.png', null, Phaser.Tilemap.TILED_JSON);
     });
 
+    unitNames.forEach(function (unitName) {
+        for (var i = 1; i <= 3; i++) {
+            game.load.image(unitName + '_' + i, 'img/units/' + unitName + '_' + i + '.png', null, Phaser.Tilemap.TILED_JSON);
+        }
+    });
 }

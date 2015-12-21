@@ -16,7 +16,7 @@ function handleTeamStatus(message){
 
     userSequence = message.body.sequenceId;
     handleTakingControlPoints(message);
-    handleCreatingControlPoints(message);
+    setTimeout(function(){handleCreatingControlPoints(message)}, 100); //we need here some delay
 }
 
 function handleMapUpdate(message) {
