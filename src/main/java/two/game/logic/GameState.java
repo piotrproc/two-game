@@ -120,10 +120,17 @@ public class GameState {
 
 
     public void addUnit(UnitType unitType, String user, Integer teamNumber) {
-        Random random = new Random();
         Point startPoint = GameConfig.getStartPoint(teamNumber);
+
+        long LOWER_RANGE = 0;
+        long UPPER_RANGE = 1000000;
+        Random random = new Random();
+
+        long unitId = LOWER_RANGE + 
+                (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
+
         // todo: so many magic constants...
-        this.getUnitStatuses().add(new UnitStatus(random.nextLong(), unitType, user, 10, 2, 2, 4, 2, startPoint, startPoint));
+        this.getUnitStatuses().add(new UnitStatus(unitId, unitType, user, 10, 2, 2, 4, 2, startPoint, startPoint));
     }
 
     public void addUnit(UnitStatus status) {
