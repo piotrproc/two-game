@@ -96,12 +96,12 @@ public class UnitUpdateConsumerTest {
         List<MissileStatus> missileStatuses = state.getMissileStatuses();
         assertEquals(2, missileStatuses.size());
         missileStatuses.stream().anyMatch(missileStatus ->
-                missileStatus.getTargetPosition().isEqual(Point.of(100, 100)) &&
-                        missileStatus.getCurrentPosition().isEqual(unitPosition)
+                missileStatus.getTargetPosition().equals(Point.of(100, 100)) &&
+                        missileStatus.getCurrentPosition().equals(unitPosition)
         );
         missileStatuses.stream().anyMatch(missileStatus ->
-                missileStatus.getTargetPosition().isEqual(Point.of(200, 200)) &&
-                        missileStatus.getCurrentPosition().isEqual(unitPosition)
+                missileStatus.getTargetPosition().equals(Point.of(200, 200)) &&
+                        missileStatus.getCurrentPosition().equals(unitPosition)
         );
 
     }

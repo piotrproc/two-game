@@ -28,11 +28,6 @@ public class Point {
         this.y = y;
     }
 
-    //todo: who and why...
-    public boolean isEqual(Point point) {
-        return x.equals(point.x) && y.equals(point.y);
-    }
-
     @Override
     public String toString() {
         return "Point{" +
