@@ -2,8 +2,8 @@ package two.game.logic.consumers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import two.game.config.UnitConfig;
 import two.game.logic.GameState;
+import two.game.model.constant.UnitType;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 import two.game.model.update.SupportRequest;
@@ -24,7 +24,7 @@ public class SupportRequestConsumer implements EventConsumer<SupportRequest> {
         UnitStatus unitStatus = gameState.getUnitStatuses().stream()
                 .filter(u -> u.getUser().equals(user)).findAny().get();
         Integer unitType = unitStatus.getUnitType();
-        Double unitCost = UnitConfig.getUnitPrice(unitType);
+        Double unitCost = UnitType.fromIntegerType(unitType).getPrices();
 
         synchronized (gameState){
             if (resourceAmount > unitCost) {
