@@ -59,39 +59,3 @@ function messageForServer(movingSprite, targetPosition, unitAttack) {
     userUpdate["unitUpdates"] = [unitUpdate];
     return userUpdate;
 }
-
-function messageForServer2(movingSprite, targetPosition) {
-    userUpdate = {
-        "userId": user,
-        "userSequenceId": userSequence,
-        "unitUpdates": [
-            {
-                "unitId": movingSprite.id,
-                "moveTarget": {
-                    "x": targetPosition.x * fieldSize,
-                    "y": targetPosition.y * fieldSize
-                },
-
-                "missileLaunches": [
-                    {
-                        "target": {
-                            "x": 45.6,
-                            "y": 185.6
-                        }
-                    }
-                ],
-
-                "attacks": [
-                    {
-                        "targetUnitId": 64
-                    }
-                ]
-
-            }
-        ]
-    };
-
-    userSequence += 1;
-
-    return userUpdate;
-}
