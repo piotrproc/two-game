@@ -38,6 +38,7 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
             synchronized (gameState) {
                 updateMoveTargets(event, gameState);
                 markControlPoints(event, gameState);
+                //toDo if we change order by putting markControlPoints at the end, control points fail.
                 addAttacks(event, gameState);
                 addMissiles(event, gameState);
             }

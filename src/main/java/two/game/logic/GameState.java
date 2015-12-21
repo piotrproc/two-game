@@ -1,5 +1,7 @@
 package two.game.logic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import two.game.config.ControlPointConfig;
 import two.game.config.GameConfig;
 import two.game.model.ControlPoint;
@@ -18,6 +20,7 @@ import java.util.*;
  * remember that object is shared and all actions should
  */
 public class GameState {
+    private static final Logger logger = LoggerFactory.getLogger(GameState.class);
     private final IGameMap map;
     private final Map<String, Long> userIdToSequenceId;
     private Boolean gameStarted;
@@ -36,7 +39,6 @@ public class GameState {
         this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
         this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(224.0, 64.0)));
         this.getUnitStatuses().add(new UnitStatus(2L, UnitType.TANK, "user2", 10, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
-
     }
 
     public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,

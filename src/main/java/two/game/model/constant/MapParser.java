@@ -32,7 +32,7 @@ public class MapParser {
 
                 for (int i = 0; i < row.length; i++) {
                     MapElement mapElement = parseMapElement(row[i]);
-                    Point point = new Point((double)i, (double)rowCounter);
+                    Point point = new Point(i, rowCounter);
                     gameMap.updateMap(point, mapElement);
                 }
                 rowCounter++; 
