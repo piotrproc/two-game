@@ -100,12 +100,19 @@ function handleTakingControlPoints(message){
 function createNewSprite(position, unitName, id, team){
     var armySprite = game.add.sprite(position.x*fieldSize, position.y*fieldSize, unitName);
     armySprite.id = id;
-    armySprites.push(armySprite);
+
+//    var bul = game.make.sprite(0, 0, 'bullet');
+//    game.physics.arcade.enable(bul);
+//    armySprite.addChild(bul);
 
     if(myTeam == team){
         game.camera.follow(armySprite);
         myTeamList.push(armySprite);
+    }else{
+        game.physics.arcade.enable(armySprite);
     }
+
+    armySprites.push(armySprite);
 
 }
 

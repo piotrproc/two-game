@@ -26,6 +26,8 @@ var unitNames = ['airforce', 'cannon', 'tank', 'soldier'];
 var resource = 10000;
 var resourceText;
 var followedUnitID = 0; // unit that camera is currently following
+var bullet;
+var bulletSprites = [];
 
 var movingSprite = null;
 
@@ -33,11 +35,12 @@ var teamA = [];
 var teamB = [];
 
 // game modifiers are split into three files
-var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, '', {
+var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, 'game', {
     preload: preload,
     create: create,
     update: update
 });
+
 
 function Field(x, y) {
     this.x = x;

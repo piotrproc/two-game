@@ -3,7 +3,6 @@
  */
 
 function update() {
-
     if (game.input.mousePointer.isDown) {
 
         if (game.input.mousePointer.button == Phaser.Mouse.LEFT_BUTTON) {
@@ -14,7 +13,7 @@ function update() {
     }
 }
 
-function handleClick(){
+function handleClick() {
     var pointedField = calculatePointedField();
     var pointedSprite = getUnitSprite(pointedField);
 
@@ -23,18 +22,20 @@ function handleClick(){
 
         //if we had one sprite marked before
         if (movingSprite && !spriteIsInMyTeam(pointedSprite)) {
-            sendMoveMessage(null, pointedSprite);
+
+            attack(pointedField, pointedSprite);
+
         } else {
-            if(spriteIsInMyTeam(pointedSprite))
+            if (spriteIsInMyTeam(pointedSprite))
                 chooseUnit(pointedSprite);
         }
 
     } else {
 
         //if we had one sprite marked before
-        if (movingSprite){
+        if (movingSprite) {
             //we move if
-            if(spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
+            if (spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
                 sendMoveMessage(pointedField, null);
             }
         }
@@ -42,12 +43,31 @@ function handleClick(){
     }
 }
 
+
+function attack(pointedField, pointedSprite) {
+    myBullet = getBullet(movingSprite.position);
+    myBullet.visible = true;
+    console.log(myBullet);
+    console.log(pointedSprite);
+
+    secondBullet = getBullet(new Field(movingSprite.position.x-32, movingSprite.position.y-32));
+    secondBullet.visible = true;
+    game.physics.arcade.collide(myBullet, secondBullet, collisionHandler, null, this);
+    game.physics.arcade.moveToObject(myBullet, pointedSprite);
+    sendMoveMessage(null, pointedSprite);
+//    myBullet.reset();
+}
+
+function collisionHandler(){
+    console.log("Alleluja");
+}
+
 function chooseUnit(pointedSprite) {
     movingSprite = pointedSprite;
     movingSprite.anchor.setTo(-0.1, 0);
 }
 
-function calculatePointedField(){
+function calculatePointedField() {
     var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize);
     var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize);
 

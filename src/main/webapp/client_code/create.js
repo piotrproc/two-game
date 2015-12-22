@@ -13,7 +13,7 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    var map = game.add.sprite(0, 0, 'map'); //  A simple background for our game
+    map = game.add.sprite(0, 0, 'map'); //  A simple background for our game
 
     resourceText = game.add.text(0, 0, 'Zasoby: ' + resource, textFont);
     resourceText.fixedToCamera = true;
@@ -26,7 +26,8 @@ function create() {
     button.fixedToCamera = true;
     button2.fixedToCamera = true;
 
-    game.camera.follow(armySprites[followedUnitID]);
+    generateBullets();
+//    game.camera.follow(armySprites[followedUnitID]);
 
     game.input.keyboard.onDownCallback = function(e) {
         if(e.keyCode == 32){ //code for space key
@@ -51,4 +52,19 @@ function create() {
 function changeCameraToOtherPlayer() {
     followedUnitID = (followedUnitID + 1) % myTeamList.length;
     game.camera.follow(myTeamList[followedUnitID]);
+}
+
+function generateBullets(){
+    game.camera.reset();
+
+    for(var i=0; i<viewSize; i=i+fieldSize){
+        for(var j=0; j<viewSize; j=j+fieldSize){
+            for(var k=0; k<2; k=k+1){
+                bulletSprite = game.add.sprite(i, j, "bullet");
+                bulletSprite.visible = false;
+                game.physics.arcade.enable(bulletSprite);
+                bulletSprites.push(bulletSprite);
+            }
+        }
+    }
 }

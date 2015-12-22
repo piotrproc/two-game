@@ -42,3 +42,15 @@ function getControlPoint(field){
 
     return foundControlPoint;
 }
+
+function getBullet(field){
+    var foundBullet = null;
+
+    bulletSprites.forEach(function (bulletSprite) {
+        if (bulletSprite.x == field.x && bulletSprite.y == field.y) {
+            foundBullet = bulletSprite;
+        }
+    });
+
+    return foundBullet;
+}
