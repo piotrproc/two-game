@@ -15,7 +15,6 @@ function handleTeamStatus(message){
     }
 
     userSequence = message.body.sequenceId;
-    handleTakingControlPoints(message);
     setTimeout(function(){handleCreatingControlPoints(message)}, 100); //we need here some delay
 }
 
@@ -34,7 +33,7 @@ function handleMapUpdate(message) {
 
         if(team == myTeam){
             resource = (message.body.teamStatuses[team-1]).resourcesAmount;
-            resourceText.text = 'Zasoby: ' + resource;
+            resourceText["text"] = 'Zasoby: ' + resource;
         }
 
         var unitName = unitType + "_" + team;
