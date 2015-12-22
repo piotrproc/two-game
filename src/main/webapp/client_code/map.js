@@ -24,7 +24,7 @@ var viewSize = mapSize / 10;
 
 var unitNames = ['airforce', 'cannon', 'tank', 'soldier'];
 var resource = 10000;
-var resourceText = {text: ""};
+var resourceText;
 var followedUnitID = 0; // unit that camera is currently following
 
 var movingSprite = null;
