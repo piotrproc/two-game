@@ -14,9 +14,8 @@ function sendSupportRequest() {
 function sendMoveMessage(targetPosition, unitAttack) {
     var message = messageForServer(movingSprite, targetPosition, unitAttack);
     eventBus.send("UserUpdate", message);
-    movingSprite.anchor.setTo(0, 0);
-    movingSprite = null;
 }
+
 
 function messageForServer(movingSprite, targetPosition, unitAttack) {
 

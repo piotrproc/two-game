@@ -35,10 +35,16 @@ function handleClick() {
             //we move if
             if (spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
                 sendMoveMessage(pointedField, null);
+                uncheckSprite();
             }
         }
 
     }
+}
+
+function uncheckSprite(){
+    movingSprite.anchor.setTo(0, 0);
+    movingSprite = null;
 }
 
 function chooseUnit(pointedSprite) {

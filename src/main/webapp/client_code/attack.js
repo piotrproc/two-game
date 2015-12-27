@@ -21,10 +21,9 @@ function attack(pointedSprite) {
         }, 2000, Phaser.Easing.Linear.None, true);
 
     bulletMove.onComplete.addOnce(bulletReachedTarget, bullet);
-
+    sendMoveMessage(null, pointedSprite);
 }
 
 function bulletReachedTarget() {
     this.kill();
-    //    sendMoveMessage(null, pointedSprite);
 }
