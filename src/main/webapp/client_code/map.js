@@ -26,7 +26,6 @@ var unitNames = ['airforce', 'cannon', 'tank', 'soldier'];
 var resource = 10000;
 var resourceText;
 var followedUnitID = 0; // unit that camera is currently following
-var bullet;
 var bulletPool;
 
 var movingSprite = null;

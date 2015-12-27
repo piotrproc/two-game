@@ -4,7 +4,7 @@
 
 function attack(pointedSprite) {
 
-    bullet = bulletPool.getFirstDead();
+    var bullet = bulletPool.getFirstDead();
     if (bullet === null || bullet === undefined)
         return;
 

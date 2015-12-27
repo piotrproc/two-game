@@ -22,9 +22,7 @@ function handleClick() {
 
         //if we had one sprite marked before
         if (movingSprite && !spriteIsInMyTeam(pointedSprite)) {
-
             attack(pointedSprite);
-
         } else {
             if (spriteIsInMyTeam(pointedSprite))
                 chooseUnit(pointedSprite);
