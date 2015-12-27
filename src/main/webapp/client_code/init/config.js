@@ -6,7 +6,10 @@ eventBus.onopen = function () {
     eventBus.registerHandler('MatchStatus', function (i, message) {
         //console.log('received a message: ', message);
         handleTeamStatus(message);
+
+        handleCreatingControlPoints(message); //we need here some delay
         handleMapUpdate(message);
+        handleTakingControlPoints(message);
     });
 
 };
