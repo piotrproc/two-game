@@ -47,17 +47,18 @@ function getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileL
     }
 
 
-    if (true == false) {
+    if (missileLaunch != null) {
         unitUpdate["missileLaunches"] = [
             {
                 "target": {
-                    "x": 45.6,
-                    "y": 185.6
+                    "x": missileLaunch.x,
+                    "y": missileLaunch.y
                 }
             }
         ];
     }
 
     userUpdate["unitUpdates"] = [unitUpdate];
+    console.log(userUpdate);
     return userUpdate;
 }
