@@ -26,14 +26,29 @@ function create() {
     button.fixedToCamera = true;
     button2.fixedToCamera = true;
 
-    generateBullets();
-//    game.camera.follow(armySprites[followedUnitID]);
+    game.camera.follow(armySprites[followedUnitID]);
 
     game.input.keyboard.onDownCallback = function(e) {
         if(e.keyCode == 32){ //code for space key
             changeCameraToOtherPlayer();
         }
     };
+
+    bulletPool = this.game.add.group();
+    for(var i = 0; i < 20; i++) {
+        // Create each bullet and add it to the group.
+        var bullet = this.game.add.sprite(0, 0, 'bullet');
+        bulletPool.add(bullet);
+
+        // Set its pivot point to the center of the bullet
+        bullet.anchor.setTo(0.5, 0.5);
+
+        // Enable physics on the bullet
+        game.physics.enable(bullet, Phaser.Physics.ARCADE);
+
+        // Set its initial state to "dead".
+        bullet.kill();
+    }
 
 //    game.input.keyboard.onDownCallback = function(e) {
 //        if(e.keyCode == 13){ //code for enter key
@@ -52,19 +67,4 @@ function create() {
 function changeCameraToOtherPlayer() {
     followedUnitID = (followedUnitID + 1) % myTeamList.length;
     game.camera.follow(myTeamList[followedUnitID]);
-}
-
-function generateBullets(){
-    game.camera.reset();
-
-    for(var i=0; i<viewSize; i=i+fieldSize){
-        for(var j=0; j<viewSize; j=j+fieldSize){
-            for(var k=0; k<2; k=k+1){
-                bulletSprite = game.add.sprite(i, j, "bullet");
-                bulletSprite.visible = false;
-                game.physics.arcade.enable(bulletSprite);
-                bulletSprites.push(bulletSprite);
-            }
-        }
-    }
 }

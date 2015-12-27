@@ -45,17 +45,38 @@ function handleClick() {
 
 
 function attack(pointedField, pointedSprite) {
-    myBullet = getBullet(movingSprite.position);
-    myBullet.visible = true;
-    console.log(myBullet);
-    console.log(pointedSprite);
 
-    secondBullet = getBullet(new Field(movingSprite.position.x-32, movingSprite.position.y-32));
-    secondBullet.visible = true;
-    game.physics.arcade.collide(myBullet, secondBullet, collisionHandler, null, this);
-    game.physics.arcade.moveToObject(myBullet, pointedSprite);
-    sendMoveMessage(null, pointedSprite);
-//    myBullet.reset();
+    bullet = bulletPool.getFirstDead();
+    // If there aren't any bullets available then don't shoot
+    if (bullet === null || bullet === undefined) return;
+
+    // Revive the bullet
+    // This makes the bullet "alive"
+    bullet.revive();
+
+    bullet.checkWorldBounds = true;
+    bullet.outOfBoundsKill = true;
+
+    // Set the bullet position to the gun position.
+    bullet.reset(movingSprite.position.x, movingSprite.position.y);
+
+    // Shoot it
+    //bullet.body.velocity.x = 20;
+    //bullet.body.velocity.y = 0;
+    game.physics.arcade.moveToObject(bullet, pointedSprite);
+
+
+//    myBullet = getBullet(movingSprite.position);
+//    myBullet.visible = true;
+//    console.log(myBullet);
+//    console.log(pointedSprite);
+//
+//    secondBullet = getBullet(new Field(movingSprite.position.x-32, movingSprite.position.y-32));
+//    secondBullet.visible = true;
+//    game.physics.arcade.collide(myBullet, secondBullet, collisionHandler, null, this);
+//    game.physics.arcade.moveToObject(myBullet, pointedSprite);
+//    sendMoveMessage(null, pointedSprite);
+//    //myBullet.reset();
 }
 
 function collisionHandler(){
