@@ -14,8 +14,14 @@ function handleTeamStatus(message){
         myTeam = 2;
     }
 
-    userSequence = message.body.sequenceId;
+    userSequenceId = message.body.sequenceId;
+    updateResourcesAmount(message, myTeam);
     setTimeout(function(){handleCreatingControlPoints(message)}, 1000); //we need here some delay
     handleTakingControlPoints(message);
+}
+
+function updateResourcesAmount(message, team){
+    resource = (message.body.teamStatuses[team-1]).resourcesAmount;
+    resourceText["text"] = 'Zasoby: ' + resource;
 }
 

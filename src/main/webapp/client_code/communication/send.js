@@ -11,17 +11,21 @@ function sendSupportRequest() {
     eventBus.send("SupportRequest", message);
 }
 
-function sendMoveMessage(targetPosition, unitAttack) {
-    var message = messageForServer(movingSprite, targetPosition, unitAttack);
+function sendUserUpdate(targetPosition, unitAttack) {
+    var message = getUserUpdateMessage(movingSprite, targetPosition, unitAttack);
     eventBus.send("UserUpdate", message);
 }
 
+/**
+ * We prepare message for UserUpdate consumer here
+ */
+function getUserUpdateMessage(movingSprite, targetPosition, unitAttack) {
 
-function messageForServer(movingSprite, targetPosition, unitAttack) {
+    userSequenceId += 1;
 
     var userUpdate = {
         "userId": user,
-        "userSequenceId": userSequence
+        "userSequenceId": userSequenceId
     };
 
     var unitUpdate = {};
@@ -29,8 +33,8 @@ function messageForServer(movingSprite, targetPosition, unitAttack) {
 
     if (targetPosition != null) {
         unitUpdate["moveTarget"] = {
-            "x": targetPosition.x * fieldSize,
-            "y": targetPosition.y * fieldSize
+            "x": targetPosition.x,
+            "y": targetPosition.y
         };
     }
 
@@ -54,7 +58,6 @@ function messageForServer(movingSprite, targetPosition, unitAttack) {
         ];
     }
 
-    userSequence += 1;
     userUpdate["unitUpdates"] = [unitUpdate];
     return userUpdate;
 }

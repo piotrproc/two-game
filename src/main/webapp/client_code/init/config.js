@@ -15,7 +15,7 @@ var map;
 var user = "user1";
 var myTeam;
 var myTeamList = [];
-var userSequence;
+var userSequenceId;
 
 // map configuration
 var fieldSize = 32;
@@ -32,6 +32,8 @@ var movingSprite = null;
 
 var teamA = [];
 var teamB = [];
+var armySprites = [];
+var controlPointSprites = [];
 
 // game modifiers are split into three files
 var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, 'game', {
@@ -45,9 +47,5 @@ function Field(x, y) {
     this.x = x;
     this.y = y;
 }
-
-var armySprites = [];
-var controlPointSprites = [];
-
 
 

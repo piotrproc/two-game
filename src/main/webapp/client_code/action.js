@@ -2,6 +2,26 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
+function createNewSprite(unitData, position){
+    var armySprite = game.add.sprite(position.x, position.y, unitData.name);
+    armySprite.id = unitData.id;
+    armySprite.type = unitData.type;
+    armySprite.team = unitData.team;
+
+    if(myTeam == unitData.team){
+        game.camera.follow(armySprite);
+        myTeamList.push(armySprite);
+    }
+
+    armySprites.push(armySprite);
+}
+
+function moveUnitOnServerOrder(sprite, targetPosition) {
+    sprite.x = targetPosition.x;
+    sprite.y = targetPosition.y;
+    sprite.anchor.setTo(0, 0);
+}
+
 function attack(pointedSprite) {
 
     var bullet = bulletPool.getFirstDead();
@@ -21,7 +41,7 @@ function attack(pointedSprite) {
         }, 2000, Phaser.Easing.Linear.None, true);
 
     bulletMove.onComplete.addOnce(bulletReachedTarget, bullet);
-    sendMoveMessage(null, pointedSprite);
+    sendUserUpdate(null, pointedSprite);
 }
 
 function bulletReachedTarget() {

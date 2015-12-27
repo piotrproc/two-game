@@ -2,22 +2,21 @@
  * Created by Piotr Proc on 01.12.15.
  */
 
+function onTheSameField(objectA, objectB){
+    return objectA.x == objectB.x && objectA.y == objectB.y;
+}
+
 function getUnitSprite(field) {
     var foundUnit = null;
 
     armySprites.forEach(function (unit) {
-        if (unit.x == field.x * fieldSize && unit.y == field.y * fieldSize) {
+        if (onTheSameField(field, unit)) {
             foundUnit = unit;
         }
     });
 
     return foundUnit;
 }
-
-function spriteIsInMyTeam(foundUnit){
-    return myTeamList.indexOf(foundUnit) >= 0;
-}
-
 
 function getUnitSpriteWithId(id) {
     var foundUnit = null;
@@ -35,10 +34,14 @@ function getControlPoint(field){
     var foundControlPoint = null;
 
     controlPointSprites.forEach(function (controlPoint) {
-        if (controlPoint.x == field.x && controlPoint.y == field.y) {
+        if (onTheSameField(field, controlPoint)) {
             foundControlPoint = controlPoint;
         }
     });
 
     return foundControlPoint;
+}
+
+function spriteIsInMyTeam(foundUnit){
+    return myTeamList.indexOf(foundUnit) >= 0;
 }

@@ -27,7 +27,7 @@ function handleTakingControlPoints(message){
 
         controlPoints.forEach(function(controlPoint){
             var controlPointSprite = getControlPoint(controlPoint.location);
-            var spriteOnTheField = getUnitSprite(new Field(controlPoint.location.x/fieldSize, controlPoint.location.y/fieldSize));
+            var spriteOnTheField = getUnitSprite(new Field(controlPoint.location.x, controlPoint.location.y));
             if(controlPointSprite && spriteOnTheField){
                 controlPointSprite.tint = colors[index];
             }

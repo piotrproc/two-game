@@ -2,59 +2,47 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
+function UnitData(id, name, type, team) {
+    this.id = id;
+    this.name = name;
+    this.type = type;
+    this.team = team;
+}
+
 function handleMapUpdate(message) {
     var unitStatuses = message.body.unitStatuses;
 
     unitStatuses.forEach(function (unit) {
 
-        var unitType = unit.type.toLowerCase();
-        var team;
-
-        if(teamA.indexOf(unit.user) >= 0)
-            team = 1;
-        else
-            team = 2;
-
-        if(team == myTeam){
-            resource = (message.body.teamStatuses[team-1]).resourcesAmount;
-            resourceText["text"] = 'Zasoby: ' + resource;
-        }
-
-        var unitName = unitType + "_" + team;
-        var sprite = getUnitSpriteWithId(unit.unitId);
-
-        var position = new Field(
-            unit.position.x / fieldSize,
-            unit.position.y / fieldSize
-        );
+        var unitData = handleUnitData(unit);
+        var position = new Field(unit.position.x, unit.position.y);
 
         var destinationSprite = getUnitSprite(position);
-        if(destinationSprite != null)
+        if (destinationSprite != null)
             return;
+
+        var sprite = getUnitSpriteWithId(unitData.id);
 
         if (sprite) {
             moveUnitOnServerOrder(sprite, position);
         } else {
-            createNewSprite(position, unitName, unit.unitId, team);
+            createNewSprite(unitData, position);
         }
 
     });
 }
 
-function createNewSprite(position, unitName, id, team){
-    var armySprite = game.add.sprite(position.x*fieldSize, position.y*fieldSize, unitName);
-    armySprite.id = id;
+function handleUnitData(unit) {
+    var unitType = unit.type.toLowerCase();
+    var unitTeam;
 
-    if(myTeam == team){
-        game.camera.follow(armySprite);
-        myTeamList.push(armySprite);
-    }
+    if (teamA.indexOf(unit.user) >= 0)
+        unitTeam = 1;
+    else
+        unitTeam = 2;
 
-    armySprites.push(armySprite);
+    var unitName = unitType + "_" + unitTeam;
+
+    return new UnitData(unit.unitId, unitName, unitType, unitTeam);
 }
 
-function moveUnitOnServerOrder(sprite, targetPosition) {
-    sprite.x = targetPosition.x * fieldSize;
-    sprite.y = targetPosition.y * fieldSize;
-    sprite.anchor.setTo(0, 0);
-}

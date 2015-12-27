@@ -25,7 +25,7 @@ function handleClick() {
             attack(pointedSprite);
         } else {
             if (spriteIsInMyTeam(pointedSprite))
-                chooseUnit(pointedSprite);
+                selectSprite(pointedSprite);
         }
 
     } else {
@@ -34,32 +34,10 @@ function handleClick() {
         if (movingSprite) {
             //we move if
             if (spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
-                sendMoveMessage(pointedField, null);
-                uncheckSprite();
+                sendUserUpdate(pointedField, null);
+                deselectSprite();
             }
         }
 
     }
-}
-
-function uncheckSprite(){
-    movingSprite.anchor.setTo(0, 0);
-    movingSprite = null;
-}
-
-function chooseUnit(pointedSprite) {
-    movingSprite = pointedSprite;
-    movingSprite.anchor.setTo(-0.1, 0);
-}
-
-function calculatePointedField() {
-    var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize);
-    var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize);
-
-    return new Field(fieldX, fieldY);
-}
-
-function fieldIsOnTheMap(field) {
-    return field.x >= 0 && field.x * fieldSize < mapSize
-        && field.y >= 0 && field.y * fieldSize < mapSize;
 }
