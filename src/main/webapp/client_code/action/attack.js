@@ -4,12 +4,13 @@
 
 function attack(pointedSprite){
 
-//    if(movingSprite.type == "cannon"){
-//        launchMissile(pointedSprite);
-//    }else{
-//        fireBullet(pointedSprite);
-//    }
-    fireBullet(pointedSprite);
+    if(movingSprite.type == "cannon"){
+        //launchMissile(pointedSprite);
+        fireBullet(pointedSprite);
+    }else{
+        fireBullet(pointedSprite);
+    }
+
 
 }
 
@@ -33,7 +34,7 @@ function fireBullet(pointedSprite) {
         }, 2000, Phaser.Easing.Linear.None, true);
 
     bulletMove.onComplete.addOnce(bulletReachedTarget, bullet);
-    sendUserUpdate(null, pointedSprite);
+    sendUserUpdate(null, pointedSprite, null);
 }
 
 function bulletReachedTarget() {
@@ -51,5 +52,5 @@ function launchMissile(pointedSprite){
         movingSprite.position.y + fieldSize / 2
     );
 
-    sendUserUpdate(null, pointedSprite);
+    sendUserUpdate(null, null, null);
 }

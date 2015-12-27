@@ -11,15 +11,15 @@ function sendSupportRequest() {
     eventBus.send("SupportRequest", message);
 }
 
-function sendUserUpdate(targetPosition, unitAttack) {
-    var message = getUserUpdateMessage(movingSprite, targetPosition, unitAttack);
+function sendUserUpdate(targetPosition, unitAttack, missileLaunch) {
+    var message = getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileLaunch);
     eventBus.send("UserUpdate", message);
 }
 
 /**
  * We prepare message for UserUpdate consumer here
  */
-function getUserUpdateMessage(movingSprite, targetPosition, unitAttack) {
+function getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileLaunch) {
 
     userSequenceId += 1;
 

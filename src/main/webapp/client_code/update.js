@@ -34,7 +34,7 @@ function handleClick() {
         if (movingSprite) {
             //we move if
             if (spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
-                sendUserUpdate(pointedField, null);
+                sendUserUpdate(pointedField, null, null);
                 deselectSprite();
             }
         }
