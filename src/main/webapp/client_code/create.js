@@ -2,18 +2,24 @@
  * Created by Piotr Proc on 30.11.15.
  */
 
-var textFont = {
-    font: '32 px Arial',
-    fill: '#ff0044'
-};
-
 function create() {
 
     game.world.setBounds(0, 0, mapSize, mapSize);
-    //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.camera.follow(armySprites[followedUnitID]);
+    map = game.add.sprite(0, 0, 'map');
 
-    map = game.add.sprite(0, 0, 'map'); //  A simple background for our game
+    createMainBar();
+    createBullets();
+    createShortcuts();
+}
+
+function createMainBar() {
+
+    var textFont = {
+        font: '32 px Arial',
+        fill: '#ff0044'
+    };
 
     resourceText = game.add.text(0, 0, 'Zasoby: ' + resource, textFont);
     resourceText.fixedToCamera = true;
@@ -25,30 +31,34 @@ function create() {
         'reinforcement_button', sendSupportRequest, this, 2, 1, 0);
     button.fixedToCamera = true;
     button2.fixedToCamera = true;
+}
 
-    game.camera.follow(armySprites[followedUnitID]);
-
-    game.input.keyboard.onDownCallback = function(e) {
-        if(e.keyCode == 32){ //code for space key
-            changeCameraToOtherPlayer();
-        }
-    };
-
+function createBullets() {
     bulletPool = this.game.add.group();
-    for(var i = 0; i < 20; i++) {
-        // Create each bullet and add it to the group.
+    for (var i = 0; i < 20; i++) {
+
         var bullet = this.game.add.sprite(0, 0, 'bullet');
         bulletPool.add(bullet);
 
-        // Set its pivot point to the center of the bullet
         bullet.anchor.setTo(0.5, 0.5);
+        //game.physics.enable(bullet, Phaser.Physics.ARCADE);
 
-        // Enable physics on the bullet
-        game.physics.enable(bullet, Phaser.Physics.ARCADE);
-
-        // Set its initial state to "dead".
-        bullet.kill();
+        bullet.kill(); // Set its initial state to "dead".
     }
+}
+
+function createShortcuts(){
+    game.input.keyboard.onDownCallback = function (e) {
+        if (e.keyCode == 32) { //code for space key
+            changeCameraToOtherPlayer();
+        }
+    };
+}
+
+function changeCameraToOtherPlayer() {
+    followedUnitID = (followedUnitID + 1) % myTeamList.length;
+    game.camera.follow(myTeamList[followedUnitID]);
+}
 
 //    game.input.keyboard.onDownCallback = function(e) {
 //        if(e.keyCode == 13){ //code for enter key
@@ -61,10 +71,3 @@ function create() {
 //            }
 //        }
 //    };
-
-}
-
-function changeCameraToOtherPlayer() {
-    followedUnitID = (followedUnitID + 1) % myTeamList.length;
-    game.camera.follow(myTeamList[followedUnitID]);
-}

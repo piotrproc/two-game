@@ -15,7 +15,8 @@ function handleTeamStatus(message){
     }
 
     userSequence = message.body.sequenceId;
-    setTimeout(function(){handleCreatingControlPoints(message)}, 100); //we need here some delay
+    setTimeout(function(){handleCreatingControlPoints(message)}, 1000); //we need here some delay
+    handleTakingControlPoints(message);
 }
 
 function handleMapUpdate(message) {
@@ -44,56 +45,16 @@ function handleMapUpdate(message) {
             unit.position.y / fieldSize
         );
 
+        var destinationSprite = getUnitSprite(position);
+        if(destinationSprite != null)
+            return;
+
         if (sprite) {
-            var destinationSprite = getUnitSprite(position);
-
-            if (destinationSprite == null) {
-                moveUnitOnServerOrder(sprite, position);
-            }
-
+             moveUnitOnServerOrder(sprite, position);
         } else {
-            var placeIsEmpty = (getUnitSprite(position) == null);
-
-            if (placeIsEmpty) {
-                createNewSprite(position, unitName, unit.unitId, team);
-            }
-
+            createNewSprite(position, unitName, unit.unitId, team);
         }
 
-    });
-}
-
-function handleCreatingControlPoints(message){
-    var controlPoints = message.body.controlPoints;
-
-    controlPoints.forEach(function(controlPoint){
-        if(getControlPoint(controlPoint.location) == null){
-            var controlPointSprite = game.add.sprite(controlPoint.location.x, controlPoint.location.y, "control_point");
-            controlPointSprites.push(controlPointSprite);
-        }
-    });
-}
-
-function handleTakingControlPoints(message){
-    var teamStatuses = message.body.teamStatuses;
-    var colors = [
-        "0x3D3D3B", //dark grey
-        "0xA61C2E"  //dark red
-    ];
-    var index = 0;
-
-    teamStatuses.forEach(function (teamStatus) {
-        //console.log(teamStatus);
-         var controlPoints = teamStatus.controlPoints;
-
-        controlPoints.forEach(function(controlPoint){
-            var controlPointSprite = getControlPoint(controlPoint.location);
-            var spriteOnTheField = getUnitSprite(new Field(controlPoint.location.x/fieldSize, controlPoint.location.y/fieldSize));
-            if(controlPointSprite && spriteOnTheField){
-                controlPointSprite.tint = colors[index];
-            }
-        });
-        index = index + 1;
     });
 }
 
@@ -101,19 +62,12 @@ function createNewSprite(position, unitName, id, team){
     var armySprite = game.add.sprite(position.x*fieldSize, position.y*fieldSize, unitName);
     armySprite.id = id;
 
-//    var bul = game.make.sprite(0, 0, 'bullet');
-//    game.physics.arcade.enable(bul);
-//    armySprite.addChild(bul);
-
     if(myTeam == team){
         game.camera.follow(armySprite);
         myTeamList.push(armySprite);
-    }else{
-        game.physics.arcade.enable(armySprite);
     }
 
     armySprites.push(armySprite);
-
 }
 
 function moveUnitOnServerOrder(sprite, targetPosition) {
