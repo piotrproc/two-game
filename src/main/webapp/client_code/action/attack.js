@@ -2,7 +2,19 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
-function attack(pointedSprite) {
+function attack(pointedSprite){
+
+//    if(movingSprite.type == "cannon"){
+//        launchMissile(pointedSprite);
+//    }else{
+//        fireBullet(pointedSprite);
+//    }
+    fireBullet(pointedSprite);
+
+}
+
+
+function fireBullet(pointedSprite) {
 
     var bullet = bulletPool.getFirstDead();
     if (bullet === null || bullet === undefined)
@@ -26,4 +38,18 @@ function attack(pointedSprite) {
 
 function bulletReachedTarget() {
     this.kill();
+}
+
+function launchMissile(pointedSprite){
+    var missile = missilePool.getFirstDead();
+    if (missile === null || missile === undefined)
+        return;
+
+    missile.revive(); // Revive the missile, this makes the missile "alive"
+    missile.reset(
+        movingSprite.position.x + fieldSize / 2,
+        movingSprite.position.y + fieldSize / 2
+    );
+
+    sendUserUpdate(null, pointedSprite);
 }

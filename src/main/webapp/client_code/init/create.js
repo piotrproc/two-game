@@ -10,8 +10,9 @@ function create() {
     map = game.add.sprite(0, 0, 'map');
 
     createMainBar();
-    createBullets();
     createShortcuts();
+    createBullets();
+    createMissiles();
 }
 
 function createMainBar() {
@@ -41,9 +42,19 @@ function createBullets() {
         bulletPool.add(bullet);
 
         bullet.anchor.setTo(0.5, 0.5);
-        //game.physics.enable(bullet, Phaser.Physics.ARCADE);
-
         bullet.kill(); // Set its initial state to "dead".
+    }
+}
+
+function createMissiles(){
+    missilePool = this.game.add.group();
+    for (var i = 0; i < 20; i++) {
+
+        var missile = this.game.add.sprite(0, 0, 'missile');
+        missilePool.add(missile);
+
+        missile.anchor.setTo(0.5, 0.5);
+        missile.kill(); // Set its initial state to "dead".
     }
 }
 

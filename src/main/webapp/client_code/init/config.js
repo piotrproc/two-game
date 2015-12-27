@@ -27,6 +27,7 @@ var resource = 10000;
 var resourceText;
 var followedUnitID = 0; // unit that camera is currently following
 var bulletPool;
+var missilePool;
 
 var movingSprite = null;
 

@@ -9,7 +9,8 @@ function preload() {
         'change_player_button',
         'reinforcement_button',
         'control_point',
-        'bullet'
+        'bullet',
+        'missile'
     ];
 
     icons.forEach(function (icon){
