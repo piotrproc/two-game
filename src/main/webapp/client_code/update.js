@@ -3,6 +3,8 @@
  */
 
 function update() {
+    game.physics.arcade.overlap(bulletPool, armySpritesX, bulletReachedTarget);
+
     if (game.input.mousePointer.isDown) {
 
         if (game.input.mousePointer.button == Phaser.Mouse.LEFT_BUTTON) {

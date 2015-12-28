@@ -30,6 +30,7 @@ var resource = 10000;
 var resourceText;
 var followedUnitID = 0; // unit that camera is currently following
 var bulletPool;
+
 var missilePool;
 
 var movingSprite = null;
@@ -37,6 +38,7 @@ var movingSprite = null;
 var teamA = [];
 var teamB = [];
 var armySprites = [];
+var armySpritesX;
 var controlPointSprites = [];
 
 // game modifiers are split into three files

@@ -59,6 +59,6 @@ function getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileL
     }
 
     userUpdate["unitUpdates"] = [unitUpdate];
-    console.log(userUpdate);
+//    console.log(userUpdate);
     return userUpdate;
 }

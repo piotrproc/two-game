@@ -13,6 +13,8 @@ function create() {
     createShortcuts();
     createBullets();
     createMissiles();
+    armySpritesX = game.add.group();
+    armySpritesX.enableBody = true;
 }
 
 function createMainBar() {
@@ -35,22 +37,24 @@ function createMainBar() {
 }
 
 function createBullets() {
-    bulletPool = this.game.add.group();
+    bulletPool = game.add.group();
+    bulletPool.enableBody = true;
     for (var i = 0; i < 20; i++) {
 
-        var bullet = this.game.add.sprite(0, 0, 'bullet');
-        bulletPool.add(bullet);
+        var bullet = game.add.sprite(0, 0, 'bullet');
+        game.physics.arcade.enable(bullet);
 
+        bulletPool.add(bullet);
         bullet.anchor.setTo(0.5, 0.5);
         bullet.kill(); // Set its initial state to "dead".
     }
 }
 
 function createMissiles(){
-    missilePool = this.game.add.group();
+    missilePool = game.add.group();
     for (var i = 0; i < 20; i++) {
 
-        var missile = this.game.add.sprite(0, 0, 'missile');
+        var missile = game.add.sprite(0, 0, 'missile');
         missilePool.add(missile);
 
         missile.anchor.setTo(0.5, 0.5);

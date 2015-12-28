@@ -4,6 +4,7 @@
 
 function createNewSprite(unitData, position){
     var armySprite = game.add.sprite(position.x, position.y, unitData.name);
+
     armySprite.id = unitData.id;
     armySprite.type = unitData.type;
     armySprite.team = unitData.team;
@@ -11,7 +12,10 @@ function createNewSprite(unitData, position){
     if(myTeam == unitData.team){
         game.camera.follow(armySprite);
         myTeamList.push(armySprite);
+    }else{
+        armySpritesX.add(armySprite);
     }
+
 
     armySprites.push(armySprite);
 }
