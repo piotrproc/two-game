@@ -37,8 +37,8 @@ public class GameState {
         ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
         this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
         this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
-        this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 10, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(224.0, 64.0)));
-        this.getUnitStatuses().add(new UnitStatus(2L, UnitType.TANK, "user2", 10, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
+        this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 80, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(224.0, 64.0)));
+        this.getUnitStatuses().add(new UnitStatus(2L, UnitType.TANK, "user2", 80, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
     }
 
     public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
@@ -121,16 +121,10 @@ public class GameState {
 
     public void addUnit(UnitType unitType, String user, Integer teamNumber) {
         Point startPoint = GameConfig.getStartPoint(teamNumber);
-
-        long LOWER_RANGE = 0;
-        long UPPER_RANGE = 1000000;
-        Random random = new Random();
-
-        long unitId = LOWER_RANGE + 
-                (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
+        long unitId = getUniqueUnitId();
 
         // todo: so many magic constants...
-        this.getUnitStatuses().add(new UnitStatus(unitId, unitType, user, 10, 2, 2, 4, 2, startPoint, startPoint));
+        this.getUnitStatuses().add(new UnitStatus(unitId, unitType, user, 100, 2, 2, 4, 2, startPoint, startPoint));
     }
 
     public void addUnit(UnitStatus status) {
@@ -143,5 +137,14 @@ public class GameState {
 
     public void addMissile(MissileStatus missileStatus) {
         this.missileStatuses.add(missileStatus);
+    }
+
+    private long getUniqueUnitId(){
+        long LOWER_RANGE = 0;
+        long UPPER_RANGE = 1000000;
+        Random random = new Random();
+
+        return LOWER_RANGE +
+                (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
     }
 }
