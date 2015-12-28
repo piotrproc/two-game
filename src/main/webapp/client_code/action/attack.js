@@ -36,3 +36,7 @@ function fireBullet(pointedSprite) {
 function launchMissile(pointedSprite){
     //todo
 }
+
+function updateHealthBar(sprite, unitData){
+    sprite.healthBar.setPercent(unitData.health);
+}

@@ -7,10 +7,10 @@ function addNewSprite(unitData, position){
     var armySprite = game.add.sprite(position.x, position.y, unitData.name);
 
     var barConfig = {
-        width: fieldSize,
-        height: fieldSize/5,
-        x: position.x + fieldSize/2,
-        y: position.y + fieldSize
+        width: fieldSize * 0.9,
+        height: fieldSize / 5,
+        x: position.x + fieldSize/2, //center of the bar should be in field width center
+        y: position.y + fieldSize    //bar should be below unit
     };
 
     armySprite.id = unitData.id;

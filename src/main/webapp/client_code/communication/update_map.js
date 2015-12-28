@@ -2,12 +2,11 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
-function UnitData(id, name, type, team, health) {
+function UnitData(id, name, type, team) {
     this.id = id;
     this.name = name;
     this.type = type;
     this.team = team;
-    this.health = health;
 }
 
 function handleMapUpdate(message) {
@@ -19,15 +18,15 @@ function handleMapUpdate(message) {
         var position = unit.position;
 
         var sprite = getUnitSpriteWithId(unitData);
-        if(sprite)
-            updateHealthBar(sprite, unitData);
-
-        var destinationSprite = getUnitSprite(position);
-        if (destinationSprite != null)
-            return;
 
         if (sprite) {
-            updateUnitOnServerOrder(sprite, unitData, position);
+            updateHealthBar(sprite, unit);
+
+            var destinationSprite = getUnitSprite(position);
+            if (destinationSprite == null){
+                moveUnitOnServerOrder(sprite, position);
+            }
+
         } else {
             addNewSprite(unitData, position);
         }
@@ -46,6 +45,6 @@ function handleUnitData(unit) {
 
     var unitName = unitType + "_" + unitTeam;
 
-    return new UnitData(unit.unitId, unitName, unitType, unitTeam, unit.health);
+    return new UnitData(unit.unitId, unitName, unitType, unitTeam);
 }
 
