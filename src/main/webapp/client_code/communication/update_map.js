@@ -26,7 +26,7 @@ function handleMapUpdate(message) {
         if (sprite) {
             moveUnitOnServerOrder(sprite, position);
         } else {
-            createNewSprite(unitData, position);
+            addNewSprite(unitData, position);
         }
 
     });

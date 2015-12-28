@@ -3,7 +3,7 @@
  */
 
 function update() {
-    game.physics.arcade.overlap(bulletPool, armySpritesX, bulletReachedTarget);
+    game.physics.arcade.overlap(bulletPool, oppositeArmyPool, bulletReachedTarget);
 
     if (game.input.mousePointer.isDown) {
 

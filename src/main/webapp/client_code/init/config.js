@@ -7,17 +7,17 @@ eventBus.onopen = function () {
         //console.log('received a message: ', message);
         handleTeamStatus(message);
 
-        handleCreatingControlPoints(message); //we need here some delay
+        handleAddingControlPoints(message); //we need here some delay
         handleMapUpdate(message);
         handleTakingControlPoints(message);
     });
 
 };
 
+// user data configuration
 var map;
 var user = "user1";
 var myTeam;
-var myTeamList = [];
 var userSequenceId;
 
 // map configuration
@@ -25,20 +25,24 @@ var fieldSize = 32;
 var mapSize = 3200;
 var viewSize = mapSize / 10;
 
+// game configuration
 var unitNames = ['airforce', 'cannon', 'tank', 'soldier'];
 var resource = 10000;
 var resourceText;
 var followedUnitID = 0; // unit that camera is currently following
-var bulletPool;
 
+// game objects configuration
+var myArmyPool;
+var bulletPool;
+var oppositeArmyPool;
 var missilePool;
 
 var movingSprite = null;
 
 var teamA = [];
 var teamB = [];
-var armySprites = [];
-var armySpritesX;
+var allSprites = [];
+var allSpritesPool;
 var controlPointSprites = [];
 
 // game modifiers are split into three files

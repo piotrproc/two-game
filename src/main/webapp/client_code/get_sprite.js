@@ -9,7 +9,7 @@ function onTheSameField(objectA, objectB){
 function getUnitSprite(field) {
     var foundUnit = null;
 
-    armySprites.forEach(function (unit) {
+    allSprites.forEach(function (unit) {
         if (onTheSameField(field, unit)) {
             foundUnit = unit;
         }
@@ -21,7 +21,7 @@ function getUnitSprite(field) {
 function getUnitSpriteWithId(id) {
     var foundUnit = null;
 
-    armySprites.forEach(function (unit) {
+    allSprites.forEach(function (unit) {
         if (unit.id == id) {
             foundUnit = unit;
         }
@@ -43,5 +43,5 @@ function getControlPoint(field){
 }
 
 function spriteIsInMyTeam(foundUnit){
-    return myTeamList.indexOf(foundUnit) >= 0;
+    return oppositeArmyPool.getIndex(foundUnit) == -1;
 }

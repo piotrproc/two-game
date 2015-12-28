@@ -2,7 +2,7 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
-function createNewSprite(unitData, position){
+function addNewSprite(unitData, position){
     var armySprite = game.add.sprite(position.x, position.y, unitData.name);
 
     armySprite.id = unitData.id;
@@ -11,11 +11,10 @@ function createNewSprite(unitData, position){
 
     if(myTeam == unitData.team){
         game.camera.follow(armySprite);
-        myTeamList.push(armySprite);
+        myArmyPool.add(armySprite);
     }else{
-        armySpritesX.add(armySprite);
+        oppositeArmyPool.add(armySprite);
     }
 
-
-    armySprites.push(armySprite);
+    allSprites.push(armySprite);
 }

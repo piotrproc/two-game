@@ -6,15 +6,18 @@ function create() {
 
     game.world.setBounds(0, 0, mapSize, mapSize);
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.camera.follow(armySprites[followedUnitID]);
+    game.camera.follow(allSprites[followedUnitID]);
     map = game.add.sprite(0, 0, 'map');
 
     createMainBar();
     createShortcuts();
     createBullets();
     createMissiles();
-    armySpritesX = game.add.group();
-    armySpritesX.enableBody = true;
+    oppositeArmyPool = game.add.group();
+    oppositeArmyPool.enableBody = true;
+    myArmyPool = game.add.group();
+
+    allSpritesPool = game.add.group();
 }
 
 function createMainBar() {
@@ -71,8 +74,8 @@ function createShortcuts(){
 }
 
 function changeCameraToOtherPlayer() {
-    followedUnitID = (followedUnitID + 1) % myTeamList.length;
-    game.camera.follow(myTeamList[followedUnitID]);
+    followedUnitID = (followedUnitID + 1) % myArmyPool.countLiving();//myTeamList.length;
+    game.camera.follow(myArmyPool.getAt(followedUnitID));//(myTeamList[followedUnitID]);
 }
 
 //    game.input.keyboard.onDownCallback = function(e) {

@@ -2,7 +2,7 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
-function handleCreatingControlPoints(message){
+function handleAddingControlPoints(message){
     var controlPoints = message.body.controlPoints;
 
     controlPoints.forEach(function(controlPoint){
