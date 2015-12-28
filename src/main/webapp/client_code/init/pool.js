@@ -3,10 +3,12 @@
  */
 
 function createPools(){
+    //order here is important, control points need to be displayed at the beginning
+    controlPointPool = game.add.group();
     myArmyPool = game.add.group();
     oppositeArmyPool = game.add.group();
     oppositeArmyPool.enableBody = true;  //it's necessary for interaction with bullets
-    controlPointPool = game.add.group();
+
 
     createBullets();
     createMissiles();

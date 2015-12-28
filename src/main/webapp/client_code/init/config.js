@@ -7,9 +7,8 @@ eventBus.onopen = function () {
         //console.log('received a message: ', message);
         handleTeamStatus(message);
 
-        handleAddingControlPoints(message);
         handleMapUpdate(message);
-        handleTakingControlPoints(message);
+        handleControlPoints(message);
     });
 
 };

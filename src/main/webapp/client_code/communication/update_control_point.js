@@ -2,6 +2,11 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
+function handleControlPoints(message){
+    handleAddingControlPoints(message);
+    handleTakingControlPoints(message);
+}
+
 function handleAddingControlPoints(message){
     var controlPoints = message.body.controlPoints;
 
