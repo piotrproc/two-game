@@ -15,6 +15,10 @@ function update() {
     }
 }
 
+function bulletReachedTarget(bullet, armySprite){
+    bullet.kill();
+}
+
 function handleClick() {
     var pointedField = calculatePointedField();
     var pointedSprite = getUnitSprite(pointedField);

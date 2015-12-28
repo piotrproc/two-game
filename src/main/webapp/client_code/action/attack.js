@@ -15,7 +15,6 @@ function attack(pointedSprite){
 }
 
 
-
 function fireBullet(pointedSprite) {
     var bullet = bulletPool.getFirstDead();
     if (bullet === null || bullet === undefined)
@@ -32,10 +31,6 @@ function fireBullet(pointedSprite) {
         pointedSprite.position.y + fieldSize / 2);
 
     sendUserUpdate(null, pointedSprite, null);
-}
-
-function bulletReachedTarget(bullet, armySprite){
-    bullet.kill();
 }
 
 function launchMissile(pointedSprite){
