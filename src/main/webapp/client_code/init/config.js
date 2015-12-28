@@ -7,7 +7,7 @@ eventBus.onopen = function () {
         //console.log('received a message: ', message);
         handleTeamStatus(message);
 
-        handleAddingControlPoints(message); //we need here some delay
+        handleAddingControlPoints(message);
         handleMapUpdate(message);
         handleTakingControlPoints(message);
     });
@@ -36,7 +36,6 @@ var myArmyPool;
 var bulletPool;
 var oppositeArmyPool;
 var missilePool;
-var allSpritesPool;
 var controlPointPool;
 
 var movingSprite = null;

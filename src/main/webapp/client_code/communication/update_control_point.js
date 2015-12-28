@@ -8,6 +8,7 @@ function handleAddingControlPoints(message){
     controlPoints.forEach(function(controlPoint){
         if(getControlPoint(controlPoint.location) == null){
             var controlPointSprite = game.add.sprite(controlPoint.location.x, controlPoint.location.y, "control_point");
+            controlPointSprite.tint = "0xffffff"; //white color
             controlPointPool.add(controlPointSprite);
         }
     });
@@ -27,8 +28,8 @@ function handleTakingControlPoints(message){
 
         controlPoints.forEach(function(controlPoint){
             var controlPointSprite = getControlPoint(controlPoint.location);
-            var spriteOnTheField = getUnitSprite(new Field(controlPoint.location.x, controlPoint.location.y));
-            if(controlPointSprite && spriteOnTheField){
+
+            if(controlPointSprite){
                 controlPointSprite.tint = colors[index];
             }
         });
