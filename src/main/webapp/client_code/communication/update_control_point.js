@@ -8,7 +8,8 @@ function handleAddingControlPoints(message){
     controlPoints.forEach(function(controlPoint){
         if(getControlPoint(controlPoint.location) == null){
             var controlPointSprite = game.add.sprite(controlPoint.location.x, controlPoint.location.y, "control_point");
-            controlPointSprites.push(controlPointSprite);
+            //controlPointSprites.push(controlPointSprite);
+            controlPointPool.add(controlPointSprite);
         }
     });
 }

@@ -16,5 +16,4 @@ function addNewSprite(unitData, position){
         oppositeArmyPool.add(armySprite);
     }
 
-    allSprites.push(armySprite);
 }

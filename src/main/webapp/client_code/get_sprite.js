@@ -9,11 +9,17 @@ function onTheSameField(objectA, objectB){
 function getUnitSprite(field) {
     var foundUnit = null;
 
-    allSprites.forEach(function (unit) {
+    myArmyPool.forEach(function (unit) {
         if (onTheSameField(field, unit)) {
             foundUnit = unit;
         }
-    });
+    }, this);
+
+    oppositeArmyPool.forEach(function (unit) {
+        if (onTheSameField(field, unit)) {
+            foundUnit = unit;
+        }
+    }, this);
 
     return foundUnit;
 }
@@ -21,11 +27,17 @@ function getUnitSprite(field) {
 function getUnitSpriteWithId(id) {
     var foundUnit = null;
 
-    allSprites.forEach(function (unit) {
+    myArmyPool.forEach(function (unit) {
         if (unit.id == id) {
             foundUnit = unit;
         }
-    });
+    }, this);
+
+    oppositeArmyPool.forEach(function (unit) {
+        if (unit.id == id) {
+            foundUnit = unit;
+        }
+    }, this);
 
     return foundUnit;
 }
@@ -33,11 +45,11 @@ function getUnitSpriteWithId(id) {
 function getControlPoint(field){
     var foundControlPoint = null;
 
-    controlPointSprites.forEach(function (controlPoint) {
+    controlPointPool.forEach(function (controlPoint) {
         if (onTheSameField(field, controlPoint)) {
             foundControlPoint = controlPoint;
         }
-    });
+    }, this);
 
     return foundControlPoint;
 }

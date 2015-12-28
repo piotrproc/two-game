@@ -6,7 +6,6 @@ function create() {
 
     game.world.setBounds(0, 0, mapSize, mapSize);
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.camera.follow(allSprites[followedUnitID]);
     map = game.add.sprite(0, 0, 'map');
 
     createMainBar();
@@ -18,6 +17,7 @@ function create() {
     myArmyPool = game.add.group();
 
     allSpritesPool = game.add.group();
+    controlPointPool = game.add.group();
 }
 
 function createMainBar() {

@@ -36,14 +36,13 @@ var myArmyPool;
 var bulletPool;
 var oppositeArmyPool;
 var missilePool;
+var allSpritesPool;
+var controlPointPool;
 
 var movingSprite = null;
 
 var teamA = [];
 var teamB = [];
-var allSprites = [];
-var allSpritesPool;
-var controlPointSprites = [];
 
 // game modifiers are split into three files
 var game = new Phaser.Game(viewSize, viewSize, Phaser.AUTO, 'game', {
