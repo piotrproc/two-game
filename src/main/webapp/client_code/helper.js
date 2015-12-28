@@ -23,3 +23,26 @@ function fieldIsOnTheMap(field) {
     return field.x >= 0 && field.x < mapSize
         && field.y >= 0 && field.y < mapSize;
 }
+
+function existsInGroup(group, element, func){
+    var foundElement = null;
+
+    group.forEach(function (groupElement) {
+        if (func(element, groupElement)) {
+            foundElement = groupElement;
+        }
+    }, this);
+
+    return foundElement;
+}
+
+function existsInGroups(groups, element, func){
+    var inGroup = null;
+
+    groups.forEach(function(group){
+        if(inGroup == null)
+            inGroup = existsInGroup(group, element, func);
+    });
+
+    return inGroup;
+}

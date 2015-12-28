@@ -21,7 +21,7 @@ function handleMapUpdate(message) {
         if (destinationSprite != null)
             return;
 
-        var sprite = getUnitSpriteWithId(unitData.id);
+        var sprite = getUnitSpriteWithId(unitData);
 
         if (sprite) {
             moveUnitOnServerOrder(sprite, position);
