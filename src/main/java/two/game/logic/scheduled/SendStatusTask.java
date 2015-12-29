@@ -22,7 +22,7 @@ public class SendStatusTask implements Runnable {
     public void run() {
         Gson gson = new Gson();
         MatchStatus status = new MatchStatus();
-        status.setAttackEvents(gameState.getAttackEvents());
+//        status.setAttackEvents(gameState.getAttackEvents());
         status.setTeamStatuses(gameState.getTeamStatuses());
         status.setMissileStatuses(gameState.getMissileStatuses());
         status.setUnitStatuses(gameState.getUnitStatuses());

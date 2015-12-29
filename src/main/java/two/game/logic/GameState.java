@@ -1,5 +1,6 @@
 package two.game.logic;
 
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import two.game.config.ControlPointConfig;
@@ -15,6 +16,7 @@ import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * remember that object is shared and all actions should
@@ -37,8 +39,10 @@ public class GameState {
         ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
         this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
         this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
-        this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 80, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(224.0, 64.0)));
-        this.getUnitStatuses().add(new UnitStatus(2L, UnitType.TANK, "user2", 80, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
+        this.getUnitStatuses().add(new UnitStatus(1L, UnitType.TANK, "user1", 80, 200, 2, 4, 2, new Point(96.0, 96.0),
+                new Point(224.0, 64.0)));
+        this.getUnitStatuses().add(new UnitStatus(2L, UnitType.TANK, "user2", 80, 200, 2, 4, 2, new Point(108.0, 108.0)
+                , new Point(96.0, 128.0)));
     }
 
     public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
@@ -51,7 +55,7 @@ public class GameState {
         this.controlPoints = controlPoints;
         this.gameStarted = false;
         this.userIdToSequenceId = new HashMap<>();
-        this.updateSequenceId = 0l;
+        this.updateSequenceId = 0L;
     }
 
     public Map<String, Long> getUserIdToSequenceId() {
@@ -70,8 +74,11 @@ public class GameState {
         this.missileStatuses = missileStatuses;
     }
 
-    public List<AttackEvent> getAttackEvents() {
-        return attackEvents;
+    public synchronized List<AttackEvent> getAttackEvents() {
+        logger.info("Got Attacks: " + attackEvents.size());
+        ImmutableList<AttackEvent> attacks = ImmutableList.copyOf(this.attackEvents);
+        attackEvents.clear();
+        return attacks;
     }
 
     public void setAttackEvents(List<AttackEvent> attackEvents) {
@@ -131,8 +138,9 @@ public class GameState {
         this.unitStatuses.add(status);
     }
 
-    public void addAttack(AttackEvent attackEvent) {
+    public synchronized void addAttack(AttackEvent attackEvent) {
         this.attackEvents.add(attackEvent);
+        logger.info("Add Attacks: " + attackEvents.size());
     }
 
     public void addMissile(MissileStatus missileStatus) {

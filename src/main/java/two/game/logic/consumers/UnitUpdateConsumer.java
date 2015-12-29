@@ -29,8 +29,10 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
 
     @Override
     public void process(UnitUpdate event, GameState gameState) {
+        logger.debug(gameState.toString());
         logger.debug("got {}", event);
-        boolean applicable = predicates.stream().allMatch(predicate -> predicate.applicable(event, gameState));
+        boolean applicable = predicates.stream()
+                .allMatch(predicate -> predicate.applicable(event, gameState));
 
         logger.debug("change is applicable: {}", applicable);
         if (applicable) {
@@ -57,7 +59,8 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
     }
 
     private void addAttacks(UnitUpdate event, GameState gameState) {
-        event.getAttacks().forEach(unitAttack -> gameState.addAttack(new AttackEvent(event.getUnitId(), unitAttack.getTargetUnitId())));
+        event.getAttacks().
+                forEach(unitAttack -> gameState.addAttack(new AttackEvent(event.getUnitId(), unitAttack.getTargetUnitId())));
     }
 
     private void updateMoveTargets(UnitUpdate event, GameState gameState) {
@@ -69,6 +72,10 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
     public void markControlPoints(UnitUpdate event, GameState gameState) {
         Point targetPosition = event.getMoveTarget();
         Long unitId = event.getUnitId();
+
+        if(targetPosition == null){
+            return;
+        }
 
         logger.debug("control point is on the field: " + ControlPointConfig.controlPointIsOnTheField(targetPosition));
         if (ControlPointConfig.controlPointIsOnTheField(targetPosition)) {
