@@ -10,6 +10,9 @@ import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 import two.game.model.update.UnitAttack;
 import two.game.model.update.UnitUpdate;
+
+import java.util.Optional;
+
 import static two.game.model.constant.UnitType.*;
 
 public class AttackPredicate implements ChangePredicate<UnitUpdate> {
@@ -20,12 +23,19 @@ public class AttackPredicate implements ChangePredicate<UnitUpdate> {
 		if (object.getAttacks() == null || object.getAttacks().isEmpty())
 			return true;
 
-		UnitStatus unitStatus = getUnitStatus(object.getUnitId(), state);
+		Optional<UnitStatus> unitStatusOpt = getUnitStatus(object.getUnitId(), state);
+		if(!unitStatusOpt.isPresent()){
+			return false;
+		}
+		UnitStatus unitStatus = unitStatusOpt.get();
 		TeamStatus userTeam = getTeamStatus(unitStatus, state);
 
-
 		for (UnitAttack unitAttack : object.getAttacks()){
-			UnitStatus targetUnitStatus = getUnitStatus(unitAttack.getTargetUnitId(), state);
+			Optional<UnitStatus> targetUnitStatusOpt = getUnitStatus(unitAttack.getTargetUnitId(), state);
+			if(!targetUnitStatusOpt.isPresent()){
+				return false;
+			}
+			UnitStatus targetUnitStatus = targetUnitStatusOpt.get();
 			TeamStatus targetUnitTeam = getTeamStatus(targetUnitStatus, state);
 
 			if (userTeam.equals(targetUnitTeam)){
@@ -57,10 +67,10 @@ public class AttackPredicate implements ChangePredicate<UnitUpdate> {
 			.filter(t -> t.getUserIds().contains(unitStatus.getUser())).findAny().get();
 	}
 
-	public static UnitStatus getUnitStatus(Long unitId, GameState state){
+	public static Optional<UnitStatus> getUnitStatus(Long unitId, GameState state){
 		return state.getUnitStatuses().stream()
 			.filter(s -> s.getUnitId().equals(unitId))
-			.findAny().get();
+			.findAny();
 	}
 
 	private double getDistance(Point x, Point y){

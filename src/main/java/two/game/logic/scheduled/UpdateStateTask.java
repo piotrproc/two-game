@@ -1,5 +1,6 @@
 package two.game.logic.scheduled;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -10,12 +11,15 @@ import org.slf4j.LoggerFactory;
 import two.game.config.ControlPointConfig;
 import two.game.logic.GameState;
 import two.game.model.Point;
+import two.game.model.status.MissileStatus;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 
 public class UpdateStateTask implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(UpdateStateTask.class);
 	private static final double MOVE_DELTA_PER_MS = 0.1;
+	private static final int MISSILE_RADIUS = 4;
+	private static final int MISSILE_DAMAGE = 0;
 	private final GameState gameState;
 	private DateTime lastUpdate;
 	private long sumOfMillisElapsed = 0;
@@ -35,6 +39,7 @@ public class UpdateStateTask implements Runnable {
 			synchronized (gameState) {
 				updateUnitPositions(millisElapsed);
 				updateUnitHealth(millisElapsed);
+				updateMissile(millisElapsed);
 				updateResources(millisElapsed);
 				lastUpdate = now;
 				gameState.bumpUpdateSequenceId();
@@ -54,18 +59,41 @@ public class UpdateStateTask implements Runnable {
 	}
 
 	private void updateUnitHealth(long millisElapsed) {
-		gameState.getAttackEvents().forEach(attack -> {
-			logger.info("Updating Attack: " + attack);
+		gameState.getNewAttacks().forEach(attack -> {
 			Long sourceId = attack.getSourceUnitId();
 			Long targetId = attack.getTargetUnitId();
 
 			UnitStatus attacker = getUnit(sourceId);
 			UnitStatus attacked = getUnit(targetId);
 
-			int damage = (int) -(attacker.getDps() * millisElapsed * 0.0001);
-			attacked.setHealth(attacked.getHealth() - damage);
-			if (attacked.getHealth() <= 0) {
-				removeUnit(attacked.getUnitId());
+			if(attacker != null && attacked != null) {
+				int damage = (int) -(attacker.getDps() * millisElapsed * 0.0001);
+				applyDamage(attacked, damage);
+			}
+		});
+	}
+
+	private void applyDamage(UnitStatus unit, int damage) {
+		unit.setHealth(unit.getHealth() - damage);
+		if (unit.getHealth() <= 0) {
+            removeUnit(unit.getUnitId());
+        }
+	}
+
+	private void updateMissile(long millisElapsed) {
+		gameState.getNewMissiles().forEach(missile -> {
+			Point position = missile.getCurrentPosition();
+			Point target  = missile.getTargetPosition();
+
+			if(position.equals(target)){
+				Collection<UnitStatus> units = gameState.getUnitsInRadius(target, MISSILE_RADIUS);
+				units.forEach(u -> applyDamage(u, MISSILE_DAMAGE));
+			}else{
+				Point newPosition = move(position, target, millisElapsed);
+				MissileStatus missileToUpdate = gameState.getMissileStatuses().stream()
+						.filter(m -> m.getMissileId().equals(missile.getMissileId()))
+						.findFirst().get();
+				missileToUpdate.setCurrentPosition(newPosition);
 			}
 		});
 	}
@@ -84,11 +112,10 @@ public class UpdateStateTask implements Runnable {
 		return gameState.getUnitStatuses().stream()
 				.filter(u -> u.getUnitId().equals(sourceId))
 				.findFirst()
-				.get();
+				.orElse(null);
 	}
 
 	private void updateUnitPositions(long millisElapsed) {
-		//        logger.info("Units: " + gameState.getUnitStatuses().size());
 		gameState.getUnitStatuses().stream()
 				.filter(u -> u != null)
 				.filter(u -> u.getPosition() != null)
@@ -96,15 +123,19 @@ public class UpdateStateTask implements Runnable {
 				.forEach(unit -> {
 					Point position = unit.getPosition();
 					Point target = unit.getTargetPosition();
-					double dx = target.getX() - position.getX();
-					double dy = target.getY() - position.getY();
-
-					double distanceAllowed = Math.abs(MOVE_DELTA_PER_MS * millisElapsed);
-					double scaler = (Math.abs(dx) + Math.abs(dy)) / distanceAllowed;
-					scaler = Math.abs(Math.max(1., scaler));
-
-					Point newPosition = new Point(position.getX() + dx / scaler, position.getY() + dy / scaler);
+					Point newPosition = move(position, target, millisElapsed);
 					unit.setPosition(newPosition);
 				});
+	}
+
+	private Point move(Point position, Point target, long time) {
+		double dx = target.getX() - position.getX();
+		double dy = target.getY() - position.getY();
+
+		double distanceAllowed = Math.abs(MOVE_DELTA_PER_MS * time);
+		double scaler = (Math.abs(dx) + Math.abs(dy)) / distanceAllowed;
+		scaler = Math.abs(Math.max(1., scaler));
+
+		return new Point(position.getX() + dx / scaler, position.getY() + dy / scaler);
 	}
 }
