@@ -2,13 +2,13 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
-function attack(pointedSprite){
+function attack(pointedSprite) {
 
-    if(this.type == "cannon"){
+    if (this.type == "cannon") {
         this.launchMissile(pointedSprite);
 //        this.fireBullet(pointedSprite);
 //        Sender.sendUserUpdate(null, pointedSprite, this.position);
-    }else{
+    } else {
         this.fireBullet(pointedSprite);
     }
 
@@ -33,10 +33,17 @@ function fireBullet(pointedSprite) {
     Sender.sendUserUpdate(null, pointedSprite, null);
 }
 
-function launchMissile(pointedSprite){
-    Sender.sendUserUpdate(null, null, pointedSprite.position);
+var missileId = 1;
+
+function launchMissile(pointedSprite) {
+    var missileLaunch = {
+        "missileId": missileId,
+        "target": pointedSprite.position
+    };
+    missileId = missileId + 1;
+    Sender.sendUserUpdate(null, null, missileLaunch);
 }
 
-function updateHealthBar(sprite, unitData){
+function updateHealthBar(sprite, unitData) {
     sprite.healthBar.setPercent(unitData.health);
 }

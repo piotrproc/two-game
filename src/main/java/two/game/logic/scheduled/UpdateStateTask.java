@@ -81,7 +81,8 @@ public class UpdateStateTask implements Runnable {
 	}
 
 	private void updateMissile(long millisElapsed) {
-		gameState.getNewMissiles().forEach(missile -> {
+		gameState.getMissiles().forEach(missile -> {
+
 			Point position = missile.getCurrentPosition();
 			Point target  = missile.getTargetPosition();
 
@@ -90,12 +91,23 @@ public class UpdateStateTask implements Runnable {
 				units.forEach(u -> applyDamage(u, MISSILE_DAMAGE));
 			}else{
 				Point newPosition = move(position, target, millisElapsed);
+
 				MissileStatus missileToUpdate = gameState.getMissileStatuses().stream()
 						.filter(m -> m.getMissileId().equals(missile.getMissileId()))
 						.findFirst().get();
 				missileToUpdate.setCurrentPosition(newPosition);
 			}
 		});
+
+        List<MissileStatus> missileStatuses = gameState.getMissileStatuses();
+        for (int i = 0; i < missileStatuses.size(); i++) {
+            MissileStatus missile = missileStatuses.get(i);
+
+            if (missile.getCurrentPosition().equals(missile.getTargetPosition())) {
+                missileStatuses.remove(missile);
+            }
+        }
+
 	}
 
 	private void removeUnit(Long unitId) {

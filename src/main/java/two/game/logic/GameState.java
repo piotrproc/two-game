@@ -72,11 +72,12 @@ public class GameState {
 		this.updateSequenceId = 0L;
 	}
 
-	public synchronized Collection<MissileStatus> getNewMissiles() {
-		List<MissileStatus> missiles = missileStatuses.subList(lastProcessedMissile, missileStatuses.size());
-		lastProcessedMissile = missileStatuses.size();
-		return missiles;
+	public synchronized Collection<MissileStatus> getMissiles() {
+//		List<MissileStatus> missiles = missileStatuses.subList(lastProcessedMissile, missileStatuses.size());
+//		lastProcessedMissile = missileStatuses.size();
+		return missileStatuses;
 	}
+
 
 	public synchronized Collection<AttackEvent> getNewAttacks() {
 		List<AttackEvent> missiles = attackEvents.subList(lastProcessedAttack, attackEvents.size());

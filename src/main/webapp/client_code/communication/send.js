@@ -55,14 +55,7 @@ Sender.getUserUpdateMessage = function (targetPosition, unitAttack, missileLaunc
 
 
     if (missileLaunch != null) {
-        unitUpdate["missileLaunches"] = [
-            {
-                "target": {
-                    "x": missileLaunch.x,
-                    "y": missileLaunch.y
-                }
-            }
-        ];
+        unitUpdate["missileLaunches"] = [missileLaunch];
     }
 
     userUpdate["unitUpdates"] = [unitUpdate];

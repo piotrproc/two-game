@@ -2,28 +2,34 @@
  * Created by Piotr Proc on 31.12.15.
  */
 
-var missileId = 1;
 
-function handleMissiles(message){
+
+function handleMissiles(message) {
+
     var missileStatuses = message.body.missileStatuses;
+    Helper.checkAllMissiles(missileStatuses, missilePool);
 
-    missileStatuses.forEach(function(missileStatus){
-        var missileSprite = Picker.getMissileSprite(missileStatus.currentPosition);
+    missileStatuses.forEach(function (missileStatus) {
+        var missileData = {"id": missileStatus.missileId};
+        var missileSprite = Picker.getMissileSpriteWithId(missileData);
 
-        if(missileSprite == null){
+        if (missileSprite == null) {
             missileSprite = game.add.sprite(missileStatus.currentPosition.x, missileStatus.currentPosition.y, "missile");
-            missileSprite.id = missileId;
-            missileId = missileId + 1;
+            missileSprite.id = missileStatus.missileId;
             missilePool.add(missileSprite);
-        }else{
 
-            thatMissileSprite = Picker.getMissileSpriteWithId(missileSprite);
+        } else {
+            missileSprite.x = missileStatus.currentPosition.x;
+            missileSprite.y = missileStatus.currentPosition.y;
 
-            if( thatMissileSprite != null){
-                thatMissileSprite.x = missileStatus.currentPosition.x;
-                thatMissileSprite.y = missileStatus.currentPosition.y;
+            console.log(missileStatus);
+
+            if(//missileStatus.currentPosition.x == missileStatus.targetPosition.x &&
+                missileStatus.currentPosition.y == missileStatus.targetPosition.y){
+                console.log("KIIIIIIIIIILL");
+                missileSprite.kill();
+
             }
-
         }
 
     });

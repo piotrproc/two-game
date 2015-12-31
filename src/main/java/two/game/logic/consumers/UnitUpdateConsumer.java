@@ -54,7 +54,7 @@ public class UnitUpdateConsumer implements EventConsumer<UnitUpdate> {
                 .filter(status -> status.getUnitId().equals(event.getUnitId()))
                 .findAny().get();
         event.getMissileLaunches().stream()
-                .map(missileLaunch -> new MissileStatus(0L, unit.getPosition(), missileLaunch.getTarget()))
+                .map(missileLaunch -> new MissileStatus(missileLaunch.getMissileId(), unit.getPosition(), missileLaunch.getTarget()))
                 .forEach(gameState::addMissile);
     }
 

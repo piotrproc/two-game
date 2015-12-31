@@ -93,4 +93,24 @@ Helper.buttonsWereClicked = function() {
 
 Helper.buttonsWereNotClicked = function(){
     return !Helper.buttonsWereClicked();
-}
+};
+
+
+Helper.checkAllMissiles = function (missiles, pool){
+
+    pool.forEach(function(sprite){
+
+        var foundMissile = null;
+
+        missiles.forEach(function (missile) {
+            if(sprite.id == missile.missileId)
+                foundMissile = missile;
+        });
+
+        if(foundMissile == null){
+            sprite.kill();
+        }
+
+    }, this);
+
+};
