@@ -59,11 +59,7 @@ function checkAllAliveUnits(unitStatuses){
         });
 
         if(foundStatus == null){
-            console.log("aaa");
-            myArmyPool.remove(sprite);
-            sprite.healthBar.kill();
-            sprite.kill();
-
+            killSprite(sprite, myArmyPool);
         }
 
     }, this);
@@ -78,10 +74,7 @@ function checkAllAliveUnits(unitStatuses){
         });
 
         if(foundStatus == null){
-            oppositeArmyPool.remove(sprite);
-            sprite.healthBar.kill();
-            sprite.kill();
-
+            killSprite(sprite, oppositeArmyPool);
         }
 
     }, this);
