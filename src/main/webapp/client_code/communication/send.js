@@ -39,6 +39,7 @@ function getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileL
     }
 
 
+
     if (unitAttack != null) {
         unitUpdate["attacks"] = [
             {
