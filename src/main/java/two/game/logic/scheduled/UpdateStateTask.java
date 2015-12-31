@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import two.game.config.ControlPointConfig;
+import two.game.config.GameConfig;
 import two.game.logic.GameState;
 import two.game.model.Point;
 import two.game.model.status.MissileStatus;
@@ -18,8 +19,8 @@ import two.game.model.status.UnitStatus;
 public class UpdateStateTask implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(UpdateStateTask.class);
 	private static final double MOVE_DELTA_PER_MS = 0.1;
-	private static final int MISSILE_RADIUS = 4;
-	private static final int MISSILE_DAMAGE = 0;
+	private static final int MISSILE_RADIUS = 32;
+	private static final int MISSILE_DAMAGE = 50;
 	private final GameState gameState;
 	private DateTime lastUpdate;
 	private long sumOfMillisElapsed = 0;
@@ -74,37 +75,35 @@ public class UpdateStateTask implements Runnable {
 	}
 
 	private void applyDamage(UnitStatus unit, int damage) {
-		unit.setHealth(unit.getHealth() - damage);
+        logger.debug("@@@@@@@");
+
+        unit.setHealth(unit.getHealth() - damage);
 		if (unit.getHealth() <= 0) {
             removeUnit(unit.getUnitId());
         }
 	}
 
 	private void updateMissile(long millisElapsed) {
-		gameState.getMissiles().forEach(missile -> {
-
-			Point position = missile.getCurrentPosition();
-			Point target  = missile.getTargetPosition();
-
-			if(position.equals(target)){
-				Collection<UnitStatus> units = gameState.getUnitsInRadius(target, MISSILE_RADIUS);
-				units.forEach(u -> applyDamage(u, MISSILE_DAMAGE));
-			}else{
-				Point newPosition = move(position, target, millisElapsed);
-
-				MissileStatus missileToUpdate = gameState.getMissileStatuses().stream()
-						.filter(m -> m.getMissileId().equals(missile.getMissileId()))
-						.findFirst().get();
-				missileToUpdate.setCurrentPosition(newPosition);
-			}
-		});
 
         List<MissileStatus> missileStatuses = gameState.getMissileStatuses();
         for (int i = 0; i < missileStatuses.size(); i++) {
             MissileStatus missile = missileStatuses.get(i);
 
-            if (missile.getCurrentPosition().equals(missile.getTargetPosition())) {
+            Point position = missile.getCurrentPosition();
+            Point target  = missile.getTargetPosition();
+
+            if(position.equals(target)){
+                gameState.getUnitStatuses().stream().filter(unit -> unit.getPosition().distanceTo(target) <= 32 * 2)
+                        .forEach(unit -> applyDamage(unit, MISSILE_DAMAGE));
                 missileStatuses.remove(missile);
+
+            }else{
+                Point newPosition = move(position, target, millisElapsed);
+
+                MissileStatus missileToUpdate = gameState.getMissileStatuses().stream()
+                        .filter(m -> m.getMissileId().equals(missile.getMissileId()))
+                        .findFirst().get();
+                missileToUpdate.setCurrentPosition(newPosition);
             }
         }
 
