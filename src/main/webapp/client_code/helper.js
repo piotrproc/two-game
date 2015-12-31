@@ -44,36 +44,26 @@ Helper.existsInGroups = function (groups, element, func){
     return inGroup;
 };
 
+Helper.checkAllAliveUnitsInPool = function (unitStatuses, pool){
+
+    pool.forEach(function(sprite){
+
+        var foundStatus = null;
+
+        unitStatuses.forEach(function (unitStatus) {
+            if(sprite.id == unitStatus.unitId)
+                foundStatus = unitStatus;
+        });
+
+        if(foundStatus == null){
+            sprite.kill();
+        }
+
+    }, this);
+
+};
+
 Helper.checkAllAliveUnits = function (unitStatuses){
-
-    myArmyPool.forEach(function(sprite){
-
-        var foundStatus = null;
-
-        unitStatuses.forEach(function (unitStatus) {
-            if(sprite.id == unitStatus.unitId)
-                foundStatus = unitStatus;
-        });
-
-        if(foundStatus == null){
-            sprite.kill();
-        }
-
-    }, this);
-
-    oppositeArmyPool.forEach(function(sprite){
-
-        var foundStatus = null;
-
-        unitStatuses.forEach(function (unitStatus) {
-            if(sprite.id == unitStatus.unitId)
-                foundStatus = unitStatus;
-        });
-
-        if(foundStatus == null){
-            sprite.kill();
-        }
-
-    }, this);
-
+    Helper.checkAllAliveUnitsInPool(unitStatuses, myArmyPool);
+    Helper.checkAllAliveUnitsInPool(unitStatuses, oppositeArmyPool);
 };
