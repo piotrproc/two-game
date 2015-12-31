@@ -2,27 +2,26 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
-function selectSprite(pointedSprite) {
-    movingSprite = getUnitSprite(pointedSprite.position);
-    movingSprite.anchor.setTo(-0.1, 0);
-}
+function Selector(){}
 
-function deselectSprite(){
+Selector.selectSprite = function (pointedSprite) {
+    movingSprite = Picker.getUnitSprite(pointedSprite.position);
+    movingSprite.anchor.setTo(-0.1, 0);
+};
+
+Selector.deselectSprite = function (){
     movingSprite.anchor.setTo(0, 0);
     movingSprite = null;
-}
+};
 
-function calculatePointedField() {
+function Calculator(){}
+
+Calculator.calculatePointedField = function calculatePointedField() {
     var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize) * fieldSize;
     var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize) * fieldSize;
 
     return new Field(fieldX, fieldY);
-}
-
-function fieldIsOnTheMap(field) {
-    return field.x >= 0 && field.x < mapSize
-        && field.y >= 0 && field.y < mapSize;
-}
+};
 
 function existsInGroup(group, element, func){
     var foundElement = null;

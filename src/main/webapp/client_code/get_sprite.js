@@ -2,17 +2,21 @@
  * Created by Piotr Proc on 01.12.15.
  */
 
-function getUnitSprite(field) {
+function Picker(){
+
+}
+
+Picker.getUnitSprite = function (field) {
     return existsInGroups([myArmyPool, oppositeArmyPool], field, onTheSameField);
-}
+};
 
-function getUnitSpriteWithId(unitData) {
+Picker.getUnitSpriteWithId = function (unitData) {
     return existsInGroups([myArmyPool, oppositeArmyPool], unitData, haveTheSameId);
-}
+};
 
-function getControlPoint(field){
+Picker.getControlPoint = function (field){
     return existsInGroup(controlPointPool, field, onTheSameField);
-}
+};
 
 function haveTheSameId(objectA, objectB){
     return objectA.id == objectB.id;

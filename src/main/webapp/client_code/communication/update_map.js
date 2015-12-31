@@ -18,12 +18,12 @@ function handleMapUpdate(message) {
         var unitData = handleUnitData(unit);
         var position = unit.position;
 
-        var sprite = getUnitSpriteWithId(unitData);
+        var sprite = Picker.getUnitSpriteWithId(unitData);
 
         if (sprite) {
             sprite.healthBar.setPercent(unit.health);
 
-            var destinationSprite = getUnitSprite(position);
+            var destinationSprite = Picker.getUnitSprite(position);
             if (destinationSprite == null){
                 sprite.move(position);
             }

@@ -11,7 +11,7 @@ function handleAddingControlPoints(message){
     var controlPoints = message.body.controlPoints;
 
     controlPoints.forEach(function(controlPoint){
-        if(getControlPoint(controlPoint.location) == null){
+        if(Picker.getControlPoint(controlPoint.location) == null){
             var controlPointSprite = game.add.sprite(controlPoint.location.x, controlPoint.location.y, "control_point");
             controlPointSprite.tint = "0xffffff"; //white color
             controlPointPool.add(controlPointSprite);
@@ -32,7 +32,7 @@ function handleTakingControlPoints(message){
         var controlPoints = teamStatus.controlPoints;
 
         controlPoints.forEach(function(controlPoint){
-            var controlPointSprite = getControlPoint(controlPoint.location);
+            var controlPointSprite = Picker.getControlPoint(controlPoint.location);
 
             if(controlPointSprite){
                 controlPointSprite.tint = colors[index];
