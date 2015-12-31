@@ -10,13 +10,22 @@ Helper.selectSprite = function (pointedSprite) {
 };
 
 Helper.deselectSprite = function (){
-    movingSprite.anchor.setTo(0, 0);
-    movingSprite = null;
+    if(movingSprite){
+        movingSprite.anchor.setTo(0, 0);
+        movingSprite = null;
+    }
 };
 
 Helper.calculatePointedField = function calculatePointedField() {
     var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize) * fieldSize;
     var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize) * fieldSize;
+
+    return new Field(fieldX, fieldY);
+};
+
+Helper.calculatePointedFieldTwo = function calculatePointedField() {
+    var fieldX = Math.floor((game.input.mousePointer.x - game.camera.x) / fieldSize) * fieldSize;
+    var fieldY = Math.floor((game.input.mousePointer.y - game.camera.y) / fieldSize) * fieldSize;
 
     return new Field(fieldX, fieldY);
 };
@@ -67,3 +76,15 @@ Helper.removeAllDeadUnits = function (unitStatuses){
     Helper.checkAllAliveUnitsInPool(unitStatuses, myArmyPool);
     Helper.checkAllAliveUnitsInPool(unitStatuses, oppositeArmyPool);
 };
+
+Helper.changeCameraToOtherPlayer = function () {
+    Helper.deselectSprite();
+
+    followedUnitID = (followedUnitID + 1) % myArmyPool.countLiving();
+    game.camera.follow(myArmyPool.getAt(followedUnitID));
+};
+
+Helper.buttonsWereClicked = function(position) {
+    return (position.x == fieldSize * 9 && position.y == 0) ||
+        (position.x == fieldSize * 10 && position.y == 0)
+}

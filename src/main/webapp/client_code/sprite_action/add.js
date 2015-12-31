@@ -3,15 +3,15 @@
  */
 
 function addNewSprite(unitData, position){
-    var armySprite = game.add.sprite(position.x, position.y, unitData.name);
+    Helper.deselectSprite();
 
-    var barConfig = getBarConfig(position);
+    var armySprite = game.add.sprite(position.x, position.y, unitData.name);
 
     armySprite.id = unitData.id;
     armySprite.type = unitData.type;
     armySprite.team = unitData.team;
 
-    armySprite.healthBar = new HealthBar(game, barConfig);
+    armySprite.healthBar = new HealthBar(game, getBarConfig(position));
     armySprite.healthBar.setPercent(80);
 
     //we add functions from other files
@@ -20,6 +20,7 @@ function addNewSprite(unitData, position){
     armySprite.attack = attack;
     armySprite.kill = kill;
 
+    //we add unit to specific Pool
     if(myTeam == unitData.team){
         game.camera.follow(armySprite);
         armySprite.pool = myArmyPool;

@@ -9,6 +9,8 @@ function Sender(){
 }
 
 Sender.sendSupportRequest = function () {
+    Helper.deselectSprite();
+
     var message = {
         "user": user
     };

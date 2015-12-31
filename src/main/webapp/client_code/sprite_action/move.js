@@ -3,6 +3,10 @@
  */
 
 function move(targetPosition){
+    console.log(Helper.calculatePointedFieldTwo());
+//    if(Helper.buttonsWereClicked(Helper.calculatePointedFieldTwo()))
+//        return;
+
     this.x = targetPosition.x;
     this.y = targetPosition.y;
 

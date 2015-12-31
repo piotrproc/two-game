@@ -25,7 +25,7 @@ function createMainBar() {
     resourceText.cameraOffset.setTo(viewSize - 3.75 * fieldSize, 0.25 * fieldSize);
 
     var button = game.add.button(viewSize - 1.45 * fieldSize, 0.25 * fieldSize,
-        'change_player_button', changeCameraToOtherPlayer, this, 2, 1, 0);
+        'change_player_button', Helper.changeCameraToOtherPlayer, this, 2, 1, 0);
     var button2 = game.add.button(viewSize - 0.75 * fieldSize, 0.25 * fieldSize,
         'reinforcement_button', Sender.sendSupportRequest, this, 2, 1, 0);
     button.fixedToCamera = true;
@@ -35,15 +35,20 @@ function createMainBar() {
 function createShortcuts(){
     game.input.keyboard.onDownCallback = function (e) {
         if (e.keyCode == 32) { //code for space key
-            changeCameraToOtherPlayer();
+            Helper.changeCameraToOtherPlayer();
+        }
+    };
+
+
+    game.input.keyboard.onDownCallback = function (e) {
+        if (e.keyCode == 82) { //code for r letter
+            Sender.sendSupportRequest();
         }
     };
 }
 
-function changeCameraToOtherPlayer() {
-    followedUnitID = (followedUnitID + 1) % myArmyPool.countLiving();//myTeamList.length;
-    game.camera.follow(myArmyPool.getAt(followedUnitID));//(myTeamList[followedUnitID]);
-}
+
+
 
 //    game.input.keyboard.onDownCallback = function(e) {
 //        if(e.keyCode == 13){ //code for enter key
