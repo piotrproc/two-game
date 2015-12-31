@@ -21,7 +21,7 @@ Helper.calculatePointedField = function calculatePointedField() {
     return new Field(fieldX, fieldY);
 };
 
-Helper.existsInGroup = function (group, element, func){
+Helper.getFromGroup = function (group, element, func){
     var foundElement = null;
 
     group.forEach(function (groupElement) {
@@ -33,12 +33,12 @@ Helper.existsInGroup = function (group, element, func){
     return foundElement;
 };
 
-Helper.existsInGroups = function (groups, element, func){
+Helper.getFromGroups = function (groups, element, func){
     var inGroup = null;
 
     groups.forEach(function(group){
         if(inGroup == null)
-            inGroup = Helper.existsInGroup(group, element, func);
+            inGroup = Helper.getFromGroup(group, element, func);
     });
 
     return inGroup;

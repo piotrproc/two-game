@@ -5,15 +5,15 @@
 function Picker(){}
 
 Picker.getUnitSprite = function (field) {
-    return Helper.existsInGroups([myArmyPool, oppositeArmyPool], field, onTheSameField);
+    return Helper.getFromGroups([myArmyPool, oppositeArmyPool], field, onTheSameField);
 };
 
 Picker.getUnitSpriteWithId = function (unitData) {
-    return Helper.existsInGroups([myArmyPool, oppositeArmyPool], unitData, haveTheSameId);
+    return Helper.getFromGroups([myArmyPool, oppositeArmyPool], unitData, haveTheSameId);
 };
 
 Picker.getControlPoint = function (field){
-    return Helper.existsInGroup(controlPointPool, field, onTheSameField);
+    return Helper.getFromGroup(controlPointPool, field, onTheSameField);
 };
 
 function haveTheSameId(objectA, objectB){
