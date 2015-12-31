@@ -39,4 +39,5 @@ function launchMissile(pointedSprite){
 
 function updateHealthBar(sprite, unitData){
     sprite.healthBar.setPercent(unitData.health);
+    console.log(unitData.health);
 }

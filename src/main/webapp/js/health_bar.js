@@ -129,3 +129,10 @@ HealthBar.prototype.setFixedToCamera = function(fixedToCamera) {
     this.bgSprite.fixedToCamera = fixedToCamera;
     this.barSprite.fixedToCamera = fixedToCamera;
 };
+
+HealthBar.prototype.kill = function () {
+    if(this.bgSprite !== undefined && this.barSprite !== undefined){
+        this.bgSprite.kill();
+        this.barSprite.kill();
+    }
+};

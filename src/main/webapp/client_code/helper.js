@@ -46,3 +46,45 @@ function existsInGroups(groups, element, func){
 
     return inGroup;
 }
+
+function checkAllAliveUnits(unitStatuses){
+
+    myArmyPool.forEach(function(sprite){
+
+        var foundStatus = null;
+
+        unitStatuses.forEach(function (unitStatus) {
+            if(sprite.id == unitStatus.unitId)
+                foundStatus = unitStatus;
+        });
+
+        if(foundStatus == null){
+            console.log("aaa");
+            myArmyPool.remove(sprite);
+            sprite.healthBar.kill();
+            sprite.kill();
+
+        }
+
+    }, this);
+
+    oppositeArmyPool.forEach(function(sprite){
+
+        var foundStatus = null;
+
+        unitStatuses.forEach(function (unitStatus) {
+            if(sprite.id == unitStatus.unitId)
+                foundStatus = unitStatus;
+        });
+
+        if(foundStatus == null){
+            oppositeArmyPool.remove(sprite);
+            sprite.healthBar.kill();
+            sprite.kill();
+
+        }
+
+    }, this);
+
+
+}
