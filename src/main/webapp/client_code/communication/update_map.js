@@ -12,7 +12,7 @@ function UnitData(id, name, type, team) {
 function handleMapUpdate(message) {
     var unitStatuses = message.body.unitStatuses;
 
-    Helper.checkAllAliveUnits(unitStatuses);
+    Helper.removeAllDeadUnits(unitStatuses);
     unitStatuses.forEach(function (unit) {
 
         var unitData = handleUnitData(unit);

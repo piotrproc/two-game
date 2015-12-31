@@ -63,7 +63,7 @@ Helper.checkAllAliveUnitsInPool = function (unitStatuses, pool){
 
 };
 
-Helper.checkAllAliveUnits = function (unitStatuses){
+Helper.removeAllDeadUnits = function (unitStatuses){
     Helper.checkAllAliveUnitsInPool(unitStatuses, myArmyPool);
     Helper.checkAllAliveUnitsInPool(unitStatuses, oppositeArmyPool);
 };
