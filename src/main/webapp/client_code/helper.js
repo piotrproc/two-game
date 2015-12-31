@@ -16,16 +16,16 @@ Helper.deselectSprite = function (){
     }
 };
 
-Helper.calculatePointedField = function calculatePointedField() {
+Helper.getShiftedField = function () {
     var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize) * fieldSize;
     var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize) * fieldSize;
 
     return new Field(fieldX, fieldY);
 };
 
-Helper.calculatePointedFieldTwo = function calculatePointedField() {
-    var fieldX = Math.floor((game.input.mousePointer.x - game.camera.x) / fieldSize) * fieldSize;
-    var fieldY = Math.floor((game.input.mousePointer.y - game.camera.y) / fieldSize) * fieldSize;
+Helper.getPointedField = function () {
+    var fieldX = Math.floor((game.input.mousePointer.x) / fieldSize) * fieldSize;
+    var fieldY = Math.floor((game.input.mousePointer.y) / fieldSize) * fieldSize;
 
     return new Field(fieldX, fieldY);
 };
@@ -84,7 +84,13 @@ Helper.changeCameraToOtherPlayer = function () {
     game.camera.follow(myArmyPool.getAt(followedUnitID));
 };
 
-Helper.buttonsWereClicked = function(position) {
-    return (position.x == fieldSize * 9 && position.y == 0) ||
-        (position.x == fieldSize * 10 && position.y == 0)
+Helper.buttonsWereClicked = function() {
+    var position = Helper.getPointedField();
+
+    return (position.x == fieldSize * 8 && position.y == 0) ||
+        (position.x == fieldSize * 9 && position.y == 0)
+};
+
+Helper.buttonsWereNotClicked = function(){
+    return !Helper.buttonsWereClicked();
 }
