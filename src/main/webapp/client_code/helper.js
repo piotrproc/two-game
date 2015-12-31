@@ -87,8 +87,8 @@ Helper.changeCameraToOtherPlayer = function () {
 Helper.buttonsWereClicked = function() {
     var position = Helper.getPointedField();
 
-    return (position.x == fieldSize * 8 && position.y == 0) ||
-        (position.x == fieldSize * 9 && position.y == 0)
+    return (position.x == fieldSize * (noOfFieldsInView-2) && position.y == 0) ||
+        (position.x == fieldSize * (noOfFieldsInView-1) && position.y == 0)
 };
 
 Helper.buttonsWereNotClicked = function(){
