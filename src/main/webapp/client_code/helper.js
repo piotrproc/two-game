@@ -2,28 +2,26 @@
  * Created by Piotr Proc on 27.12.15.
  */
 
-function Selector(){}
+function Helper(){}
 
-Selector.selectSprite = function (pointedSprite) {
+Helper.selectSprite = function (pointedSprite) {
     movingSprite = Picker.getUnitSprite(pointedSprite.position);
     movingSprite.anchor.setTo(-0.1, 0);
 };
 
-Selector.deselectSprite = function (){
+Helper.deselectSprite = function (){
     movingSprite.anchor.setTo(0, 0);
     movingSprite = null;
 };
 
-function Calculator(){}
-
-Calculator.calculatePointedField = function calculatePointedField() {
+Helper.calculatePointedField = function calculatePointedField() {
     var fieldX = Math.floor((game.input.mousePointer.x + game.camera.x) / fieldSize) * fieldSize;
     var fieldY = Math.floor((game.input.mousePointer.y + game.camera.y) / fieldSize) * fieldSize;
 
     return new Field(fieldX, fieldY);
 };
 
-function existsInGroup(group, element, func){
+Helper.existsInGroup = function (group, element, func){
     var foundElement = null;
 
     group.forEach(function (groupElement) {
@@ -33,20 +31,20 @@ function existsInGroup(group, element, func){
     }, this);
 
     return foundElement;
-}
+};
 
-function existsInGroups(groups, element, func){
+Helper.existsInGroups = function (groups, element, func){
     var inGroup = null;
 
     groups.forEach(function(group){
         if(inGroup == null)
-            inGroup = existsInGroup(group, element, func);
+            inGroup = Helper.existsInGroup(group, element, func);
     });
 
     return inGroup;
-}
+};
 
-function checkAllAliveUnits(unitStatuses){
+Helper.checkAllAliveUnits = function (unitStatuses){
 
     myArmyPool.forEach(function(sprite){
 
@@ -78,5 +76,4 @@ function checkAllAliveUnits(unitStatuses){
 
     }, this);
 
-
-}
+};

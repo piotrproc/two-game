@@ -20,7 +20,7 @@ function bulletReachedTarget(bullet){
 }
 
 function handleClick() {
-    var pointedField = Calculator.calculatePointedField();
+    var pointedField = Helper.calculatePointedField();
     var pointedSprite = Picker.getUnitSprite(pointedField);
 
     //if we click on sprite
@@ -31,7 +31,7 @@ function handleClick() {
             movingSprite.attack(pointedSprite);
         } else {
             if (myArmyPool.exists(pointedSprite))
-                Selector.selectSprite(pointedSprite);
+                Helper.selectSprite(pointedSprite);
         }
 
     } else {
@@ -41,7 +41,7 @@ function handleClick() {
             //we move if
             if (myArmyPool.exists(movingSprite)) {
                 Sender.sendUserUpdate(pointedField, null, null);
-                Selector.deselectSprite();
+                Helper.deselectSprite();
             }
         }
 
