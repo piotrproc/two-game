@@ -1,7 +1,18 @@
 package two.game.logic;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import two.game.config.ControlPointConfig;
 import two.game.config.GameConfig;
 import two.game.model.ControlPoint;
@@ -14,137 +25,161 @@ import two.game.model.status.MissileStatus;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 
-import java.util.*;
-
 /**
  * remember that object is shared and all actions should
  */
 public class GameState {
-    private static final Logger logger = LoggerFactory.getLogger(GameState.class);
-    private final IGameMap map;
-    private final Map<String, Long> userIdToSequenceId;
-    private Boolean gameStarted;
-    private List<MissileStatus> missileStatuses;
-    private List<AttackEvent> attackEvents;
-    private List<TeamStatus> teamStatuses;
-    private List<UnitStatus> unitStatuses;
-    private List<ControlPoint> controlPoints;
-    private Long updateSequenceId;
+	private static final Logger logger = LoggerFactory.getLogger(GameState.class);
+	private final IGameMap map;
+	private final Map<String, Long> userIdToSequenceId;
+	private Boolean gameStarted;
+	private List<MissileStatus> missileStatuses;
+	private List<AttackEvent> attackEvents;
+	private List<TeamStatus> teamStatuses;
+	private List<UnitStatus> unitStatuses;
+	private List<ControlPoint> controlPoints;
+	private Long updateSequenceId;
 
-    public GameState() {
+	private int lastProcessedAttack = 0;
+	private int lastProcessedMissile = 0;
 
-        this(MapParser.parse(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), ControlPointConfig.controlPointLocations);
-        ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
-        this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
-        this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
-        this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 80, 2, 2, 4, 2, new Point(96.0, 96.0), new Point(224.0, 64.0)));
-        this.getUnitStatuses().add(new UnitStatus(2L, UnitType.TANK, "user2", 80, 2, 2, 4, 2, new Point(128.0, 128.0), new Point(96.0, 128.0)));
-    }
+	public GameState() {
 
-    public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
-                     List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses, List<ControlPoint> controlPoints) {
-        this.map = map;
-        this.missileStatuses = missileStatuses;
-        this.attackEvents = attackEvents;
-        this.teamStatuses = teamStatuses;
-        this.unitStatuses = unitStatuses;
-        this.controlPoints = controlPoints;
-        this.gameStarted = false;
-        this.userIdToSequenceId = new HashMap<>();
-        this.updateSequenceId = 0l;
-    }
+		this(MapParser.parse(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
+				ControlPointConfig.controlPointLocations);
+		ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
+		this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
+		this.getTeamStatuses()
+				.add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
+		this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 80, 200, 2, 4, 2, new Point(96.0, 96.0),
+				new Point(224.0, 64.0)));
+		this.getUnitStatuses().add(
+				new UnitStatus(2L, UnitType.TANK, "user2", 80, 200, 2, 4, 2, new Point(108.0, 108.0), new Point(96.0, 128.0)));
+	}
 
-    public Map<String, Long> getUserIdToSequenceId() {
-        return userIdToSequenceId;
-    }
+	public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
+			List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses, List<ControlPoint> controlPoints) {
+		this.map = map;
+		this.missileStatuses = missileStatuses;
+		this.attackEvents = attackEvents;
+		this.teamStatuses = teamStatuses;
+		this.unitStatuses = unitStatuses;
+		this.controlPoints = controlPoints;
+		this.gameStarted = false;
+		this.userIdToSequenceId = new HashMap<>();
+		this.updateSequenceId = 0L;
+	}
 
-    public IGameMap getMap() {
-        return map;
-    }
+	public synchronized Collection<MissileStatus> getNewMissiles() {
+		List<MissileStatus> missiles = missileStatuses.subList(lastProcessedMissile, missileStatuses.size());
+		lastProcessedMissile = missileStatuses.size();
+		return missiles;
+	}
 
-    public List<MissileStatus> getMissileStatuses() {
-        return missileStatuses;
-    }
+	public synchronized Collection<AttackEvent> getNewAttacks() {
+		List<AttackEvent> missiles = attackEvents.subList(lastProcessedAttack, attackEvents.size());
+		lastProcessedAttack = attackEvents.size() ;
+		return missiles;
+	}
 
-    public void setMissileStatuses(List<MissileStatus> missileStatuses) {
-        this.missileStatuses = missileStatuses;
-    }
+	public Map<String, Long> getUserIdToSequenceId() {
+		return userIdToSequenceId;
+	}
 
-    public List<AttackEvent> getAttackEvents() {
-        return attackEvents;
-    }
+	public IGameMap getMap() {
+		return map;
+	}
 
-    public void setAttackEvents(List<AttackEvent> attackEvents) {
-        this.attackEvents = attackEvents;
-    }
+	public synchronized List<MissileStatus> getMissileStatuses() {
+		return missileStatuses;
+	}
 
-    public List<TeamStatus> getTeamStatuses() {
-        return teamStatuses;
-    }
+	public void setMissileStatuses(List<MissileStatus> missileStatuses) {
+		this.missileStatuses = missileStatuses;
+	}
 
-    public void setTeamStatuses(List<TeamStatus> teamStatuses) {
-        this.teamStatuses = teamStatuses;
-    }
+	public synchronized List<AttackEvent> getAttackEvents() {
+		return attackEvents;
+	}
 
-    public List<UnitStatus> getUnitStatuses() {
-        return unitStatuses;
-    }
+	public void setAttackEvents(List<AttackEvent> attackEvents) {
+		this.attackEvents = attackEvents;
+	}
 
-    public void setUnitStatuses(List<UnitStatus> unitStatuses) {
-        this.unitStatuses = unitStatuses;
-    }
+	public List<TeamStatus> getTeamStatuses() {
+		return teamStatuses;
+	}
 
-    public List<ControlPoint> getControlPoints() {
-        return controlPoints;
-    }
+	public void setTeamStatuses(List<TeamStatus> teamStatuses) {
+		this.teamStatuses = teamStatuses;
+	}
 
-    public void setControlPoints(List<ControlPoint> controlPoints) {
-        this.controlPoints = controlPoints;
-    }
+	public List<UnitStatus> getUnitStatuses() {
+		return unitStatuses;
+	}
 
-    public Boolean isStarted() {
-        return gameStarted;
-    }
+	public void setUnitStatuses(List<UnitStatus> unitStatuses) {
+		this.unitStatuses = unitStatuses;
+	}
 
-    public void setStarted(Boolean gameStarted) {
-        this.gameStarted = gameStarted;
-    }
+	public List<ControlPoint> getControlPoints() {
+		return controlPoints;
+	}
 
-    public Long getUpdateSequenceId() {
-        return updateSequenceId;
-    }
+	public void setControlPoints(List<ControlPoint> controlPoints) {
+		this.controlPoints = controlPoints;
+	}
 
-    public void bumpUpdateSequenceId() {
-        this.updateSequenceId += 1;
-    }
+	public Boolean isStarted() {
+		return gameStarted;
+	}
 
+	public void setStarted(Boolean gameStarted) {
+		this.gameStarted = gameStarted;
+	}
 
-    public void addUnit(UnitType unitType, String user, Integer teamNumber) {
-        Point startPoint = GameConfig.getStartPoint(teamNumber);
-        long unitId = getUniqueUnitId();
+	public Long getUpdateSequenceId() {
+		return updateSequenceId;
+	}
 
-        // todo: so many magic constants...
-        this.getUnitStatuses().add(new UnitStatus(unitId, unitType, user, 100, 2, 2, 4, 2, startPoint, startPoint));
-    }
+	public void bumpUpdateSequenceId() {
+		this.updateSequenceId += 1;
+	}
 
-    public void addUnit(UnitStatus status) {
-        this.unitStatuses.add(status);
-    }
+	public void addUnit(UnitType unitType, String user, Integer teamNumber) {
+		Point startPoint = GameConfig.getStartPoint(teamNumber);
+		long unitId = getUniqueUnitId();
 
-    public void addAttack(AttackEvent attackEvent) {
-        this.attackEvents.add(attackEvent);
-    }
+		// todo: so many magic constants...
+		this.getUnitStatuses().add(new UnitStatus(unitId, unitType, user, 100, 2, 2, 4, 2, startPoint, startPoint));
+	}
 
-    public void addMissile(MissileStatus missileStatus) {
-        this.missileStatuses.add(missileStatus);
-    }
+	public void addUnit(UnitStatus status) {
+		this.unitStatuses.add(status);
+	}
 
-    private long getUniqueUnitId(){
-        long LOWER_RANGE = 0;
-        long UPPER_RANGE = 1000000;
-        Random random = new Random();
+	public synchronized void addAttack(AttackEvent attackEvent) {
+		this.attackEvents.add(attackEvent);
+		logger.info("Add Attacks: " + attackEvents.size());
+	}
 
-        return LOWER_RANGE +
-                (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
-    }
+	public synchronized void addMissile(MissileStatus missileStatus) {
+		this.missileStatuses.add(missileStatus);
+	}
+
+	private long getUniqueUnitId() {
+		long LOWER_RANGE = 0;
+		long UPPER_RANGE = 1000000;
+		Random random = new Random();
+
+		return LOWER_RANGE +
+				(long) (random.nextDouble() * (UPPER_RANGE - LOWER_RANGE));
+	}
+
+	public Collection<UnitStatus> getUnitsInRadius(Point target, int radius) {
+		return unitStatuses.stream()
+				.filter(u -> u.getPosition().distanceTo(target) <= radius)
+				.collect(Collectors.toList());
+
+	}
 }

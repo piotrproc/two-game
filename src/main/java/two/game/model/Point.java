@@ -63,4 +63,12 @@ public class Point {
     public static Point of(double x, double y) {
         return new Point(x, y);
     }
+
+    public double distanceTo(Point target) {
+        Double x2 = target.x;
+        Double y2 = target.y;
+        Double dx = Math.pow((x - x2), 2);
+        Double dy = Math.pow((y - y2), 2);
+        return Math.sqrt(dx + dy);
+    }
 }

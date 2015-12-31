@@ -1,5 +1,6 @@
 package two.game.model.update;
 
+import java.util.ArrayList;
 import two.game.model.Point;
 
 import java.util.List;
@@ -7,9 +8,8 @@ import java.util.List;
 public class UnitUpdate {
     private Long unitId;
     private Point moveTarget;
-    private List<MissileLaunch> missileLaunches;
-    private List<UnitAttack> attacks;
-
+    private List<MissileLaunch> missileLaunches = new ArrayList<>();
+    private List<UnitAttack> attacks = new ArrayList<>();
 
     public UnitUpdate() {
 
