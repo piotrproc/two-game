@@ -20,10 +20,15 @@ function addNewSprite(unitData, position){
 
     armySprite.healthBar.setPercent(80);
 
+
+
     if(myTeam == unitData.team){
         game.camera.follow(armySprite);
+        armySprite.pool = myArmyPool;
         myArmyPool.add(armySprite);
+
     }else{
+        armySprite.pool = oppositeArmyPool;
         oppositeArmyPool.add(armySprite);
     }
 

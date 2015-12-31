@@ -59,7 +59,7 @@ function checkAllAliveUnits(unitStatuses){
         });
 
         if(foundStatus == null){
-            killSprite(sprite, myArmyPool);
+            killSprite(sprite);
         }
 
     }, this);
@@ -74,7 +74,7 @@ function checkAllAliveUnits(unitStatuses){
         });
 
         if(foundStatus == null){
-            killSprite(sprite, oppositeArmyPool);
+            killSprite(sprite);
         }
 
     }, this);
