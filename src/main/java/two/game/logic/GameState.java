@@ -151,7 +151,7 @@ public class GameState {
 		long unitId = getUniqueUnitId();
 
 		// todo: so many magic constants...
-		this.getUnitStatuses().add(new UnitStatus(unitId, unitType, user, 100, 2, 2, 4, 2, startPoint, startPoint));
+		this.getUnitStatuses().add(new UnitStatus(unitId, unitType, user, 100, 200, 2, 4, 2, startPoint, startPoint));
 	}
 
 	public void addUnit(UnitStatus status) {
