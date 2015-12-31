@@ -5,8 +5,7 @@
 var user = "user1";
 
 //Sender sends message through WebSocket to Server
-function Sender(){
-}
+function Sender(){}
 
 Sender.sendSupportRequest = function () {
     Helper.deselectSprite();
@@ -18,14 +17,14 @@ Sender.sendSupportRequest = function () {
 };
 
 Sender.sendUserUpdate = function (targetPosition, unitAttack, missileLaunch) {
-    var message = Sender.getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileLaunch);
+    var message = Sender.getUserUpdateMessage(targetPosition, unitAttack, missileLaunch);
     eventBus.send("UserUpdate", message);
 };
 
 /**
  * We prepare message for UserUpdate consumer here
  */
-Sender.getUserUpdateMessage = function (movingSprite, targetPosition, unitAttack, missileLaunch) {
+Sender.getUserUpdateMessage = function (targetPosition, unitAttack, missileLaunch) {
 
     userSequenceId += 1;
 

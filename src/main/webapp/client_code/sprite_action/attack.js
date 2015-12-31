@@ -5,9 +5,9 @@
 function attack(pointedSprite){
 
     if(this.type == "cannon"){
-//        launchMissile(pointedSprite);
-        this.fireBullet(pointedSprite);
-        Sender.sendUserUpdate(null, pointedSprite, this.position);
+        this.launchMissile(pointedSprite);
+//        this.fireBullet(pointedSprite);
+//        Sender.sendUserUpdate(null, pointedSprite, this.position);
     }else{
         this.fireBullet(pointedSprite);
     }
@@ -34,7 +34,7 @@ function fireBullet(pointedSprite) {
 }
 
 function launchMissile(pointedSprite){
-    //todo
+    Sender.sendUserUpdate(null, null, pointedSprite.position);
 }
 
 function updateHealthBar(sprite, unitData){

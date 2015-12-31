@@ -12,8 +12,16 @@ Picker.getUnitSpriteWithId = function (unitData) {
     return Helper.getFromGroups([myArmyPool, oppositeArmyPool], unitData, haveTheSameId);
 };
 
-Picker.getControlPoint = function (field){
+Picker.getControlPointSprite = function (field){
     return Helper.getFromGroup(controlPointPool, field, onTheSameField);
+};
+
+Picker.getMissileSprite = function (field){
+    return Helper.getFromGroup(missilePool, field, onTheSameField);
+};
+
+Picker.getMissileSpriteWithId = function (missileData){
+    return Helper.getFromGroup(missilePool, missileData, haveTheSameId);
 };
 
 function haveTheSameId(objectA, objectB){

@@ -19,7 +19,7 @@ function createPools(){
     };
 
     createBullets();
-    createMissiles();
+    missilePool = game.add.group();
 }
 
 function createBullets() {
@@ -36,14 +36,3 @@ function createBullets() {
     }
 }
 
-function createMissiles(){
-    missilePool = game.add.group();
-    for (var i = 0; i < 20; i++) {
-
-        var missile = game.add.sprite(0, 0, 'missile');
-        missilePool.add(missile);
-
-        missile.anchor.setTo(0.5, 0.5);
-        missile.kill(); // Set its initial state to "dead".
-    }
-}

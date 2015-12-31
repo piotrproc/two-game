@@ -53,8 +53,10 @@ public class GameState {
 				.add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
 		this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 80, 200, 2, 4, 2, new Point(96.0, 96.0),
 				new Point(224.0, 64.0)));
+        this.getUnitStatuses().add(new UnitStatus(2L, UnitType.SOLDIER, "user1", 80, 200, 2, 4, 2, new Point(32.0, 32.0),
+                new Point(64.0, 32.0)));
 		this.getUnitStatuses().add(
-				new UnitStatus(2L, UnitType.TANK, "user2", 80, 200, 2, 4, 2, new Point(108.0, 108.0), new Point(96.0, 128.0)));
+				new UnitStatus(11L, UnitType.TANK, "user2", 80, 200, 2, 4, 2, new Point(108.0, 108.0), new Point(96.0, 128.0)));
 	}
 
 	public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,

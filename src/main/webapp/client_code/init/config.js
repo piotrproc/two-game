@@ -4,11 +4,12 @@ var eventBus = new EventBus('http://localhost:8077/eventbus');
 eventBus.onopen = function () {
 
     eventBus.registerHandler('MatchStatus', function (i, message) {
-        //console.log('received a message: ', message);
+        console.log('received a message: ', message);
         handleTeamStatus(message);
 
         handleMapUpdate(message);
         handleControlPoints(message);
+        handleMissiles(message);
     });
 
 };
