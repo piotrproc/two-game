@@ -4,12 +4,12 @@
 
 function attack(pointedSprite){
 
-    if(movingSprite.type == "cannon"){
+    if(this.type == "cannon"){
 //        launchMissile(pointedSprite);
-        fireBullet(pointedSprite);
-        sendUserUpdate(null, pointedSprite, movingSprite.position);
+        this.fireBullet(pointedSprite);
+        Sender.sendUserUpdate(null, pointedSprite, this.position);
     }else{
-        fireBullet(pointedSprite);
+        this.fireBullet(pointedSprite);
     }
 
 }
@@ -22,15 +22,15 @@ function fireBullet(pointedSprite) {
 
     bullet.revive(); // Revive the bullet, this makes the bullet "alive"
     bullet.reset(
-        movingSprite.position.x + fieldSize / 2,
-        movingSprite.position.y + fieldSize / 2
+        this.position.x + fieldSize / 2,
+        this.position.y + fieldSize / 2
     );
 
     game.physics.arcade.moveToXY(bullet,
         pointedSprite.position.x + fieldSize / 2,
         pointedSprite.position.y + fieldSize / 2);
 
-    sendUserUpdate(null, pointedSprite, null);
+    Sender.sendUserUpdate(null, pointedSprite, null);
 }
 
 function launchMissile(pointedSprite){

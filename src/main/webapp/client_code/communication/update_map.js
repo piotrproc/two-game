@@ -21,11 +21,11 @@ function handleMapUpdate(message) {
         var sprite = getUnitSpriteWithId(unitData);
 
         if (sprite) {
-            updateHealthBar(sprite, unit);
+            sprite.healthBar.setPercent(unit.health);
 
             var destinationSprite = getUnitSprite(position);
             if (destinationSprite == null){
-                moveUnitOnServerOrder(sprite, position);
+                sprite.move(position);
             }
 
         } else {

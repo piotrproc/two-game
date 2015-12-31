@@ -6,9 +6,17 @@ function createPools(){
     //order here is important, control points need to be displayed at the beginning
     controlPointPool = game.add.group();
     myArmyPool = game.add.group();
+
+    myArmyPool.exists = function (foundUnit){
+        return this.getIndex(foundUnit) >= 0;
+    };
+
     oppositeArmyPool = game.add.group();
     oppositeArmyPool.enableBody = true;  //it's necessary for interaction with bullets
 
+    oppositeArmyPool.exists = function (foundUnit){
+        return this.getIndex(foundUnit) >= 0;
+    };
 
     createBullets();
     createMissiles();

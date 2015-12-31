@@ -15,7 +15,7 @@ function update() {
     }
 }
 
-function bulletReachedTarget(bullet, armySprite){
+function bulletReachedTarget(bullet){
     bullet.kill();
 }
 
@@ -27,10 +27,10 @@ function handleClick() {
     if (pointedSprite) {
 
         //if we had one sprite marked before
-        if (movingSprite && !spriteIsInMyTeam(pointedSprite)) {
-            attack(pointedSprite);
+        if (movingSprite && oppositeArmyPool.exists(pointedSprite)) {
+            movingSprite.attack(pointedSprite);
         } else {
-            if (spriteIsInMyTeam(pointedSprite))
+            if (myArmyPool.exists(pointedSprite))
                 selectSprite(pointedSprite);
         }
 
@@ -39,8 +39,8 @@ function handleClick() {
         //if we had one sprite marked before
         if (movingSprite) {
             //we move if
-            if (spriteIsInMyTeam(movingSprite) && fieldIsOnTheMap(pointedField)) {
-                sendUserUpdate(pointedField, null, null);
+            if (myArmyPool.exists(movingSprite) && fieldIsOnTheMap(pointedField)) {
+                Sender.sendUserUpdate(pointedField, null, null);
                 deselectSprite();
             }
         }

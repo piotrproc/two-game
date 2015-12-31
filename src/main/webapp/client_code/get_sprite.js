@@ -14,10 +14,6 @@ function getControlPoint(field){
     return existsInGroup(controlPointPool, field, onTheSameField);
 }
 
-function spriteIsInMyTeam(foundUnit){
-    return myArmyPool.getIndex(foundUnit) >= 0;
-}
-
 function haveTheSameId(objectA, objectB){
     return objectA.id == objectB.id;
 }

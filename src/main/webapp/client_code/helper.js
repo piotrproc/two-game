@@ -3,7 +3,7 @@
  */
 
 function selectSprite(pointedSprite) {
-    movingSprite = pointedSprite;
+    movingSprite = getUnitSprite(pointedSprite.position);
     movingSprite.anchor.setTo(-0.1, 0);
 }
 
@@ -59,7 +59,7 @@ function checkAllAliveUnits(unitStatuses){
         });
 
         if(foundStatus == null){
-            killSprite(sprite);
+            sprite.kill();
         }
 
     }, this);
@@ -74,7 +74,7 @@ function checkAllAliveUnits(unitStatuses){
         });
 
         if(foundStatus == null){
-            killSprite(sprite);
+            sprite.kill();
         }
 
     }, this);

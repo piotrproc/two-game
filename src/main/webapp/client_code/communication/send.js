@@ -4,22 +4,26 @@
 
 var user = "user1";
 
-function sendSupportRequest() {
+//Sender sends message through WebSocket to Server
+function Sender(){
+}
+
+Sender.sendSupportRequest = function () {
     var message = {
         "user": user
     };
     eventBus.send("SupportRequest", message);
-}
+};
 
-function sendUserUpdate(targetPosition, unitAttack, missileLaunch) {
-    var message = getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileLaunch);
+Sender.sendUserUpdate = function (targetPosition, unitAttack, missileLaunch) {
+    var message = Sender.getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileLaunch);
     eventBus.send("UserUpdate", message);
-}
+};
 
 /**
  * We prepare message for UserUpdate consumer here
  */
-function getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileLaunch) {
+Sender.getUserUpdateMessage = function (movingSprite, targetPosition, unitAttack, missileLaunch) {
 
     userSequenceId += 1;
 
@@ -63,4 +67,4 @@ function getUserUpdateMessage(movingSprite, targetPosition, unitAttack, missileL
     userUpdate["unitUpdates"] = [unitUpdate];
 //    console.log(userUpdate);
     return userUpdate;
-}
+};

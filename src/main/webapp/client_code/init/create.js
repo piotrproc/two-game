@@ -27,7 +27,7 @@ function createMainBar() {
     var button = game.add.button(viewSize - 1.45 * fieldSize, 0.25 * fieldSize,
         'change_player_button', changeCameraToOtherPlayer, this, 2, 1, 0);
     var button2 = game.add.button(viewSize - 0.75 * fieldSize, 0.25 * fieldSize,
-        'reinforcement_button', sendSupportRequest, this, 2, 1, 0);
+        'reinforcement_button', Sender.sendSupportRequest, this, 2, 1, 0);
     button.fixedToCamera = true;
     button2.fixedToCamera = true;
 }
