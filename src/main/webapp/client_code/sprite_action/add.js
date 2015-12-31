@@ -20,27 +20,10 @@ function addNewSprite(unitData, position){
 
     armySprite.healthBar.setPercent(80);
 
-    armySprite.move = function(targetPosition){
-        this.x = targetPosition.x;
-        this.y = targetPosition.y;
-
-        this.healthBar.setPosition(
-            this.x + fieldSize/2,
-            this.y + fieldSize
-        );
-
-        this.anchor.setTo(0, 0);
-    };
-
+    armySprite.move = move;
     armySprite.fireBullet = fireBullet;
     armySprite.attack = attack;
-
-    armySprite.kill = function(){
-        this.pool.remove(this);
-        this.healthBar.kill();
-        this.kill();
-    };
-
+    armySprite.kill = kill;
 
     if(myTeam == unitData.team){
         game.camera.follow(armySprite);
