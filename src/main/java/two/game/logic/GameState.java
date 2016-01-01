@@ -41,7 +41,6 @@ public class GameState {
 	private Long updateSequenceId;
 
 	private int lastProcessedAttack = 0;
-	private int lastProcessedMissile = 0;
 
 	public GameState() {
 
@@ -179,10 +178,4 @@ public class GameState {
 				(long) (random.nextDouble() * (UPPER_RANGE - LOWER_RANGE));
 	}
 
-	public Collection<UnitStatus> getUnitsInRadius(Point target, int radius) {
-		return unitStatuses.stream()
-				.filter(u -> u.getPosition().distanceTo(target) <= radius)
-				.collect(Collectors.toList());
-
-	}
 }

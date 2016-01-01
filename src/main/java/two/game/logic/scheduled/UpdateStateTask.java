@@ -19,7 +19,7 @@ import two.game.model.status.UnitStatus;
 public class UpdateStateTask implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(UpdateStateTask.class);
 	private static final double MOVE_DELTA_PER_MS = 0.1;
-	private static final int MISSILE_RADIUS = 32;
+	private static final int MISSILE_RADIUS = 2;
 	private static final int MISSILE_DAMAGE = 50;
 	private final GameState gameState;
 	private DateTime lastUpdate;
@@ -93,7 +93,8 @@ public class UpdateStateTask implements Runnable {
             Point target  = missile.getTargetPosition();
 
             if(position.equals(target)){
-                gameState.getUnitStatuses().stream().filter(unit -> unit.getPosition().distanceTo(target) <= 32 * 2)
+                gameState.getUnitStatuses().stream()
+                        .filter(unit -> unit.getPosition().distanceTo(target) <= 32 * MISSILE_RADIUS)
                         .forEach(unit -> applyDamage(unit, MISSILE_DAMAGE));
                 missileStatuses.remove(missile);
 
