@@ -43,19 +43,13 @@ public class GameState {
 	private int lastProcessedAttack = 0;
 
 	public GameState() {
-
-		this(MapParser.parse(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-				ControlPointConfig.controlPointLocations);
+		this(MapParser.parse(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), ControlPointConfig.controlPointLocations);
 		ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
 		this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
-		this.getTeamStatuses()
-				.add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
-		this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 80, 200, 2, 4, 2, new Point(96.0, 96.0),
-				new Point(224.0, 64.0)));
-        this.getUnitStatuses().add(new UnitStatus(2L, UnitType.SOLDIER, "user1", 80, 200, 2, 4, 2, new Point(32.0, 32.0),
-                new Point(64.0, 32.0)));
-		this.getUnitStatuses().add(
-				new UnitStatus(11L, UnitType.TANK, "user2", 80, 200, 2, 4, 2, new Point(108.0, 108.0), new Point(96.0, 128.0)));
+		this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
+		this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 80, 200, 2, 4, 2, new Point(256, 96), new Point(256, 96)));
+		this.getUnitStatuses().add(new UnitStatus(2L, UnitType.SOLDIER, "user1", 80, 200, 2, 4, 2, new Point(256, 32), new Point(256, 32)));
+		this.getUnitStatuses().add(new UnitStatus(11L, UnitType.TANK, "user2", 80, 200, 2, 4, 2, new Point(192, 96), new Point(192, 32)));
 	}
 
 	public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
