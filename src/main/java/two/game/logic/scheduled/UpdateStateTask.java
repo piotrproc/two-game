@@ -161,18 +161,29 @@ public class UpdateStateTask implements Runnable {
 		double scaler = (Math.abs(dx) + Math.abs(dy)) / distanceAllowed;
 		scaler = Math.abs(Math.max(1., scaler));
 
-		Point result = new Point(position.getX() + dx / scaler, position.getY() + dy / scaler);
+		double calculatedX = position.getX() + dx / scaler;
+		double calculatedY = position.getY() + dy / scaler;
+		int roundedX = 32 * (int) (Math.round(position.getX() / 32));
+		int roundedY = 32 * (int) (Math.round(position.getY() / 32));
+		double EPS = 1e-4;
+
+		if (Math.abs(roundedY - calculatedY) < EPS) {
+			calculatedY = roundedY;
+		}
+		if (Math.abs(roundedX - calculatedX) < EPS) {
+			calculatedX = roundedX;
+		}
+
+		Point result = new Point(calculatedX, calculatedY);
 		if (getOverlapping(gameState.getMap(), result).stream().allMatch(element -> isAllowed(unit.getType(), element))) {
 			return result;
 		}
 
-		int roundedX = 32 * (int) (Math.round(position.getX() / 32));
-		int roundedY = 32 * (int) (Math.round(position.getY() / 32));
-		result = new Point((double) roundedX, position.getY() + dy / scaler);
+		result = new Point((double) roundedX, calculatedY);
 		if (getOverlapping(gameState.getMap(), result).stream().allMatch(element -> isAllowed(unit.getType(), element))) {
 			return result;
 		}
-		result = new Point(position.getX() + dx / scaler, (double) roundedY);
+		result = new Point(calculatedX, (double) roundedY);
 		if (getOverlapping(gameState.getMap(), result).stream().allMatch(element -> isAllowed(unit.getType(), element))) {
 			return result;
 		}
