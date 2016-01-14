@@ -16,7 +16,10 @@ eventBus.onopen = function () {
 
 // user data configuration
 var map;
-var user = "user1";
+
+
+var user = prompt("Podaj nazwę użytkownika", "user");
+//var user = "user1";
 var myTeam;
 var userSequenceId;
 
