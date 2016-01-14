@@ -1,5 +1,6 @@
 // set a handler to receive a message
-var eventBus = new EventBus('http://104.131.36.87:8077/eventbus');
+var eventBus = new EventBus('http://' + window.location.hostname + ':8077/eventbus');
+
 
 eventBus.onopen = function () {
 
@@ -27,7 +28,7 @@ var userSequenceId;
 var fieldSize = 32;
 var mapSize = 3200;
 var viewSize = mapSize / 10;
-var noOfFieldsInView = viewSize/fieldSize;
+var noOfFieldsInView = viewSize / fieldSize;
 
 // game configuration
 var unitNames = ['airforce', 'cannon', 'tank', 'soldier'];
