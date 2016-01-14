@@ -6,14 +6,14 @@ function Helper(){}
 
 Helper.selectSprite = function (pointedSprite) {
     movingSprite = Picker.getUnitSprite(pointedSprite.position);
-    movingSprite.anchor.setTo(-0.1, 0);
+//    movingSprite.anchor.setTo(-0.1, 0);
 };
 
 Helper.deselectSprite = function (){
-    if(movingSprite){
-        movingSprite.anchor.setTo(0, 0);
-        movingSprite = null;
-    }
+//    if(movingSprite){
+//        movingSprite.anchor.setTo(0, 0);
+//        movingSprite = null;
+//    }
 };
 
 Helper.getShiftedField = function () {
@@ -81,7 +81,9 @@ Helper.changeCameraToOtherPlayer = function () {
     Helper.deselectSprite();
 
     followedUnitID = (followedUnitID + 1) % myArmyPool.countLiving();
-    game.camera.follow(myArmyPool.getAt(followedUnitID));
+    sprite = myArmyPool.getAt(followedUnitID);
+    game.camera.follow(sprite);
+    movingSprite = sprite;
 };
 
 Helper.buttonsWereClicked = function() {
