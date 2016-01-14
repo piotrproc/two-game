@@ -25,7 +25,13 @@ function handleMapUpdate(message) {
 
             var destinationSprite = Picker.getUnitSprite(position);
             if (destinationSprite == null){
-                sprite.move(position);
+
+                if(sprite.team != myTeam){
+                    sprite.moveInArcadeGraphics(position);
+                }else{
+                    sprite.move(position);
+                }
+
             }
 
         } else {

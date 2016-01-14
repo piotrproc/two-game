@@ -19,7 +19,7 @@ eventBus.onopen = function () {
 var map;
 
 
-var user = prompt("Podaj nazwę użytkownika", "user");
+var user = prompt("Podaj nazwę użytkownika", "user1");
 //var user = "user1";
 var myTeam;
 var userSequenceId;
