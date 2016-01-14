@@ -6,8 +6,6 @@ function attack(pointedSprite) {
 
     if (this.type == "cannon") {
         this.launchMissile(pointedSprite);
-//        this.fireBullet(pointedSprite);
-//        Sender.sendUserUpdate(null, pointedSprite, this.position);
     } else {
         this.fireBullet(pointedSprite);
     }
