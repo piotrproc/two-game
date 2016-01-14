@@ -5,7 +5,7 @@ var eventBus = new EventBus('http://' + window.location.hostname + ':8077/eventb
 eventBus.onopen = function () {
 
     eventBus.registerHandler('MatchStatus', function (i, message) {
-        console.log('received a message: ', message);
+//        console.log('received a message: ', message);
         handleTeamStatus(message);
 
         handleMapUpdate(message);

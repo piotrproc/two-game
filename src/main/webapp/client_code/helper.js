@@ -23,6 +23,13 @@ Helper.getShiftedField = function () {
     return new Field(fieldX, fieldY);
 };
 
+Helper.getOriginalShiftedField = function() {
+    var fieldX = game.input.mousePointer.x + game.camera.x;
+    var fieldY = game.input.mousePointer.y + game.camera.y;
+
+    return new Field(fieldX, fieldY);
+};
+
 Helper.getPointedField = function () {
     var fieldX = Math.floor((game.input.mousePointer.x) / fieldSize) * fieldSize;
     var fieldY = Math.floor((game.input.mousePointer.y) / fieldSize) * fieldSize;
