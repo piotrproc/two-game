@@ -1,5 +1,5 @@
 // set a handler to receive a message
-var eventBus = new EventBus('http://localhost:8077/eventbus');
+var eventBus = new EventBus('http://104.131.36.87:8077/eventbus');
 
 eventBus.onopen = function () {
 
