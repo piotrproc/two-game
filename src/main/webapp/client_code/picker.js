@@ -8,6 +8,10 @@ Picker.getUnitSprite = function (field) {
     return Helper.getFromGroups([myArmyPool, oppositeArmyPool], field, onTheSameField);
 };
 
+Picker.getMovingUnitSprite = function (field) {
+    return Helper.getFromGroups([myArmyPool, oppositeArmyPool], field, onTheSameSquare);
+};
+
 Picker.getUnitSpriteWithId = function (unitData) {
     return Helper.getFromGroups([myArmyPool, oppositeArmyPool], unitData, haveTheSameId);
 };
@@ -26,6 +30,11 @@ Picker.getMissileSpriteWithId = function (missileData){
 
 function haveTheSameId(objectA, objectB){
     return objectA.id == objectB.id;
+}
+
+function onTheSameSquare(place, sprite){
+    return sprite.x <= place.x && place.x <= sprite.x + fieldSize
+        && sprite.y <= place.y && place.y <= sprite.y + fieldSize;
 }
 
 function onTheSameField(objectA, objectB){

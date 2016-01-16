@@ -4,7 +4,6 @@
 
 function move(targetPosition){
 
-
     this.x = targetPosition.x;
     this.y = targetPosition.y;
 
@@ -14,4 +13,10 @@ function move(targetPosition){
     );
 
     this.anchor.setTo(0, 0);
+}
+
+function moveInArcadeGraphics(targetPosition){
+    this.kill();
+    this.revive();
+    this.move(position);
 }
