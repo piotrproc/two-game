@@ -1,8 +1,12 @@
 package two.game.logic.scheduled;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import javafx.util.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.slf4j.Logger;
@@ -23,9 +27,17 @@ public class UpdateStateTask implements Runnable {
 	private static final double MOVE_DELTA_PER_MS = 0.1;
 	private static final int MISSILE_RADIUS = 2;
 	private static final int MISSILE_DAMAGE = 50;
-	private final GameState gameState;
-	private DateTime lastUpdate;
-	private long sumOfMillisElapsed = 0;
+    private final GameState gameState;
+    private DateTime lastUpdate;
+    private long sumOfMillisElapsed = 0;
+    private HashSet<Pair<UnitType, MapElement>> allowedMoves = Sets.newHashSet(
+            new Pair<>(UnitType.SOLDIER, MapElement.GROUND),
+            new Pair<>(UnitType.AIRFORCE, MapElement.GROUND),
+            new Pair<>(UnitType.CANNON, MapElement.GROUND),
+            new Pair<>(UnitType.SOLDIER, MapElement.TREE),
+            new Pair<>(UnitType.AIRFORCE, MapElement.TREE),
+            new Pair<>(UnitType.AIRFORCE, MapElement.WATER)
+    );
 
 	public UpdateStateTask(GameState gameState) {
 		logger.debug(gameState.toString());
@@ -192,8 +204,7 @@ public class UpdateStateTask implements Runnable {
 	}
 
     private boolean isAllowed(UnitType type, MapElement element) {
-        // todo: implement
-        return element.equals(MapElement.GROUND);
+        return allowedMoves.contains(new Pair<>(type, element));
     }
 
     private List<MapElement> getOverlapping(IGameMap map, Point position) {
