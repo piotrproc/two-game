@@ -13,3 +13,23 @@
     width: 500px;
 }
 
+tr.spaceUnder > td {
+    padding-bottom: 10em;
+}
+
+.nicknameInput {
+    position: relative;
+}
+
+.myInput1 {
+    position:absolute;
+    top:0;
+    right:25%;
+    width:50%;
+}
+
+.myInput2 {
+    position:absolute;
+    top:50px;
+    right:40%;
+}
