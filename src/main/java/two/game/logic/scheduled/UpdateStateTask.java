@@ -1,8 +1,12 @@
 package two.game.logic.scheduled;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import javafx.util.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.slf4j.Logger;
@@ -23,9 +27,17 @@ public class UpdateStateTask implements Runnable {
 	private static final double MOVE_DELTA_PER_MS = 0.1;
 	private static final int MISSILE_RADIUS = 2;
 	private static final int MISSILE_DAMAGE = 50;
-	private final GameState gameState;
-	private DateTime lastUpdate;
-	private long sumOfMillisElapsed = 0;
+    private final GameState gameState;
+    private DateTime lastUpdate;
+    private long sumOfMillisElapsed = 0;
+    private HashSet<Pair<UnitType, MapElement>> allowedMoves = Sets.newHashSet(
+            new Pair<>(UnitType.SOLDIER, MapElement.GROUND),
+            new Pair<>(UnitType.AIRFORCE, MapElement.GROUND),
+            new Pair<>(UnitType.CANNON, MapElement.GROUND),
+            new Pair<>(UnitType.SOLDIER, MapElement.TREE),
+            new Pair<>(UnitType.AIRFORCE, MapElement.TREE),
+            new Pair<>(UnitType.AIRFORCE, MapElement.WATER)
+    );
 
 	public UpdateStateTask(GameState gameState) {
 		logger.debug(gameState.toString());
@@ -161,18 +173,29 @@ public class UpdateStateTask implements Runnable {
 		double scaler = (Math.abs(dx) + Math.abs(dy)) / distanceAllowed;
 		scaler = Math.abs(Math.max(1., scaler));
 
-		Point result = new Point(position.getX() + dx / scaler, position.getY() + dy / scaler);
+		double calculatedX = position.getX() + dx / scaler;
+		double calculatedY = position.getY() + dy / scaler;
+		int roundedX = 32 * (int) (Math.round(position.getX() / 32));
+		int roundedY = 32 * (int) (Math.round(position.getY() / 32));
+		double EPS = 1e-4;
+
+		if (Math.abs(roundedY - calculatedY) < EPS) {
+			calculatedY = roundedY;
+		}
+		if (Math.abs(roundedX - calculatedX) < EPS) {
+			calculatedX = roundedX;
+		}
+
+		Point result = new Point(calculatedX, calculatedY);
 		if (getOverlapping(gameState.getMap(), result).stream().allMatch(element -> isAllowed(unit.getType(), element))) {
 			return result;
 		}
 
-		int roundedX = 32 * (int) (Math.round(position.getX() / 32));
-		int roundedY = 32 * (int) (Math.round(position.getY() / 32));
-		result = new Point((double) roundedX, position.getY() + dy / scaler);
+		result = new Point((double) roundedX, calculatedY);
 		if (getOverlapping(gameState.getMap(), result).stream().allMatch(element -> isAllowed(unit.getType(), element))) {
 			return result;
 		}
-		result = new Point(position.getX() + dx / scaler, (double) roundedY);
+		result = new Point(calculatedX, (double) roundedY);
 		if (getOverlapping(gameState.getMap(), result).stream().allMatch(element -> isAllowed(unit.getType(), element))) {
 			return result;
 		}
@@ -181,8 +204,7 @@ public class UpdateStateTask implements Runnable {
 	}
 
     private boolean isAllowed(UnitType type, MapElement element) {
-        // todo: implement
-        return element.equals(MapElement.GROUND);
+        return allowedMoves.contains(new Pair<>(type, element));
     }
 
     private List<MapElement> getOverlapping(IGameMap map, Point position) {

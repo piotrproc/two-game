@@ -20,8 +20,8 @@ function bulletReachedTarget(bullet){
 }
 
 function handleClick() {
-    var pointedField = Helper.getShiftedField();
-    var pointedSprite = Picker.getUnitSprite(pointedField);
+    var originalPointedField = Helper.getOriginalShiftedField();
+    var pointedSprite = Picker.getMovingUnitSprite(originalPointedField);
 
     //if we click on sprite
     if (pointedSprite) {
@@ -39,8 +39,10 @@ function handleClick() {
         //if we had one sprite marked before
         if (movingSprite) {
             //we move if
-            if (myArmyPool.exists(movingSprite) && Helper.buttonsWereNotClicked())
+            if (myArmyPool.exists(movingSprite) && Helper.buttonsWereNotClicked()){
+                var pointedField = Helper.getShiftedField();
                 Sender.sendUserUpdate(pointedField, null, null);
+            }
 
             Helper.deselectSprite();
         }

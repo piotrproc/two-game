@@ -7,12 +7,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Piotr Proc on 14.12.15.
+ * Created by Piotr Proc
  */
 public class GameConfig {
 
-    private static final int startPointXShift = 1;
-    private static final int startPointYShift = 1;
+    private static final int startPointXShift = 14;
+    private static final int startPointYShift = 5;
     public static final double fieldSize = 32;
     public static final double gameSize = 3200;
 

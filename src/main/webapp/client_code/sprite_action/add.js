@@ -20,6 +20,7 @@ function addNewSprite(unitData, position){
     armySprite.attack = attack;
     armySprite.launchMissile = launchMissile;
     armySprite.kill = kill;
+    armySprite.moveInArcadeGraphics = moveInArcadeGraphics;
 
     //we add unit to specific Pool
     if(myTeam == unitData.team){

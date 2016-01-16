@@ -1,10 +1,11 @@
 // set a handler to receive a message
-var eventBus = new EventBus('http://localhost:8077/eventbus');
+var eventBus = new EventBus('http://' + window.location.hostname + ':8077/eventbus');
+
 
 eventBus.onopen = function () {
 
     eventBus.registerHandler('MatchStatus', function (i, message) {
-        console.log('received a message: ', message);
+//        console.log('received a message: ', message);
         handleTeamStatus(message);
 
         handleMapUpdate(message);
@@ -16,7 +17,10 @@ eventBus.onopen = function () {
 
 // user data configuration
 var map;
-var user = "user1";
+
+
+var user = prompt("Podaj nazwę użytkownika", "user1");
+//var user = "user1";
 var myTeam;
 var userSequenceId;
 
@@ -24,7 +28,7 @@ var userSequenceId;
 var fieldSize = 32;
 var mapSize = 3200;
 var viewSize = mapSize / 10;
-var noOfFieldsInView = viewSize/fieldSize;
+var noOfFieldsInView = viewSize / fieldSize;
 
 // game configuration
 var unitNames = ['airforce', 'cannon', 'tank', 'soldier'];

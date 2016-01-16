@@ -3,7 +3,6 @@
  */
 
 function create() {
-
     game.world.setBounds(0, 0, mapSize, mapSize);
     game.physics.startSystem(Phaser.Physics.ARCADE);
     map = game.add.sprite(0, 0, 'map');
@@ -37,11 +36,7 @@ function createShortcuts(){
         if (e.keyCode == 32) { //code for space key
             Helper.changeCameraToOtherPlayer();
         }
-    };
-
-
-    game.input.keyboard.onDownCallback = function (e) {
-        if (e.keyCode == 82) { //code for r letter
+        else if (e.keyCode == 82) { //code for r letter
             Sender.sendSupportRequest();
         }
     };
