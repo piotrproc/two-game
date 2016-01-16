@@ -1,7 +1,8 @@
+var userInfo = {};
+
 $("#show_game").click(function(){
     $("#cover").fadeOut(500, function() {
-    //    $("#main-container").load("unit_selection.html");
-        $.getScript("map.js");
+        $("#main-container").load("team_selection.html");
     });
 });
 
@@ -24,8 +25,27 @@ function showHighscores(gameResult) {
     }
 }
 
-function unitSelected(unitType) {
-    $("#unit-selection").fadeOut(500, function(){
-  //      $.getScript("js/map.js");
+function teamSelected(teamType) {
+    $("#team-selection").fadeOut(500, function(){
+        $("#main-container").load("unit_selection.html");
     });
+    userInfo["teamType"] = teamType;
+}
+
+function unitSelected(unitType) {
+    //$("#unit-selection").fadeOut(500, function(){
+    //    $("#main-container").load("map.html");
+    //});
+    userInfo["unitType"] = unitType;
+    Sender.sendPlayerInitData(userInfo);
+}
+
+function nicknameChanged() {
+    var nick = $("#nickname").val();
+    if (nick == "") {
+        $("#show_game").prop("disabled", true);
+    } else {
+        $("#show_game").prop("disabled", false);
+        userInfo["nickname"] = nick;
+    }
 }

@@ -62,3 +62,7 @@ Sender.getUserUpdateMessage = function (targetPosition, unitAttack, missileLaunc
 //    console.log(userUpdate);
     return userUpdate;
 };
+
+
+Sender.sendPlayerInitData = function (userInfo) {
+};
