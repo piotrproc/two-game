@@ -37,6 +37,7 @@ function unitSelected(unitType) {
     //    $("#main-container").load("map.html");
     //});
     userInfo["unitType"] = unitType;
+    console.log(userInfo);
     Sender.sendPlayerInitData(userInfo);
 }
 

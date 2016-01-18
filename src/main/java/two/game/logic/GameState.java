@@ -1,6 +1,7 @@
 package two.game.logic;
 
-import io.vertx.core.Vertx;
+import com.google.gson.Gson;
+import io.vertx.core.AbstractVerticle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import two.game.config.ControlPointConfig;
@@ -17,16 +18,13 @@ import two.game.model.status.MissileStatus;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 
-import javax.inject.Inject;
 import java.util.*;
 
 /**
  * remember that object is shared and all actions should
  */
-public class GameState {
+public class GameState extends AbstractVerticle {
 
-    @Inject
-    private Vertx vertex;
 
     private static final Logger logger = LoggerFactory.getLogger(GameState.class);
 	private final IGameMap map;
@@ -57,7 +55,8 @@ public class GameState {
 
 	public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
 			List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses, List<ControlPoint> controlPoints, MatchInfo info) {
-		this.map = map;
+		this.matchInfo = info;
+        this.map = map;
 		this.missileStatuses = missileStatuses;
 		this.attackEvents = attackEvents;
 		this.teamStatuses = teamStatuses;
@@ -141,7 +140,7 @@ public class GameState {
             this.getTeamStatuses().add(new TeamStatus(team, 1000., new HashSet<>(teamToPlayers.get(team)), new HashSet<>()));
         }
 
-        this.vertex.eventBus().send("StartGame", new StartGame());
+        this.vertx.eventBus().publish("StartGame", new Gson().toJson(new StartGame()));
     }
 
 	public void setStarted(Boolean gameStarted) {

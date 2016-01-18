@@ -65,4 +65,20 @@ Sender.getUserUpdateMessage = function (targetPosition, unitAttack, missileLaunc
 
 
 Sender.sendPlayerInitData = function (userInfo) {
+
+    console.log(userInfo);
+    var o = {
+        userId : userInfo.nickname,
+        selectedTeamId : userInfo.teamType == 0 ? "NATO" : "USSR"
+    };
+
+    var eventBus = new EventBus('http://localhost:8077/eventbus');
+
+    eventBus.onopen = function() {
+        eventBus.publish("JoinMatchRequest",o);
+        eventBus.registerHandler("StartGame", function() {
+            //window.location = window.location + "/map.js" + ?
+        })
+    };
+
 };

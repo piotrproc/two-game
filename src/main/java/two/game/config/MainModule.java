@@ -33,14 +33,14 @@ public class MainModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(Server.class);
-
-        bind(GameState.class).asEagerSingleton(); // todo: (if multiple games are allowed) setup service supplying adequate state for given matchId
+        //bind(GameState.class).asEagerSingleton(); // todo: (if multiple games are allowed) setup service supplying adequate state for given matchId
 
         Multibinder<Verticle> vertices = Multibinder.newSetBinder(binder(), Verticle.class);
         vertices.addBinding().to(CommunicationServer.class);
         vertices.addBinding().to(ResourcesServer.class);
         vertices.addBinding().to(EventDispatcher.class);
         vertices.addBinding().to(ScheduledTasksRunner.class);
+        vertices.addBinding().to(GameState.class);
 
         Multibinder<ChangePredicate> join = Multibinder.newSetBinder(binder(), ChangePredicate.class, Names.named("JoinMatchRequest"));
         join.addBinding().to(NotAllowedIfStarted.class);
