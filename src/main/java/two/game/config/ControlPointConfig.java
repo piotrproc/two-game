@@ -14,8 +14,10 @@ public class ControlPointConfig {
     public static final Integer resourcesIntervalInMillis = 10 * 1000;
 
     public static final List<ControlPoint> controlPointLocations = new ArrayList<>(Arrays.asList(
-            new ControlPoint(new Point(11 * GameConfig.fieldSize, 7 * GameConfig.fieldSize)),
-            new ControlPoint(new Point(12 * GameConfig.fieldSize, 9 * GameConfig.fieldSize))
+            new ControlPoint(new Point(50 * GameConfig.fieldSize, 50 * GameConfig.fieldSize)),
+            new ControlPoint(new Point(20 * GameConfig.fieldSize, 20 * GameConfig.fieldSize)),
+            new ControlPoint(new Point(80 * GameConfig.fieldSize, 80 * GameConfig.fieldSize))
+
     ));
 
     public static boolean controlPointIsOnTheField(Point point){
