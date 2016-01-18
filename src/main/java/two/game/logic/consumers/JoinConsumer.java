@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import two.game.logic.GameState;
 import two.game.logic.predicates.ChangePredicate;
 import two.game.model.init.JoinMatchRequest;
+import two.game.model.init.MatchInfo;
 
 import javax.inject.Named;
 import java.util.Set;
@@ -27,9 +28,15 @@ public class JoinConsumer implements EventConsumer<JoinMatchRequest> {
 
         logger.debug("change is applicable: {}", applicable);
         if (applicable) {
-            gameState.getTeamStatuses().stream()
+            /*gameState.getTeamStatuses().stream()
                     .filter(teamStatus -> teamStatus.getTeamId().equals(event.getSelectedTeamId()))
-                    .findFirst().ifPresent(teamStatus -> teamStatus.getUserIds().add(event.getUserId()));
+                    .findFirst().ifPresent(teamStatus -> teamStatus.getUserIds().add(event.getUserId()));*/
+
+            try {
+                gameState.getMatchInfo().addPlayer(event.getSelectedTeamId(),event.getUserId());
+            } catch (MatchInfo.PlayerExistsException | MatchInfo.TeamException e) {
+                logger.error(e.getMessage());
+            }
 
             logger.debug("updated game state");
         }
