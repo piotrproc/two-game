@@ -34,6 +34,7 @@ public class UpdateStateTask implements Runnable {
             new Pair<>(UnitType.SOLDIER, MapElement.GROUND),
             new Pair<>(UnitType.AIRFORCE, MapElement.GROUND),
             new Pair<>(UnitType.CANNON, MapElement.GROUND),
+            new Pair<>(UnitType.TANK, MapElement.GROUND),
             new Pair<>(UnitType.SOLDIER, MapElement.TREE),
             new Pair<>(UnitType.AIRFORCE, MapElement.TREE),
             new Pair<>(UnitType.AIRFORCE, MapElement.WATER)

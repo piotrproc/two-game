@@ -65,4 +65,6 @@ Sender.getUserUpdateMessage = function (targetPosition, unitAttack, missileLaunc
 
 
 Sender.sendPlayerInitData = function (userInfo) {
+    //return 5;
+    window.location.replace('http://' + window.location.hostname + ':8080/map.html');
 };
