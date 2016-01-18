@@ -1,18 +1,8 @@
 package two.game.logic;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
-
+import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import two.game.config.ControlPointConfig;
 import two.game.config.GameConfig;
 import two.game.model.ControlPoint;
@@ -20,16 +10,25 @@ import two.game.model.Point;
 import two.game.model.constant.IGameMap;
 import two.game.model.constant.MapParser;
 import two.game.model.constant.UnitType;
+import two.game.model.init.MatchInfo;
+import two.game.model.init.StartGame;
 import two.game.model.status.AttackEvent;
 import two.game.model.status.MissileStatus;
 import two.game.model.status.TeamStatus;
 import two.game.model.status.UnitStatus;
 
+import javax.inject.Inject;
+import java.util.*;
+
 /**
  * remember that object is shared and all actions should
  */
 public class GameState {
-	private static final Logger logger = LoggerFactory.getLogger(GameState.class);
+
+    @Inject
+    private Vertx vertex;
+
+    private static final Logger logger = LoggerFactory.getLogger(GameState.class);
 	private final IGameMap map;
 	private final Map<String, Long> userIdToSequenceId;
 	private Boolean gameStarted;
@@ -39,22 +38,25 @@ public class GameState {
 	private List<UnitStatus> unitStatuses;
 	private List<ControlPoint> controlPoints;
 	private Long updateSequenceId;
+    private MatchInfo matchInfo;
+
 
 	private int lastProcessedAttack = 0;
 
 	public GameState() {
-		this(MapParser.parse(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), ControlPointConfig.controlPointLocations);
-		ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
-		this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
+		this(MapParser.parse(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), ControlPointConfig.controlPointLocations, MatchInfo.getDefault());
+		this.matchInfo.setState(this);
+		//ControlPoint cp = new ControlPoint(new Point(224.0, 224.0));
+        /*this.getTeamStatuses().add(new TeamStatus("Team A", 1000., new HashSet<>(Arrays.asList("user1")), new HashSet<>()));
 		this.getTeamStatuses().add(new TeamStatus("Team B", 1000., new HashSet<>(Arrays.asList("user2")), new HashSet<>(Arrays.asList(cp))));
 		this.getUnitStatuses().add(new UnitStatus(1L, UnitType.CANNON, "user1", 80, 200, 2, 4, 2, new Point(256, 96), new Point(256, 96)));
 		this.getUnitStatuses().add(new UnitStatus(2L, UnitType.SOLDIER, "user1", 80, 200, 2, 4, 2, new Point(256, 32), new Point(256, 32)));
         this.getUnitStatuses().add(new UnitStatus(3L, UnitType.AIRFORCE, "user1", 80, 200, 2, 4, 2, new Point(256, 64), new Point(256, 64)));
-		this.getUnitStatuses().add(new UnitStatus(11L, UnitType.TANK, "user2", 80, 200, 2, 4, 2, new Point(192, 96), new Point(192, 32)));
+		this.getUnitStatuses().add(new UnitStatus(11L, UnitType.TANK, "user2", 80, 200, 2, 4, 2, new Point(192, 96), new Point(192, 32)));*/
 	}
 
 	public GameState(IGameMap map, List<MissileStatus> missileStatuses, List<AttackEvent> attackEvents,
-			List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses, List<ControlPoint> controlPoints) {
+			List<TeamStatus> teamStatuses, List<UnitStatus> unitStatuses, List<ControlPoint> controlPoints, MatchInfo info) {
 		this.map = map;
 		this.missileStatuses = missileStatuses;
 		this.attackEvents = attackEvents;
@@ -131,6 +133,17 @@ public class GameState {
 		return gameStarted;
 	}
 
+    public synchronized void start() {
+        this.setStarted(true);
+
+        Map<String, List<String>> teamToPlayers = this.getMatchInfo().getTeamToPlayers();
+        for (String team : teamToPlayers.keySet()) {
+            this.getTeamStatuses().add(new TeamStatus(team, 1000., new HashSet<>(teamToPlayers.get(team)), new HashSet<>()));
+        }
+
+        this.vertex.eventBus().send("StartGame", new StartGame());
+    }
+
 	public void setStarted(Boolean gameStarted) {
 		this.gameStarted = gameStarted;
 	}
@@ -159,6 +172,10 @@ public class GameState {
 		this.attackEvents.add(attackEvent);
 		logger.info("Add Attacks: " + attackEvents.size());
 	}
+
+    public MatchInfo getMatchInfo() {
+        return this.matchInfo;
+    }
 
 	public synchronized void addMissile(MissileStatus missileStatus) {
 		this.missileStatuses.add(missileStatus);
